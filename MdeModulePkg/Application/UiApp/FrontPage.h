@@ -208,6 +208,9 @@ CHAR16 *
 ExtractDevicePathFromHiiHandle (
   IN      EFI_HII_HANDLE      Handle
   );
-
+VOID
+UpdateFrontPageForm (
+  VOID
+  );
 #endif // _FRONT_PAGE_H_
 
