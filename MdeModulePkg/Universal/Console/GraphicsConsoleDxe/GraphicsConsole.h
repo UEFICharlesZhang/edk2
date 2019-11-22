@@ -37,6 +37,10 @@ extern EFI_NARROW_GLYPH              gUsStdNarrowGlyphData[];
 
 extern UINT32 mNarrowFontSize;
 
+extern EFI_WIDE_GLYPH              gChineseWideGlyphData[];
+
+extern UINT32 mChineseWideGlyphDataSize;
+
 typedef union {
   EFI_NARROW_GLYPH  NarrowGlyph;
   EFI_WIDE_GLYPH    WideGlyph;
