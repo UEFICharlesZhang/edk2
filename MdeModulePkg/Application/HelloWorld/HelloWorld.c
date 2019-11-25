@@ -11,6 +11,13 @@
 #include <Library/PcdLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiApplicationEntryPoint.h>
+#include <Library/PrintLib.h>
+
+#include <Library/BaseMemoryLib.h>
+#include <Library/MemoryAllocationLib.h>
+
+#include <Library/UefiRuntimeServicesTableLib.h>
+
 
 //
 // String token ID of help message text.
@@ -22,6 +29,59 @@
 //
 GLOBAL_REMOVE_IF_UNREFERENCED EFI_STRING_ID mStringHelpTokenId = STRING_TOKEN (STR_HELLO_WORLD_HELP_INFORMATION);
 
+VOID
+DumpBootOption(void)
+{
+  EFI_STATUS Status;
+
+  CHAR16 OptionName[22];
+
+  UINT8 *Variable;
+  UINT8 *VariablePtr;
+  UINTN VariableSize;
+  CHAR16 *Description;
+  CHAR16 *BIOS_NAME;
+
+  BIOS_NAME = AllocateCopyPool(StrSize(L"GW_BIOS"),L"GW_BIOS");
+
+  for (UINT16 OptionNumber = 0; OptionNumber < 0xFF; OptionNumber++)
+  {
+    UnicodeSPrint(OptionName, sizeof(OptionName), L"Boot%04x", OptionNumber);
+
+    Status = GetVariable2(
+        OptionName,
+        &gEfiGlobalVariableGuid,
+        (VOID **)&Variable,
+        &VariableSize);
+
+    if(!EFI_ERROR (Status)){
+    VariablePtr = Variable;
+
+    //
+    // Skip the option attribute
+    //
+    VariablePtr += sizeof(UINT32);
+
+    //
+    // Skip the option's device path size
+    //
+    VariablePtr += sizeof(UINT16);
+
+    //
+    // Find the option's description string
+    //
+    Description = (CHAR16 *)VariablePtr;
+
+    Print(L"Get Boot %d Name:%s \n", OptionNumber, Description);
+    if (CompareMem(Description, BIOS_NAME, sizeof(BIOS_NAME)) == 0)
+    {
+      Print(L"Found BIOS Flash flag\n");
+      Status = gRT->SetVariable(OptionName, &gEfiGlobalVariableGuid, 0, 0, NULL);
+      Print(L"Delete BIOS Flash flag status:%r\n", Status);
+    }
+  }
+}
+}
 /**
   The user Entry Point for Application. The user code starts with this function
   as the real entry point for the application.
@@ -55,6 +115,8 @@ UefiMain (
       Print ((CHAR16*)PcdGetPtr (PcdHelloWorldPrintString));
     }
   }
+
+  DumpBootOption();
 
   return EFI_SUCCESS;
 }
