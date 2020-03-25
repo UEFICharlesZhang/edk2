@@ -3741,7 +3741,7 @@ UserIdentifyManagerInit (
   //
   // It is NOT robust enough to be included in production.
   //
-  #error "This implementation is just a sample, please comment this line if you really want to use this driver."
+  // #error "This implementation is just a sample, please comment this line if you really want to use this driver."
 
   //
   // Initiate form browser.
