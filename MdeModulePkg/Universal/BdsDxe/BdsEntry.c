@@ -15,6 +15,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include "Bds.h"
 #include "Language.h"
 #include "HwErrRecSupport.h"
+#include <Protocol/UserManager.h>
 
 #define SET_BOOT_OPTION_SUPPORT_KEY_COUNT(a, c) {  \
       (a) = ((a) & ~EFI_BOOT_OPTION_SUPPORT_COUNT) | (((c) << LowBitSet32 (EFI_BOOT_OPTION_SUPPORT_COUNT)) & EFI_BOOT_OPTION_SUPPORT_COUNT); \
@@ -646,6 +647,21 @@ BdsFormalizeEfiGlobalVariable (
   //
   BdsFormalizeOSIndicationVariable ();
 }
+VOID
+UserIdendifyBeforePost(void)
+{
+  EFI_STATUS Status;
+  EFI_USER_MANAGER_PROTOCOL *mUserManager = NULL;
+  EFI_USER_PROFILE_HANDLE User = NULL;
+
+  Status = gBS->LocateProtocol(
+      &gEfiUserManagerProtocolGuid,
+      NULL,
+      (VOID **)&mUserManager);
+  DEBUG ((EFI_D_INFO, "LocateProtocol gEfiUserManagerProtocolGuid :%r!\n", Status));
+  Status = mUserManager->Identify(mUserManager, &User);
+  DEBUG ((EFI_D_INFO, "Identify Status :%r!,Handle:0x%X\n", Status, User));
+}
 
 /**
 
@@ -916,6 +932,7 @@ BdsEntry (
     Print (L"**  WARNING: Test Key is used.  **\n");
   }
 
+  UserIdendifyBeforePost();
   //
   // Boot to Boot Manager Menu when EFI_OS_INDICATIONS_BOOT_TO_FW_UI is set. Skip HotkeyBoot
   //
