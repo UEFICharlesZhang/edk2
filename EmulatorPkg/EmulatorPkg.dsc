@@ -368,7 +368,10 @@
   EmulatorPkg/EmuBlockIoDxe/EmuBlockIoDxe.inf
   EmulatorPkg/EmuSnpDxe/EmuSnpDxe.inf
 
-  MdeModulePkg/Application/HelloWorld/HelloWorld.inf
+  # MdeModulePkg/Application/HelloWorld/HelloWorld.inf
+
+  EmulatorPkg/HelloWorld_Hii_in_PE/HelloWorld.inf
+  EmulatorPkg/HelloWorld_Hii_out_PE/HelloWorld.inf
 
   MdeModulePkg/Universal/SmbiosDxe/SmbiosDxe.inf
   MdeModulePkg/Universal/HiiDatabaseDxe/HiiDatabaseDxe.inf

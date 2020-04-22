@@ -1,0 +1,18 @@
+///** @file
+//
+//  String definitions for the HelloWorld.
+//
+//  Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>
+//  SPDX-License-Identifier: BSD-2-Clause-Patent
+//
+//**/
+
+/=#
+
+#langdef   en-US "English"
+#langdef   fr-FR "Français"
+
+#string STR_EDKII_MENU_TITLE           #language en-US  "English Hello World Title"
+                                       #language fr-FR  "Français Hello World Title"
+#string STR_EDKII_MENU_HELP            #language en-US  "This selection will take you to the Device Manager"
+                                       #language fr-FR  "This selection will take you to the Device Manager"
