@@ -51,22 +51,14 @@
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = SecureEraseDxe
-  FILE_GUID                      = FB62F7F0-5433-11E4-B810-402CF41D8A90
-  MODULE_TYPE                    = DXE_DRIVER
+  FILE_GUID                      = FB62F7F0-ED34-11E4-B810-402CF41D8A90
+  MODULE_TYPE                    = UEFI_APPLICATION
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = SecureEraseEntryPoint
 
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
-  $(CHIPSET_REF_CODE_PKG)/$(CHIPSET_REF_CODE_DEC_NAME).dec
-  ClientSiliconPkg/ClientSiliconPkg.dec
-  $(CHIPSET_PKG)/$(CHIPSET_PKG).dec
-  InsydeModulePkg/InsydeModulePkg.dec  
-#[-start-180420-IB11270199-add]#
-  ClientCommonPkg/ClientCommonPkg.dec
-#[-end-180420-IB11270199-add]#
-  $(PLATFORM_SAMPLE_CODE_DEC_NAME)/$(PLATFORM_SAMPLE_CODE_DEC_NAME).dec
 
 [Pcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutRow                       ## PRODUCES
@@ -77,9 +69,6 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupConOutRow                  ## CONSUMES
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoHorizontalResolution  ## CONSUMES
   gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoVerticalResolution    ## CONSUMES
-#[-start-180420-IB11270199-add]#
-  gClientCommonModuleTokenSpaceGuid.PcdSkipHddPasswordPrompt        ## PRODUCES
-#[-end-180420-IB11270199-add]#
 
 [Sources]
   Ui.h
@@ -94,35 +83,17 @@
   SimulatedSecureErase.h
 
 [LibraryClasses]
-  HobLib
   BaseLib
   UefiLib
   UefiBootServicesTableLib
   UefiRuntimeServicesTableLib
   MemoryAllocationLib
-  UefiDriverEntryPoint
+  UefiApplicationEntryPoint
   DebugLib
-  DxeAmtHeciLib
-  DxeAsfHeciLib
   PcdLib
 
 [Protocols]
   gEfiAtaPassThruProtocolGuid                   ## CONSUMES
   gEfiNvmExpressPassThruProtocolGuid            ## CONSUMES
-  gHeciProtocolGuid                             ## CONSUMES
   gEfiGraphicsOutputProtocolGuid                ## CONSUMES
-  gAmtWrapperProtocolGuid                       ## CONSUMES
-  gAmtReadyToBootProtocolGuid                   ## PRODUCES
   gEfiPciIoProtocolGuid
-
-[Guids]
-  gEfiGlobalVariableGuid                        ## CONSUMES
-  gSetupVariableGuid                            ## CONSUMES
-  gMeBiosPayloadHobGuid                         ## CONSUMES
-  gSystemConfigurationGuid
-  gAmtPolicyHobGuid
-  
-[Depex]
-  gAmtWrapperProtocolGuid        AND
-  gDxeAmtPolicyGuid              AND
-  gHeciProtocolGuid

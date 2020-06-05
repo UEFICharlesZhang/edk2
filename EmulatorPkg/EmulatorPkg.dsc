@@ -416,6 +416,8 @@
 
 !include NetworkPkg/Network.dsc.inc
 
+  EmulatorPkg/SecureEraseDxe/SecureEraseDxe.inf
+  
 [BuildOptions]
   #
   # Disable deprecated APIs.

@@ -34,15 +34,5 @@
 #define _SECURE_ERASE_DRIVER_H_
 
 #include <Library/UefiRuntimeServicesTableLib.h>
-#include <Protocol/AmtReadyToBoot.h>
-
-/**
-  This function is executed on AMT Ready to boot and performs Secure Erase.
-**/
-VOID
-EFIAPI
-SecureEraseOnReadyToBoot (
-  VOID
-  );
 
 #endif

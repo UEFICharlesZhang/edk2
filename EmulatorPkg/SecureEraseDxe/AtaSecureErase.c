@@ -586,13 +586,7 @@ EraseAtaDevice (
 
   DEBUG ((DEBUG_INFO, "Number of detected ATA Handles : %d\n", HandleNum));
 
-  Status = GetRsePassword (AmtPassword);
-
-  if (!EFI_ERROR (Status)) {
-    AmtPasswordAvailable = TRUE;
-  } else {
-    AmtPasswordAvailable = FALSE;
-  }
+  AmtPasswordAvailable = FALSE;
 
   AtaStatus = EFI_SUCCESS;
 

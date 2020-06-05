@@ -48,193 +48,8 @@ Secure Erase Implementation.
 #include "AtaSecureErase.h"
 #include "NvmeSecureErase.h"
 #include "SimulatedSecureErase.h"
-#include <Library/HobLib.h>
-#include <MeBiosPayloadHob.h>
-#include <SetupVariable.h>
-#include <Library/DxeMeLib.h>
 #include <Library/PcdLib.h>
-#include <ChipsetSetupConfig.h>
-#include <KernelSetupConfig.h>
-#include <Library/DxeAmtHeciLib.h>
-//[-start-180420-IB11270199-add]//
-#include <AmtConfig.h>
-#include <Library/DxeAsfHeciLib.h>
 
-#include <Protocol/AmtWrapperProtocol.h>
-//[-end-180420-IB11270199-add]//
-SETUP_DATA                                mSetupData;
-UINT32                                    mSetupDataAttr = 0;
-
-AMT_READY_TO_BOOT_PROTOCOL mSecureEraseReadyToBoot = {
-  AMT_READY_TO_BOOT_PROTOCOL_REVISION,
-  SecureEraseOnReadyToBoot
-};
-
-/**
-  Get Setup Variable from NVM
-
-  @retval EFI_SUCCESS      Data retrieved
-  @retval Others           Data was not retrieved
-**/
-EFI_STATUS
-GetSetupData (
-  VOID
-  )
-{
-  EFI_STATUS                           Status;
-  UINTN                                VarSize = sizeof (SETUP_DATA);
-
-  DEBUG ((DEBUG_INFO, "SecureErase::GetSetupData : "));
-  Status = gRT->GetVariable (
-                  L"Setup",
-                  &gSetupVariableGuid,
-                  &mSetupDataAttr,
-                  &VarSize,
-                  &mSetupData
-                  );
-  DEBUG ((DEBUG_INFO, "Status=%r\n", Status));
-  return Status;
-}
-
-/**
-  Save Setup Variable to NVM
-
-  @retval EFI_SUCCESS      Data saved successfully
-  @retval Others           Data was not retrieved
-**/
-EFI_STATUS
-SaveSetupData (
-  VOID
-  )
-{
-  EFI_STATUS                           Status;
-  UINTN                                VarSize = sizeof (SETUP_DATA);
-
-  Status = gRT->SetVariable (
-                  L"Setup",
-                  &gSetupVariableGuid,
-                  mSetupDataAttr,
-                  VarSize,
-                  &mSetupData
-                  );
-
-  DEBUG ((DEBUG_INFO, "SecureErase::SaveSetupData : Status=%r\n", Status));
-  return Status;
-}
-
-/**
-  Check if Corporate firmware is installed
-
-  @retval EFI_SUCCESS                  The firmware is Corporate
-  @retval EFI_NOT_READY                Can't locate required data
-  @retvak EFI_UNSUPPORTED              The firmware is NOT Corporate
-**/
-EFI_STATUS
-IsCorporateFwInstalled (
-  VOID
-  )
-{
-  ME_BIOS_PAYLOAD_HOB                 *MbpHob = NULL;
-
-  MbpHob = GetFirstGuidHob (&gMeBiosPayloadHobGuid);
-
-  if (MbpHob == NULL) {
-    DEBUG ((DEBUG_ERROR, "Failed to obtain hob : gMeBiosPayloadHobGuid\n"));
-    return EFI_NOT_READY;
-  }
-
-  if (!MbpHob->MeBiosPayload.FwPlatType.Available) {
-    DEBUG ((DEBUG_INFO, "mMbpHob->MeBiosPayload.FwPlatType.Available is FALSE\n"));
-    return EFI_NOT_READY;
-  }
-
-  if (MbpHob->MeBiosPayload.FwPlatType.RuleData.Fields.IntelMeFwImageType != IntelMeCorporateFw) {
-    DEBUG ((DEBUG_INFO, "IntelMeFwImageType != INTEL_ME_CORPORATE_FW\n"));
-    return EFI_UNSUPPORTED;
-  }
-
-  return EFI_SUCCESS;
-}
-
-/**
-  Checks if Secure Erase is requested by AMT
-
-  @retval TRUE     Secure Erase was requested by AMT
-  @retval FALSE    Secure Erase wasn't requested by AMT
-**/
-BOOLEAN
-IsAmtSecureErase (
-  VOID
-  )
-{
-//[-start-180420-IB11270198-add]//
-   EFI_STATUS                           Status; 
-   AMT_WRAPPER_PROTOCOL                 *AmtWrapper;
-
-   Status = gBS->LocateProtocol (&gAmtWrapperProtocolGuid, NULL, (VOID **) &AmtWrapper);
-
-   if (EFI_ERROR (Status)) {
-     DEBUG ((DEBUG_INFO, "SecureErase :: IsAmtSecureErase :: No AMT Wrapper\n"));
-   } else if (AmtWrapper->IsSecureEraseEnabled ()) {
-     DEBUG ((DEBUG_INFO, "SecureErase :: IsSecureEraseRequested : Requested by AMT\n"));
-     return TRUE;
-   }
-//[-end-180420-IB11270198-add]//
-//[-start-180420-IB11270198-remove]//
-//  AmtLibInit ();
-//  if (ActiveManagementIsSecureEraseEnabled ()) {
-//    DEBUG ((DEBUG_INFO, "SecureErase :: IsSecureEraseRequested : Requested by AMT\n"));
-//    return TRUE;
-//  }
-//[-end-180420-IB11270198-remove]//
-
-  return FALSE;
-}
-
-/**
-  Checks if Secure Erase is requested by Setup
-
-  @retval TRUE     Secure Erase was requested by Setup
-  @retval FALSE    Secure Erase wasn't requested by Setup
-**/
-BOOLEAN
-IsSetupSecureErase (
-  VOID
-  )
-{
-  EFI_STATUS                           Status;
-
-  Status = GetSetupData ();
-  if (EFI_ERROR (Status)) {
-    DEBUG ((DEBUG_INFO, "SecureErase :: IsSetupSecureErase :: Can't get Setup Data\n"));
-  } else if (mSetupData.ForceSecureErase) {
-    DEBUG ((DEBUG_INFO, "SecureErase :: IsSecureEraseRequested : Requested by SetupData\n"));
-    return TRUE;
-  }
-  return FALSE;
-}
-
-/**
-  Checks if Secure Erase has been requested
-
-  @retval TRUE     Secure Erase was requested
-  @retval FALSE    Secure Erase wasn't requested
-**/
-BOOLEAN
-IsSecureEraseRequested (
-  VOID
-  )
-{
-  DEBUG ((DEBUG_INFO, "SecureErase :: IsSecureEraseRequested\n"));
-
-  if (IsAmtSecureErase () ||
-      IsSetupSecureErase ()) {
-    return TRUE;
-  }
-
-  DEBUG ((DEBUG_INFO, "SecureErase :: IsSecureEraseRequested : Secure Erase not requested\n"));
-  return FALSE;
-}
 
 /**
   Attempts to erase ATA and NVMe drives.
@@ -261,8 +76,7 @@ EraseDevices (
   SetScreenTitle (L"Secure erase");
   ClearScreen ();
 
-  Status = GetSetupData ();
-  if ((!EFI_ERROR (Status)) && mSetupData.SecureEraseModeRealMode == TRUE) {
+  if (1) {
     DEBUG ((DEBUG_INFO, "SecureErase in progress\n"));
     Status = EraseAtaDevice ();
     DEBUG ((DEBUG_INFO, "AtaStatus = %r\n", Status));
@@ -274,19 +88,7 @@ EraseDevices (
     Status = SimulateSecureErase ();
   }
 
-  if (Status == EFI_SUCCESS) {
-    if (mSetupData.ForceSecureErase == TRUE) {
-      mSetupData.ForceSecureErase = FALSE;
-      SaveSetupData ();
-    }
-    ClearBootOptions ();
-  }
-
-  DEBUG ((DEBUG_INFO, "SecureErase :: Report Secure Erase Operation Status: %r\nSecureErase :: EraseDevices end\n", Status));
-  SendRsePetAlert (Status);
-  ReportBiosStatus (Status);
-
-  if (mSetupData.SecureEraseModeRealMode == FALSE) {
+  if (0) {
     SimulateSecureEraseDone ();
     //
     // If demo mode is enabled, don't restart. Use dead loop to make sure screen keeps
@@ -300,28 +102,6 @@ EraseDevices (
   gBS->RaiseTPL (OldTpl);
   return Status;
 }
-
-
-/**
-  This function is executed on AMT Ready to boot and performs Secure Erase.
-**/
-VOID
-EFIAPI
-SecureEraseOnReadyToBoot (
-  VOID
-  )
-{
-  EFI_STATUS                           Status;
-
-  DEBUG ((DEBUG_INFO, "SecureErase :: SecureEraseOnReadyToBoot\n"));
-
-  Status = EraseDevices ();
-
-  gRT->ResetSystem (EfiResetShutdown, Status, 0, NULL);
-
-  return;
-}
-
 
 /**
   Drivers entry point. Checks if secure erase has been requested via boot options,
@@ -342,36 +122,9 @@ SecureEraseEntryPoint (
   )
 {
   EFI_STATUS                           Status;
-  EFI_HANDLE                           Handle;
-
   DEBUG ((DEBUG_INFO, "SecureErase :: SecureEraseEntryPoint\n"));
 
-  Status = IsCorporateFwInstalled ();
-  DEBUG ((DEBUG_INFO, "IsCorporateFwInstalled -> status=%r\n",Status));
-  if (EFI_ERROR (Status)) {
-    return EFI_UNSUPPORTED;
-  }
-
-  if (!IsSecureEraseRequested ()) {
-    return EFI_ABORTED;
-  }
-  //
-  // Secure Erase is requested, so this module will take control over HDD's
-  // unlocking process
-  //
-  PcdSetBoolS (PcdSkipHddPasswordPrompt, TRUE);
-
-  //
-  // Install an Amt ready to boot protocol.
-  //
-  Handle = NULL;
-  Status = gBS->InstallMultipleProtocolInterfaces (
-                  &Handle,
-                  &gAmtReadyToBootProtocolGuid,
-                  &mSecureEraseReadyToBoot,
-                  NULL
-                  );
-  ASSERT_EFI_ERROR (Status);
+  Status = EraseDevices ();
 
   return EFI_SUCCESS;
 }

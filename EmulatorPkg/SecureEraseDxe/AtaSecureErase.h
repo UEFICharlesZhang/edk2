@@ -35,7 +35,6 @@
 
 #include <Protocol/AtaPassThru.h>
 #include <IndustryStandard/Atapi.h>
-#include <Library/DxeAmtHeciLib.h>
 
 #define IS_FLAG_SET(vector,flag) (((vector)&(flag)) != 0 )
 
