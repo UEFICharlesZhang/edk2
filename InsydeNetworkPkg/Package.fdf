@@ -1,0 +1,43 @@
+## @file
+# Network Package Description File
+#
+#******************************************************************************
+#* Copyright (c) 2012 - 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+#
+
+[FV.DXEFV]
+!if gInsydeTokenSpaceGuid.PcdH2ONetworkSupported
+INF InsydeNetworkPkg/Drivers/NetworkLockerDxe/NetworkLockerDxe.inf
+INF InsydeNetworkPkg/Drivers/DhcpDummyDxe/DhcpDummyDxe.inf
+INF InsydeNetworkPkg/Drivers/PxeDummyDxe/PxeDummyDxe.inf
+INF InsydeNetworkPkg/Drivers/SnpDxe/SnpDxe.inf
+INF InsydeNetworkPkg/Drivers/DpcDxe/DpcDxe.inf
+INF InsydeNetworkPkg/Drivers/MnpDxe/MnpDxe.inf
+INF InsydeNetworkPkg/Drivers/Ip4Dxe/Ip4Dxe.inf
+INF InsydeNetworkPkg/Drivers/Ip4ConfigDxe/Ip4ConfigDxe.inf
+INF InsydeNetworkPkg/Drivers/Udp4Dxe/Udp4Dxe.inf
+INF InsydeNetworkPkg/Drivers/Dhcp4Dxe/Dhcp4Dxe.inf
+INF InsydeNetworkPkg/Drivers/Mtftp4Dxe/Mtftp4Dxe.inf
+INF InsydeNetworkPkg/Drivers/ArpDxe/ArpDxe.inf
+
+!if gInsydeTokenSpaceGuid.PcdH2ONetworkIpv6Supported
+INF InsydeNetworkPkg/Drivers/Ip6Dxe/Ip6Dxe.inf
+INF InsydeNetworkPkg/Drivers/Udp6Dxe/Udp6Dxe.inf
+INF InsydeNetworkPkg/Drivers/Dhcp6Dxe/Dhcp6Dxe.inf
+INF InsydeNetworkPkg/Drivers/Mtftp6Dxe/Mtftp6Dxe.inf
+!endif
+
+INF InsydeNetworkPkg/Drivers/UefiPxeBcDxe/UefiPxeBcDxe.inf
+
+!if gInsydeTokenSpaceGuid.PcdH2ONetworkIscsiSupported
+INF InsydeNetworkPkg/Drivers/TcpDxe/TcpDxe.inf
+INF InsydeNetworkPkg/Drivers/IScsiDxe/IScsiDxe.inf
+!endif
+!endif
