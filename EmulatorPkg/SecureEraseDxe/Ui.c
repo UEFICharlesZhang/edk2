@@ -1,19 +1,8 @@
-// ## @file
-// #
-// #******************************************************************************
-// #* Copyright (c) 2017, Insyde Software Corp. All Rights Reserved.
-// #*
-// #* You may not reproduce, distribute, publish, display, perform, modify, adapt,
-// #* transmit, broadcast, present, recite, release, license or otherwise exploit
-// #* any part of this publication in any form, by any means, without the prior
-// #* written permission of Insyde Software Corporation.
-// #*
-// #******************************************************************************
 /**@file
 
 @copyright
   INTEL CONFIDENTIAL
-  Copyright 2015 - 2017 Intel Corporation.
+  Copyright 2015 - 2016 Intel Corporation.
 
   The source code contained or described herein and all documents related to the
   source code ("Material") are owned by Intel Corporation or its suppliers or
@@ -139,17 +128,7 @@ SetSecureEraseConsoleMode (
     if (!EFI_ERROR (Status)) {
       if ((Info->HorizontalResolution == NewHorizontalResolution) &&
           (Info->VerticalResolution == NewVerticalResolution)) {
-        if ((GraphicsOutput->Mode->Info->HorizontalResolution != NewHorizontalResolution) &&
-            (GraphicsOutput->Mode->Info->VerticalResolution != NewVerticalResolution)){
-          //
-          // If current video resolution is not same with the new one, set new video resolution.
-          // In this case, the driver which produces simple text out need be restarted.
-          //
-          Status = GraphicsOutput->SetMode (GraphicsOutput, ModeNumber);
-          }
-        if ((Info->HorizontalResolution == NewHorizontalResolution) &&
-            (Info->VerticalResolution == NewVerticalResolution) &&
-            (GraphicsOutput->Mode->Info->HorizontalResolution == NewHorizontalResolution) &&
+        if ((GraphicsOutput->Mode->Info->HorizontalResolution == NewHorizontalResolution) &&
             (GraphicsOutput->Mode->Info->VerticalResolution == NewVerticalResolution)) {
           //
           // Current resolution is same with required resolution, check if text mode need be set
@@ -194,16 +173,15 @@ SetSecureEraseConsoleMode (
             }
           }
         } else {
-          // //
-          // // If current video resolution is not same with the new one, set new video resolution.
-          // // In this case, the driver which produces simple text out need be restarted.
-          // //
-          // Status = GraphicsOutput->SetMode (GraphicsOutput, ModeNumber);
-          // if (!EFI_ERROR (Status)) {
-          //   FreePool (Info);
-          //   break;
-          // }
-          continue;
+          //
+          // If current video resolution is not same with the new one, set new video resolution.
+          // In this case, the driver which produces simple text out need be restarted.
+          //
+          Status = GraphicsOutput->SetMode (GraphicsOutput, ModeNumber);
+          if (!EFI_ERROR (Status)) {
+            FreePool (Info);
+            break;
+          }
         }
       }
       FreePool (Info);
@@ -414,7 +392,7 @@ UStrLen (
   UINTN                                Len;
 
   for (Len=0; Str[Len]!=L'\0'; Len++){}
-  return Len-1;
+  return Len;
 }
 
 /**
@@ -518,9 +496,6 @@ PrintFooter (
   gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-1);
   gST->ConOut->OutputString (gST->ConOut, Line);
 
-  CreateRedYellowStripe (Line);
-  gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-4);
-  gST->ConOut->OutputString (gST->ConOut, Line);
 
   FreePool (Line);
   RestoreConsoleMode (&SavedConsoleMode);
@@ -588,9 +563,6 @@ PrintHeader (
   gST->ConOut->SetCursorPosition (gST->ConOut, 0, 2);
   gST->ConOut->OutputString (gST->ConOut, Line);
 
-  CreateRedYellowStripe (Line);
-  gST->ConOut->SetCursorPosition (gST->ConOut, 0, 4);
-  gST->ConOut->OutputString (gST->ConOut, Line);
 
   RestoreConsoleMode (&SavedConsoleMode);
 
@@ -670,7 +642,8 @@ VOID
 ClearScreen (
   VOID
   ) {
-  gST->ConOut->EnableCursor (gST->ConOut ,FALSE);
+  gST->ConOut->SetAttribute (gST->ConOut, EFI_WHITE | EFI_BACKGROUND_BLACK);
+  gST->ConOut->EnableCursor (gST->ConOut, FALSE);
   gST->ConOut->ClearScreen (gST->ConOut);
   PrintHeader ();
   FillBackground ();
@@ -697,9 +670,10 @@ ProgressBarDialog (
   UINTN                                i;
 
   PreserveConsoleMode (&SavedConsoleMode);
+  gST->ConOut->EnableCursor      (gST->ConOut, FALSE);
 
   BarLen = mConOutCols / 3;
-  BarXPos = (mConOutCols - BarLen)/2;
+  BarXPos = (mConOutCols - BarLen)/2 + 1;
   BarYPos = (mConOutRows / 2) + 1;
   Bar = AllocateZeroPool ((BarLen+1)*2);
   if (Bar == NULL) {
@@ -708,7 +682,7 @@ ProgressBarDialog (
   }
 
   DotPos = 0;
-  IterationTime = 3000000 / BarLen;
+  IterationTime = 1500000 / BarLen;
 
   if (NULL != Message){
     gST->ConOut->SetAttribute (gST->ConOut, EFI_BLACK | EFI_BACKGROUND_LIGHTGRAY);
@@ -720,7 +694,7 @@ ProgressBarDialog (
     Bar[i] = L' ';
   }
   while (TRUE){
-    Bar[DotPos] = L' ';
+    Bar[DotPos] = BLOCKELEMENT_FULL_BLOCK;
     DotPos++;
     if (DotPos==BarLen){
       break;
@@ -731,8 +705,7 @@ ProgressBarDialog (
     }
     gST->ConOut->SetCursorPosition (gST->ConOut, BarXPos, BarYPos);
     gST->ConOut->OutputString (gST->ConOut, Bar);
-    gST->ConOut->SetCursorPosition (gST->ConOut, BarXPos, BarYPos+1);
-    gST->ConOut->OutputString (gST->ConOut, Bar);
+
     gBS->Stall (IterationTime);
   }
 
