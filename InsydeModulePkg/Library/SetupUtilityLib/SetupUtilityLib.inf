@@ -82,7 +82,11 @@
   gEfiGlobalVariableGuid
   gSaveHddPasswordGuid
   gEfiGenericVariableGuid
-
+  gLinkMainTokenSpaceGuid
+  gLinkBootTokenSpaceGuid
+  gLinkSecurityTokenSpaceGuid
+  gLinkExitTokenSpaceGuid
+  
 [Protocols]
   gEfiHiiConfigAccessProtocolGuid               ## PRODUCES
   gEfiSmbiosProtocolGuid
@@ -116,10 +120,6 @@
   gInsydeTokenSpaceGuid.PcdPlatformBootTimeOut
   gInsydeTokenSpaceGuid.PcdLegacyBootTypeOrder
   gInsydeTokenSpaceGuid.PcdPlatformBootTimeOutMax
-  gLinkMainTokenSpaceGuid
-  gLinkBootTokenSpaceGuid
-  gLinkSecurityTokenSpaceGuid
-  gLinkExitTokenSpaceGuid
 
 [FixedPcd]
   gInsydeTokenSpaceGuid.PcdFlashNvStorageDmiBase
