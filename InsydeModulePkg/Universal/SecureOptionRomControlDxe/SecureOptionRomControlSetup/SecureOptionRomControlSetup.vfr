@@ -1,0 +1,111 @@
+/** @file
+
+  Secure Option ROM Control VFR implementation.
+
+;******************************************************************************
+;* Copyright (c) 2014, Insyde Software Corporation. All Rights Reserved.
+;*
+;* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+;* transmit, broadcast, present, recite, release, license or otherwise exploit
+;* any part of this publication in any form, by any means, without the prior
+;* written permission of Insyde Software Corporation.
+;*
+;******************************************************************************
+*/
+
+#include "SetupDataStruc.h"
+
+formset
+  guid      = SECURE_OPTION_ROM_CONTROL_FORMSET_GUID,
+  title     = STRING_TOKEN(STR_SECURE_OPTION_ROM_CONTROL_FORMSET),
+  help      = STRING_TOKEN(STR_SECURE_OPTION_ROM_CONTROL_FORMSET_HELP),
+
+  //
+  // Define a Buffer Storage (EFI_IFR_VARSTORE)
+  //
+  varstore SECURE_OPROM_CONTROL_CONFIGURATION,          // This is the data structure type
+    varid = CONFIG_VARSTORE_ID,                         // Optional VarStore ID
+    name  = SecOpRomConfig,                             // Define referenced name in vfr
+    guid  = SECURE_OPTION_ROM_CONTROL_FORMSET_GUID;     // GUID of this buffer storage
+
+  //
+  // Varstore for dynamic option ROM policy setting
+  //
+  varstore OPTION_ROM_POLICY_SETTING,
+    varid = SETTING_VARSTORE_ID,
+    name  = OpRomSetting,
+    guid  = SECURE_OPTION_ROM_CONTROL_FORMSET_GUID;
+
+  namevaluevarstore SecOpRomConfigNameValue,
+    name = STRING_TOKEN(STR_NAME_VALUE_VAR_NAME0),
+    guid = SECURE_OPTION_ROM_CONTROL_FORMSET_GUID;
+
+  //
+  // Form SECURE_OPTION_ROM_CONTROL_FORM_ID
+  //
+  form
+    formid = SECURE_OPTION_ROM_CONTROL_FORM_ID, title = STRING_TOKEN(STR_SECURE_OPTION_ROM_CONTROL);
+
+    subtitle
+      text = STRING_TOKEN(STR_SECURE_OPTION_ROM_CONTROL);
+
+    oneof
+      varid       = SecOpRomConfig.OptionRomPolicy,
+      questionid  = KEY_OPROM_POLICY_CONTROL,
+      prompt      = STRING_TOKEN(STR_DEFAULT_OPTION_ROM_POLICY_TEXT),
+      help        = STRING_TOKEN(STR_DEFAULT_OPTION_ROM_POLICY_HELP),
+      option text = STRING_TOKEN(STR_AUTO_TEXT),             value = 0, flags = DEFAULT;
+      option text = STRING_TOKEN(STR_NONE_TEXT),             value = 1, flags = 0;
+      option text = STRING_TOKEN(STR_LEGACY_ROM_TEXT),       value = 2, flags = 0;
+      option text = STRING_TOKEN(STR_UNSIGNED_EFI_ROM_TEXT), value = 3, flags = 0;
+      option text = STRING_TOKEN(STR_SIGNED_EFI_ROM_TEXT),   value = 4, flags = 0;
+      option text = STRING_TOKEN(STR_ALL_TEXT),              value = 5, flags = 0;
+    endoneof;
+
+    suppressif
+      ideqval SecOpRomConfig.OptionRomPolicy == 0;
+      label SECURE_OPTION_ROM_POLICY_LABEL;
+      label SECURE_OPTION_ROM_POLICY_END_LABEL;
+    endif;
+
+    subtitle
+      text = STRING_TOKEN(STR_BLANK_STRING);
+
+    suppressif
+      ideqval SecOpRomConfig.OptionRomPolicy == 0;
+      text
+        help   = STRING_TOKEN(STR_ADD_NEW_OPTION_ROM_POLICY_HELP),
+        text   = STRING_TOKEN(STR_ADD_NEW_OPTION_ROM_POLICY_TEXT),
+        flags  = INTERACTIVE,
+        key    = KEY_OPROM_POLICY_INSERT;
+    endif;
+
+    suppressif
+      ideqval SecOpRomConfig.OptionRomPolicy == 0;
+      text
+        help   = STRING_TOKEN(STR_DELETE_OPROM_POLICY_HELP),
+        text   = STRING_TOKEN(STR_DELETE_OPROM_POLICY_STRING),
+        flags  = INTERACTIVE,
+        key    = KEY_OPROM_POLICY_DELETE;
+    endif;
+
+    //
+    // This Opcode is for F9 load default.
+    //
+    suppressif
+      TRUE;
+
+      numeric varid   = SecOpRomConfigNameValue[0],     // This numeric take NameValueVar0 as storage
+        questionid  = KEY_LOAD_DEFAULT,
+        prompt  = STRING_TOKEN(STR_NAME_VALUE_VAR_NAME0),
+        help    = STRING_TOKEN(STR_NAME_VALUE_VAR_NAME0),
+        flags   = NUMERIC_SIZE_1 | INTERACTIVE,        // Size of this numeric is 1 byte
+        minimum = 0,
+        maximum = 0xff,
+        step    = 0,
+        default = 0,
+      endnumeric;
+    endif;
+  endform;
+endformset;
+

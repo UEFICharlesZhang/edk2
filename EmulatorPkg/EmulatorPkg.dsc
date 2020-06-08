@@ -416,6 +416,14 @@
 
 !include NetworkPkg/Network.dsc.inc
 
+
+  InsydeModulePkg/Universal/UserInterface/H2OKeyDescDxe/H2OKeyDescDxe.inf
+  InsydeSetupPkg/Drivers/DisplayTypeDxe/DisplayTypeDxe.inf
+  InsydeSetupPkg/Drivers/HiiLayoutPkgDxe/HiiLayoutPkgDxe.inf
+  InsydeSetupPkg/Drivers/H2OFormBrowserDxe/H2OFormBrowserDxe.inf
+  InsydeSetupPkg/Drivers/H2ODisplayEngineLocalTextDxe/H2ODisplayEngineLocalTextDxe.inf
+  InsydeModulePkg/Universal/UserInterface/SetupBrowserDxe/SetupBrowserDxe.inf
+
 [BuildOptions]
   #
   # Disable deprecated APIs.

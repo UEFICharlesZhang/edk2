@@ -1,0 +1,59 @@
+## @file
+# Update SMBios Driver build description file for DXE phase.
+#
+#******************************************************************************
+#* Copyright (c) 2012 - 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00040001
+  BASE_NAME                      = MultiConfigUpdateDxe
+  FILE_GUID                      = D2B6C80A-FAFE-4512-835D-50D136540AAA
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = MultiConfigUpdateEntry
+
+[Sources]
+  MultiConfigUpdateDxe.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  IntelFrameworkPkg/IntelFrameworkPkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+
+[LibraryClasses]
+  MultiConfigBaseLib
+  DebugLib
+  UefiLib
+  UefiBootServicesTableLib
+  BaseLib
+  BaseMemoryLib
+  UefiDriverEntryPoint
+  
+[Guids]
+  gEfiGenericVariableGuid
+  gEfiEndOfDxeEventGroupGuid
+
+[Protocols]
+  gEfiSmbiosProtocolGuid
+
+[Pcd]
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageDmiBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageDmiSize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMultiConfigBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMultiConfigSize
+
+[FeaturePcd]
+  gInsydeTokenSpaceGuid.PcdMultiConfigSupported
+  gInsydeTokenSpaceGuid.PcdH2OMultiConfigUpdateSMBiosSupported
+
+[Depex]
+  TRUE
+  

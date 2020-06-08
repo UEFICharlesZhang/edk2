@@ -1,0 +1,74 @@
+## @file
+#  Component description file for display type driver.
+#
+#******************************************************************************
+#* Copyright (c) 2013 - 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DisplayTypeDxe
+  FILE_GUID                      = A2760074-ED4C-4719-8382-C942CBF16D85
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = DisplayTypeEntryPoint
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF EBC
+#
+
+[Sources]
+  DisplayType.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeSetupPkg/InsydeSetupPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  PrintLib
+  UefiLib
+  DebugLib
+  DevicePathLib
+
+[Guids]
+  gH2ODisplayEngineLocalTextGuid
+  gH2ODisplayEngineRemoteTextGuid
+  gH2ODisplayEngineRemoteBrowserGuid
+  gH2ODisplayEngineLocalCommandLineGuid
+  gH2ODisplayEngineLocalMetroGuid
+  gH2ODisplayEngineNullTypeGuid
+  gH2ODisplayEngineAllTypeGuid
+  gH2ODisplayTypePrimaryDisplayGuid
+  gEfiGlobalVariableGuid
+
+[Protocols]
+  gEfiSimpleTextOutProtocolGuid
+  gEfiGraphicsOutputProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEfiPciRootBridgeIoProtocolGuid
+
+[FeaturePcd]
+
+[FixedPcd]
+  gH2OSetupTokenSpaceGuid.PcdDisplayEngineIgfx
+  gH2OSetupTokenSpaceGuid.PcdDisplayEnginePeg
+  gH2OSetupTokenSpaceGuid.PcdDisplayEnginePci
+
+[Depex]
+  TRUE
+

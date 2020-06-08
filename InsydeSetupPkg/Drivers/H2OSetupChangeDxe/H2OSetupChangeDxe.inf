@@ -1,0 +1,60 @@
+## @file
+#
+#  Component description file for H2OSetupChange DXE Driver.
+#
+#******************************************************************************
+#* Copyright (c) 2014 - 2015, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+#    
+#
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = H2OSetupChangeDxe
+  FILE_GUID                      = 8201C01A-D4EA-479F-9AFE-8FC26FADD138
+  MODULE_TYPE                    = DXE_DRIVER
+  PI_SPECIFICATION_VERSION       = 0x0001000A
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = H2OSetupChangeDxeEntry
+
+[Sources]
+  H2OSetupChange.c
+  H2OSetupChange.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeSetupPkg/InsydeSetupPkg.dec
+
+[LibraryClasses]
+  BaseLib
+  UefiBootServicesTableLib  
+  UefiRuntimeServicesTableLib
+  BaseMemoryLib
+  UefiDriverEntryPoint
+  MemoryAllocationLib
+  DebugLib
+  UefiLib
+  PrintLib
+  VariableLib
+
+[Guids]
+  gH2OSetupChangeVariableGuid                  # PRODUCED
+
+[Pcd]
+  gH2OSetupTokenSpaceGuid.PcdMaxSetupChangeVariableSize
+
+[Protocols]
+  gH2ODialogProtocolGuid                       # CONSUMED
+  gH2OFormBrowserProtocolGuid                  # CONSUMED
+  
+  gH2OSubmitSvcProtocolGuid                    # PRODUCED
+[Depex]
+  TRUE

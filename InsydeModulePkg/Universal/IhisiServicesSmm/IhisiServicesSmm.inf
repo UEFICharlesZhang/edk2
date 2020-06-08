@@ -1,0 +1,134 @@
+## @file
+#  Component description file for IhisiSmm module
+#
+#******************************************************************************
+#* Copyright (c) 2012 - 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = IhisiServicesSmm
+  FILE_GUID                      = 87C2106E-8790-459D-BD44-2EF32A68C3F9
+  MODULE_TYPE                    = DXE_SMM_DRIVER
+  PI_SPECIFICATION_VERSION       = 0x0001000A
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = IhisiServicesSmmEntry
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  IhisiServicesSmm.h
+  IhisiServicesSmm.c
+  IhisiRegistration.h
+  IhisiRegistration.c
+  IhisiVats.h
+  IhisiVats.c
+  IhisiFbts.h
+  IhisiFbts.c
+  IhisiFets.h
+  IhisiFets.c
+  IhisiCommonRegionCommunication.h
+  IhisiCommonRegionCommunication.c
+  IhisiOemExtraDataCommunication.h
+  IhisiOemExtraDataCommunication.c
+  IhisiSecureFlash.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeOemServicesPkg/InsydeOemServicesPkg.dec
+  #BLD_Charles_035+s
+  InsydeL05ModulePkg/InsydeL05ModulePkg.dec
+  InsydeL05PlatformPkg/InsydeL05PlatformPkg.dec
+  $(PLATFORM_RC_PACKAGE)/$(PLATFORM_RC_PACKAGE).dec
+  $(CHIPSET_PKG)/$(CHIPSET_PKG).dec  
+  #BLD_Charles_035+e
+
+[LibraryClasses]
+  HobLib
+  BaseLib
+  BvdtLib
+  DebugLib
+  LockBoxLib
+  VariableLib
+  BaseMemoryLib
+  SmmChipsetSvcLib
+  VariableSupportLib
+  MemoryAllocationLib
+  SmmServicesTableLib
+  SeamlessRecoveryLib
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  SmmOemSvcKernelLibDefault
+  BaseOemSvcKernelLibDefault
+  #BLD_Charles_035+s
+  IoLib
+  #BLD_Charles_035+e
+
+[Protocols]
+  gH2OIhisiProtocolGuid
+  gEfiSmmCpuProtocolGuid
+  gTianoCompressProtocolGuid
+  gEfiSmmVariableProtocolGuid
+  gEfiSmmSwDispatch2ProtocolGuid
+  gEfiSmmFwBlockServiceProtocolGuid
+  gEfiSmmAccess2ProtocolGuid
+
+[Guids]
+  gEfiFlashMapHobGuid
+  gSecureFlashInfoGuid
+  #BLD_Charles_035+s
+  gL05ServicesTokenSpaceGuid
+  #BLD_Charles_035+e
+
+[Pcd]
+  gInsydeTokenSpaceGuid.PcdIhisiFbtsVersion
+  gInsydeTokenSpaceGuid.PcdIhisiFbtsVendorId
+  gInsydeTokenSpaceGuid.PcdKeepVariableInList
+  gInsydeTokenSpaceGuid.PcdSecureFlashSupported
+  gInsydeTokenSpaceGuid.PcdH2OSecureBootSupported
+  gInsydeTokenSpaceGuid.PcdIhisiFbtsBatteryLowBound
+  gInsydeTokenSpaceGuid.PcdFlashUnsignedFvRegionBase
+  gInsydeTokenSpaceGuid.PcdDefaultPreservedVariableList
+  gInsydeTokenSpaceGuid.PcdEndOfFlashUnsignedFvRegionTotalSize
+  gInsydeTokenSpaceGuid.PcdFlashFvMainBase
+  gInsydeTokenSpaceGuid.PcdFlashFvMainSize
+  gInsydeTokenSpaceGuid.PcdFlashFvRecoveryBase
+  gInsydeTokenSpaceGuid.PcdFlashFvRecoverySize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageDmiBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageDmiSize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageBvdtBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageBvdtSize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMsdmDataBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMsdmDataSize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMicrocodeBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageMicrocodeSize
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageFactoryCopyBase
+  gInsydeTokenSpaceGuid.PcdFlashNvStorageFactoryCopySize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingSize
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
+  #BLD_Charles_035+s
+  gL05ServicesTokenSpaceGuid.PcdFlashFvEepromBase
+  #BLD_Charles_035+e
+
+[Depex]
+  gEfiSmmCpuProtocolGuid AND
+  gEfiSmmAccess2ProtocolGuid AND
+  gEfiSmmSwDispatch2ProtocolGuid
+

@@ -1,0 +1,50 @@
+## @file
+#  Implement the PEIM of Pei Beep Status Code
+#  
+#  ***************************************************************************
+#  * Copyright (c) 2014, Insyde Software Corp. All Rights Reserved.
+#  *
+#  * You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#  * transmit, broadcast, present, recite, release, license or otherwise exploit
+#  * any part of this publication in any form, by any means, without the prior
+#  * written permission of Insyde Software Corporation.
+#  *
+#  ******************************************************************************
+#  
+##
+
+[Defines]
+  INF_VERSION               = 0x00010005
+  BASE_NAME                 = BeepStatusCodePei
+  FILE_GUID                 = C0D27440-3197-4AB4-8FC0-AE13A00BD9B9
+  MODULE_TYPE               = PEIM
+  VERSION_STRING            = 1.0
+  ENTRY_POINT               = BeepStatusCodePeiEntryPoint 
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeOemServicesPkg/InsydeOemServicesPkg.dec
+  
+[Sources]
+  BeepStatusCodePei.c
+  BeepStatusCodePei.h
+	
+[LibraryClasses]
+  PeimEntryPoint
+  PeiServicesLib
+  BaseLib
+  PeiOemSvcKernelLibDefault
+
+[Ppis]
+  gEfiPeiRscHandlerPpiGuid             #CONSUMED
+  gPeiSpeakerInterfacePpiGuid          #CONSUMED
+
+[Pcd]
+  gInsydeTokenSpaceGuid.PcdBeepTypeList
+  gInsydeTokenSpaceGuid.PcdStatusCodeBeepList
+  
+[Depex]
+  TRUE
+

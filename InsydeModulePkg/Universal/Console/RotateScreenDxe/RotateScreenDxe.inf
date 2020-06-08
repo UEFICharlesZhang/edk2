@@ -1,0 +1,66 @@
+## @file
+#  MonitoryKeyDxe
+#
+#******************************************************************************
+#* Copyright (c) 2012, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RotateScreen
+  FILE_GUID                      = 83EC3FC9-CB74-4b2b-89B9-E98F0972F2A8
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = RotateScreenInstall
+
+[Sources]
+  RotateScreen.c
+  RotateTouch.c
+  HookLib.c
+  PeCoffLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  IntelFrameworkPkg/IntelFrameworkPkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  UefiLib
+
+[Protocols]
+  gEfiUsbIoProtocolGuid
+  gEfiI2cIoProtocolGuid
+  gEfiDriverBindingProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gEfiSimpleTextInputExProtocolGuid
+  gEfiSimpleTextOutProtocolGuid
+  gEfiGraphicsOutputProtocolGuid
+  gEfiComponentName2ProtocolGuid
+  gEfiAbsolutePointerProtocolGuid
+  #BLD_Quber_029	+S
+  gEfiAcpiTableProtocolGuid
+  gEfiAcpiSupportProtocolGuid 
+  [Pcd]
+  gInsydeTokenSpaceGuid.PcdH2ORotateScreenIs90DegreeClockwise
+  #BLD_Quber_029	+E
+
+[FeaturePcd]
+  gInsydeTokenSpaceGuid.PcdH2ORotateShellSupported
+
+[Depex]
+  TRUE
+  #BLD_Quber_029	+S
+[BuildOptions]
+  *_*_*_CC_FLAGS = /Od
+  #BLD_Quber_029	+E

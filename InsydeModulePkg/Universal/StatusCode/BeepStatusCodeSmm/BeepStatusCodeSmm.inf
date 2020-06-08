@@ -1,0 +1,58 @@
+#/** @file
+#
+#  Component description file for Beep Status Code SMM driver.
+#
+#;******************************************************************************
+#;* Copyright (c) 2014, Insyde Software Corporation. All Rights Reserved.
+#;*
+#;* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#;* transmit, broadcast, present, recite, release, license or otherwise exploit
+#;* any part of this publication in any form, by any means, without the prior
+#;* written permission of Insyde Software Corporation.
+#;*
+#;******************************************************************************
+#*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BeepStatusCodeSmm
+  FILE_GUID                      = BF0E7BF7-DE8C-40E0-8C4A-B5C63D6A11A7
+  MODULE_TYPE                    = DXE_SMM_DRIVER
+  PI_SPECIFICATION_VERSION       = 0x0001000A
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = BeepStatusCodeSmmEntryPoint
+
+[Sources]
+  BeepStatusCodeSmm.c
+  BeepStatusCodeSmm.h
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  IntelFrameworkPkg/IntelFrameworkPkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeOemServicesPkg/InsydeOemServicesPkg.dec
+  
+[LibraryClasses]
+  BaseLib
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  SmmServicesTableLib
+  PcdLib
+  SmmOemSvcKernelLibDefault
+  
+[Protocols]
+  gEfiSmmRscHandlerProtocolGuid                # CONSUMED
+  gEfiSpeakerInterfaceProtocolGuid             # CONSUMED
+  
+[Guids]
+  gH2OBeepStatusCodeCommunicationGuid          # CONSUMED
+
+[Pcd]
+  gInsydeTokenSpaceGuid.PcdBeepTypeList
+  gInsydeTokenSpaceGuid.PcdStatusCodeBeepList
+  
+[Depex]
+  TRUE
+  

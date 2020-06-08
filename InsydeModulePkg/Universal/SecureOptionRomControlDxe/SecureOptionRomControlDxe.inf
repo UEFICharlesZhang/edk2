@@ -1,0 +1,81 @@
+#/** @file
+#
+#  Component description file for Secure Option Rom Control DXE driver.
+#
+#;******************************************************************************
+#;* Copyright (c) 2014, Insyde Software Corporation. All Rights Reserved.
+#;*
+#;* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#;* transmit, broadcast, present, recite, release, license or otherwise exploit
+#;* any part of this publication in any form, by any means, without the prior
+#;* written permission of Insyde Software Corporation.
+#;*
+#;******************************************************************************
+#*/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SecureOptionRomControlDxe
+  FILE_GUID                      = 31D175D3-050C-410A-B34E-0ABE055513C6
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SecureOptionRomControlInitialize
+
+[Sources]
+  SecureOptionRomControlDxe.c
+  SecureOptionRomControlDxe.h
+
+  SecureOptionRomControlSetup\SecureOptionRomControlSetup.c
+  SecureOptionRomControlSetup\SecureOptionRomControlSetup.vfr
+  SecureOptionRomControlSetup\SecureOptionRomControlSetup.uni
+  SecureOptionRomControlSetup\PciDevLookupTable.c
+  
+[Packages]
+  InsydeModulePkg/InsydeModulePkg.dec  
+  MdePkg/MdePkg.dec
+  IntelFrameworkPkg/IntelFrameworkPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  DebugLib
+  DevicePathLib
+  BaseMemoryLib
+  UefiLib
+  HiiLib
+  VariableLib
+
+[Guids]
+  gH2OSecureOptionRomControlFormsetGuid         ## PRODUCES
+  gEfiIfrTianoGuid                              ## PRODUCES
+  gSystemConfigurationGuid                      ## PRODUCES
+  
+[Protocols]
+  gH2OSecurityArchProtocolGuid                  ## PRODUCES
+  gEfiPciIoProtocolGuid                         ## CONSUMES
+  gEfiDecompressProtocolGuid                    ## CONSUMES
+  gEfiVariableArchProtocolGuid                  ## CONSUMES
+  gEfiHiiDatabaseProtocolGuid                   ## CONSUMES
+  gEfiHiiStringProtocolGuid                     ## CONSUMES
+  gEfiFormBrowser2ProtocolGuid                  ## CONSUMES
+  gEfiHiiConfigRoutingProtocolGuid              ## CONSUMES
+  gEfiHiiConfigAccessProtocolGuid               ## PRODUCES
+  gEdkiiFormBrowserEx2ProtocolGuid              ## CONSUMES
+  gH2ODialogProtocolGuid                        ## CONSUMES
+  gEfiSetupUtilityApplicationProtocolGuid       ## CONSUMES
+  gEdkiiVariableLockProtocolGuid                ## CONSUMES 
+  gEfiSecurity2ArchProtocolGuid                 ## CONSUMES
+
+[Pcd]
+  gInsydeTokenSpaceGuid.PcdH2OPciOptionRomSecurityControlSetupSupported
+  gInsydeTokenSpaceGuid.PcdH2OFormBrowserSupported
+  gInsydeTokenSpaceGuid.PcdH2OPciOptionRomControlNum
+
+[Depex]
+  gEfiVariableArchProtocolGuid      AND
+  gEfiVariableWriteArchProtocolGuid AND
+  gEfiHiiDatabaseProtocolGuid       AND
+  gEfiSmmVariableProtocolGuid
+  

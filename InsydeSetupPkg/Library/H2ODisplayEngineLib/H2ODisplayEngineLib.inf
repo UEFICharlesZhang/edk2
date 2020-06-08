@@ -1,0 +1,42 @@
+## @file
+# This library implements display engine common function for display engine drivers.
+#
+#******************************************************************************
+#* Copyright (c) 2015, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = H2ODisplayEngineLib
+  FILE_GUID                      = D96147CF-E8B0-4de8-8A67-8D92B3A4B3A5
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = H2ODisplayEngineLib|DXE_DRIVER DXE_RUNTIME_DRIVER UEFI_APPLICATION UEFI_DRIVER
+
+[Sources]
+  H2ODisplayEngineLib.c
+  DEEvent.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeSetupPkg/InsydeSetupPkg.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  MemoryAllocationLib
+  BaseMemoryLib
+  BaseLib
+  UefiLib
+  DebugLib
+
+[Protocols]
+  gH2OFormBrowserProtocolGuid
+

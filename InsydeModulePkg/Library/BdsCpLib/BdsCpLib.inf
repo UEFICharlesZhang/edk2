@@ -1,0 +1,42 @@
+## @file
+#  Component description file for the BDS check point library.
+#
+#******************************************************************************
+#* Copyright (c) 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = BdsCpLib
+  FILE_GUID                      = 8EA5BCCF-1D30-46a8-8670-D71D1009E794
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = BdsCpLib
+  CONSTRUCTOR                    = BdsCpLibConstructor
+
+[Sources]
+  BdsCpLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  MemoryAllocationLib
+  UefiBootServicesTableLib
+  BaseMemoryLib
+  DebugLib
+
+[Protocols]
+  gEfiSmmBase2ProtocolGuid
+
+

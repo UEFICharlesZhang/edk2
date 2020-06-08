@@ -1,0 +1,44 @@
+## @file
+#  This library abstract how to access TPM2 hardware device.
+#
+#******************************************************************************
+#* Copyright (c) 2014, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = Tpm2PtpCommLib
+  FILE_GUID                      = 1E5169DB-9190-4d5f-9BCD-E1925794927D
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = Tpm2PtpCommLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 IPF
+#
+
+[Sources]
+  Tpm2Ptp.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  SecurityPkg/SecurityPkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+
+[LibraryClasses]
+  BaseLib
+  BaseMemoryLib
+  IoLib
+  TimerLib
+  DebugLib
+
+[Pcd]
+  gEfiSecurityPkgTokenSpaceGuid.PcdTpmBaseAddress
