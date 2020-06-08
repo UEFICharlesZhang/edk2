@@ -1,0 +1,80 @@
+## @file
+#  BdsDxe
+#
+#******************************************************************************
+#* Copyright (c) 2013, Insyde Software Corp. All Rights Reserved.
+#*
+#* You may not reproduce, distribute, publish, display, perform, modify, adapt,
+#* transmit, broadcast, present, recite, release, license or otherwise exploit
+#* any part of this publication in any form, by any means, without the prior
+#* written permission of Insyde Software Corporation.
+#*
+#******************************************************************************
+[Defines]
+  INF_VERSION          = 0x00010005
+  BASE_NAME            = SolDxe
+  FILE_GUID            = 75F4D10C-619A-465f-BBA5-6A2B15F89774
+  MODULE_TYPE          = DXE_DRIVER
+  BINARY_VERSION       = 10.01
+
+
+[Binaries.Ia32]
+  PE32|Ia32/SolDxe.efi
+
+
+[Binaries.X64]
+  PE32|X64/SolDxe.efi
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  InsydeModulePkg/InsydeModulePkg.dec
+  InsydeCrPkg/InsydeCrPkg.dec
+  
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  BaseLib
+  UefiBootServicesTableLib
+  UefiRuntimeServicesTableLib
+  BaseMemoryLib
+  MemoryAllocationLib
+  DevicePathLib
+  DebugLib
+  PrintLib
+  HiiLib
+  NetLib
+  DpcLib
+  PostCodeLib
+  IoLib
+  CrBdsLib
+  
+[Protocols]
+  gEfiTcp4ProtocolGuid
+  gEfiDevicePathProtocolGuid
+  gEfiTcp4ServiceBindingProtocolGuid
+  gEfiHiiDatabaseProtocolGuid
+  gEfiHiiConfigAccessProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEfiDhcp4ProtocolGuid
+  gEfiDhcp4ServiceBindingProtocolGuid
+  gEfiSerialIoProtocolGuid
+  gEfiSimpleNetworkProtocolGuid
+  gCrDeviceSupportProtocolGuid
+  gCrDeviceIdProtocolGuid
+  gEfiSimpleTextInputExProtocolGuid
+  gEfiGraphicsOutputProtocolGuid
+  #gInsydeConsoleInfoProtocolGuid
+  gEfiPciIoProtocolGuid
+  gEfiCRPolicyProtocolGuid
+  gSerialTerminalInfoProtocolGuid
+  gEfiArpProtocolGuid
+  
+[Guids]
+  gEfiIfrTianoGuid                              ## CONSUMES ## GUID
+  gEfiGlobalVariableGuid
+  gInsydeConsoleDeviceGuid
+  gInsydeSolDriverGuid
+  
+[Depex]
+  gEfiCRPolicyProtocolGuid
