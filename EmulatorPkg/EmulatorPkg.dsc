@@ -112,6 +112,46 @@
   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
 
+  #
+  # InsydeModulePkg
+  #
+  AcpiPlatformLib|InsydeModulePkg/Library/CommonPlatformLib/AcpiPlatformLib/AcpiPlatformLib.inf
+  BitBltLib|InsydeModulePkg/Library/BitBltLib/BitBltLib.inf
+  BvdtLib|InsydeModulePkg/Library/BvdtLib/BvdtLib.inf
+  CmosLib|InsydeModulePkg/Library/CmosLibNull/CmosLibNull.inf
+  CommonEcLib|InsydeModulePkg/Library/CommonEcLib/CommonEcLib.inf
+  CommonPciLib|InsydeModulePkg/Library/CommonPlatformLib/CommonPciLib/CommonPciLib.inf
+  ConsoleLib|InsydeModulePkg/Library/ConsoleLib/ConsoleLib.inf
+  HiiExLib|InsydeModulePkg/Library/UefiHiiExLib/UefiHiiExLib.inf
+  IrsiRegistrationLib|InsydeModulePkg/Library/Irsi/IrsiRegistrationLib/IrsiRegistrationLib.inf
+  MultiConfigBaseLib|InsydeModulePkg/Library/MultiConfigBaseLib/MultiConfigBaseLib.inf
+  OemGraphicsLib|InsydeModulePkg/Library/OemGraphicsLib/OemGraphicsLib.inf
+  S3BootScriptLib|MdePkg/Library/BaseS3BootScriptLibNull/BaseS3BootScriptLibNull.inf
+  VariableLib|InsydeModulePkg/Library/DxeVariableLib/DxeVariableLib.inf
+  VariableSupportLib|InsydeModulePkg/Library/VariableSupportLib/VariableSupportLib.inf
+  BdsCpLib|InsydeModulePkg/Library/BdsCpLib/BdsCpLib.inf
+
+  StdLib|InsydeModulePkg/Library/StdLib/StdLib.inf
+  RectLib|InsydeModulePkg/Library/RectLib/RectLib.inf
+  Win32Lib|InsydeModulePkg/Library/Win32Lib/Win32Lib.inf
+
+  BaseOemSvcKernelLib|InsydeOemServicesPkg/Library/BaseOemSvcKernelLib/BaseOemSvcKernelLib.inf
+  BaseOemSvcKernelLibDefault|InsydeOemServicesPkg/Library/BaseOemSvcKernelLib/BaseOemSvcKernelLibDefault.inf
+  DxeOemSvcKernelLibDefault|InsydeOemServicesPkg/Library/DxeOemSvcKernelLib/DxeOemSvcKernelLibDefault.inf
+  DxeChipsetSvcLib|InsydeModulePkg/Library/DxeChipsetSvcLib/DxeChipsetSvcLib.inf
+
+  SetupUtilityLib|InsydeModulePkg/Library/SetupUtilityLib/SetupUtilityLib.inf
+  KernelConfigLib|InsydeModulePkg/Library/DxeKernelConfigLib/DxeKernelConfigLib.inf
+  KernelVfrLib|InsydeModulePkg/Library/SetupUtilityLib/KernelVfrLib.inf
+  BaseSetupDefaultLib|InsydeModulePkg/Library/SetupDefaultLib/SetupDefaultLib.inf
+
+  GenericUtilityLib|InsydeModulePkg/Library/GenericUtilityLib/GenericUtilityLib.inf 
+
+  LayoutLib|InsydeSetupPkg/Library/LayoutSupportLib/LayoutSupportLib.inf
+  H2ODisplayEngineLib|InsydeSetupPkg/Library/H2ODisplayEngineLib/H2ODisplayEngineLib.inf
+  
+  DxeOemSvcKernelLib|InsydeOemServicesPkg/Library/DxeOemSvcKernelLib/DxeOemSvcKernelLib.inf
+
 [LibraryClasses.common.SEC]
   PeiServicesLib|EmulatorPkg/Library/SecPeiServicesLib/SecPeiServicesLib.inf
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
@@ -177,6 +217,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdStatusCodeUseSerial|TRUE
   gEfiMdeModulePkgTokenSpaceGuid.PcdPeiCoreImageLoaderSearchTeSectionFirst|FALSE
   gEfiMdeModulePkgTokenSpaceGuid.PcdDxeIplBuildPageTables|FALSE
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFrameworkCompatibilitySupport|TRUE
 
 [PcdsFixedAtBuild]
   gEfiMdeModulePkgTokenSpaceGuid.PcdImageProtectionPolicy|0x00000000
@@ -418,11 +459,13 @@
 
 
   InsydeModulePkg/Universal/UserInterface/H2OKeyDescDxe/H2OKeyDescDxe.inf
-  InsydeSetupPkg/Drivers/DisplayTypeDxe/DisplayTypeDxe.inf
-  InsydeSetupPkg/Drivers/HiiLayoutPkgDxe/HiiLayoutPkgDxe.inf
-  InsydeSetupPkg/Drivers/H2OFormBrowserDxe/H2OFormBrowserDxe.inf
-  InsydeSetupPkg/Drivers/H2ODisplayEngineLocalTextDxe/H2ODisplayEngineLocalTextDxe.inf
+  # InsydeSetupPkg/Drivers/DisplayTypeDxe/DisplayTypeDxe.inf
+  # InsydeSetupPkg/Drivers/HiiLayoutPkgDxe/HiiLayoutPkgDxe.inf
+  # InsydeSetupPkg/Drivers/H2OFormBrowserDxe/H2OFormBrowserDxe.inf
+  # InsydeSetupPkg/Drivers/H2ODisplayEngineLocalTextDxe/H2ODisplayEngineLocalTextDxe.inf
   InsydeModulePkg/Universal/UserInterface/SetupBrowserDxe/SetupBrowserDxe.inf
+  # InsydeModulePkg/Universal/UserInterface/SetupUtilityApp/SetupUtilityApp.inf
+
 
 [BuildOptions]
   #

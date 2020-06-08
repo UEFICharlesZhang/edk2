@@ -419,6 +419,13 @@
   gInsydeTokenSpaceGuid.PcdEdkShellBinSupported|FALSE|BOOLEAN|0x10000057
   gInsydeTokenSpaceGuid.PcdShellBinSupported|FALSE|BOOLEAN|0x10000058
   gInsydeTokenSpaceGuid.PcdShellBuildSupported|FALSE|BOOLEAN|0x10000059
+  ## Indicates if backward compatibility to Framework HII and Framework FvHob is supported.<BR><BR>
+  #   TRUE  - Setup Browser supports GUID opcodes generated from Framework HII VFR file by VFR compiler.
+  #           the PeiCore will handle the framework FvHob and install FvInfo PPI for it.<BR>
+  #   FALSE - Setup Browser doesn't support GUID opcodes generated from Framework HII VFR file by VFR compiler.
+  #           the PeiCore will not handle the framework FvHob and install FvInfo PPI for it.<BR>
+  # @Prompt Enable framework backward compatibility support.
+  gEfiMdeModulePkgTokenSpaceGuid.PcdFrameworkCompatibilitySupport|FALSE|BOOLEAN|0x10000060
 
 [PcdsDynamic, PcdsDynamicEx]
   gInsydeTokenSpaceGuid.PcdBootState|TRUE|BOOLEAN|0x00000011
