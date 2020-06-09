@@ -36,6 +36,13 @@ UINTN                                  mConOutCols;
 UINTN                                  mConOutRows;
 CHAR16                                *mScreenTitle;
 
+EFI_EVENT ProcessBarEvent;
+UINTN BarXPos;
+UINTN BarYPos;
+UINTN BarLen;
+UINTN IterationTime;
+CHAR16 *Bar;
+UINTN DotPos;
 /**
   This function will change video resolution and text mode
   according to defined setup mode or defined boot mode
@@ -487,13 +494,13 @@ PrintFooter (
 
   gST->ConOut->SetAttribute (gST->ConOut, EFI_WHITE | EFI_BACKGROUND_BLUE);
 
+  gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-4);
+  gST->ConOut->OutputString (gST->ConOut, Line);
+
   gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-3);
   gST->ConOut->OutputString (gST->ConOut, Line);
 
   gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-2);
-  gST->ConOut->OutputString (gST->ConOut, Line);
-
-  gST->ConOut->SetCursorPosition (gST->ConOut, 0, mConOutRows-1);
   gST->ConOut->OutputString (gST->ConOut, Line);
 
 
@@ -650,6 +657,29 @@ ClearScreen (
   PrintFooter ();
   gST->ConOut->SetCursorPosition (gST->ConOut, 5, 5);
 }
+VOID
+EFIAPI
+BarTimerTickRoutine (
+  IN EFI_EVENT    Event,
+  IN VOID         *Context
+  )
+{
+  UINTN i;
+  // DEBUG ((DEBUG_INFO, "SecureErase::BarTimerTickRoutine DotPos:%d\n",DotPos));
+  if(DotPos>BarLen)
+  {
+    DotPos = 0;
+    for (i = BarLen; i; i--)
+    {
+      Bar[i] = L' ';
+    }
+  }
+  Bar[DotPos] = BLOCKELEMENT_FULL_BLOCK;
+  DotPos++;
+
+  gST->ConOut->SetCursorPosition(gST->ConOut, BarXPos, BarYPos);
+  gST->ConOut->OutputString(gST->ConOut, Bar);
+}
 /**
   Displays a progress bar dialog to indicate ongoing operation. Function takes
   three seconds to complete.
@@ -658,19 +688,15 @@ ClearScreen (
  */
 VOID
 ProgressBarDialog (
-  IN CHAR16                           *Message
+  IN CHAR16                           *Message,
+  IN BOOLEAN                          StartFlag
 ) {
   EFI_SIMPLE_TEXT_OUTPUT_MODE          SavedConsoleMode;
-  UINTN                                BarXPos;
-  UINTN                                BarYPos;
-  UINTN                                BarLen;
-  UINTN                                IterationTime;
-  CHAR16                              *Bar;
-  UINTN                                DotPos;
-  UINTN                                i;
+  EFI_STATUS  Status;
+  UINTN i;
 
-  PreserveConsoleMode (&SavedConsoleMode);
-  gST->ConOut->EnableCursor      (gST->ConOut, FALSE);
+  DEBUG((DEBUG_INFO, "SecureErase::ProgressBarDialog StartFlag:%d!\n",StartFlag));
+
 
   BarLen = mConOutCols / 3;
   BarXPos = (mConOutCols - BarLen)/2 + 1;
@@ -682,35 +708,62 @@ ProgressBarDialog (
   }
 
   DotPos = 0;
-  IterationTime = 1500000 / BarLen;
+  IterationTime = 3000000 / BarLen;
 
+  gST->ConOut->EnableCursor(gST->ConOut, FALSE);
   if (NULL != Message){
     gST->ConOut->SetAttribute (gST->ConOut, EFI_BLACK | EFI_BACKGROUND_LIGHTGRAY);
     gST->ConOut->SetCursorPosition (gST->ConOut, (mConOutCols-UStrLen (Message))/2, (mConOutRows/2)-1);
     gST->ConOut->OutputString (gST->ConOut, Message);
   }
-  gST->ConOut->SetAttribute (gST->ConOut, EFI_YELLOW | EFI_BACKGROUND_RED);
-  for (i=BarLen-1; i; i--){
-    Bar[i] = L' ';
-  }
-  while (TRUE){
-    Bar[DotPos] = BLOCKELEMENT_FULL_BLOCK;
-    DotPos++;
-    if (DotPos==BarLen){
-      break;
+  gST->ConOut->SetAttribute(gST->ConOut, EFI_YELLOW | EFI_BACKGROUND_RED);
+    for (i = BarLen; i; i--)
+    {
+      Bar[i] = L' ';
     }
-    Bar[DotPos] = BLOCKELEMENT_FULL_BLOCK;
-    if (DotPos+1<BarLen){
-      Bar[DotPos+1] = BLOCKELEMENT_FULL_BLOCK;
+  gST->ConOut->SetCursorPosition(gST->ConOut, BarXPos, BarYPos);
+  gST->ConOut->OutputString(gST->ConOut, Bar);
+  //
+  // Create and start a periodic timer as descend event by second.
+  //
+  if (StartFlag == TRUE)
+  {
+    DEBUG((DEBUG_INFO, "SecureErase::CreateEvent !\n"));
+
+    Status = gBS->CreateEvent(
+        EVT_NOTIFY_SIGNAL | EVT_TIMER,
+        TPL_NOTIFY,
+        BarTimerTickRoutine,
+        NULL,
+        &ProcessBarEvent);
+    if (EFI_ERROR(Status))
+    {
+      DEBUG((DEBUG_INFO, "SecureErase::CreateEvent Fail Status:%r!\n", Status));
     }
-    gST->ConOut->SetCursorPosition (gST->ConOut, BarXPos, BarYPos);
-    gST->ConOut->OutputString (gST->ConOut, Bar);
 
-    gBS->Stall (IterationTime);
+    Status = gBS->SetTimer(
+        ProcessBarEvent,
+        TimerPeriodic,
+        IterationTime);
+    if (EFI_ERROR(Status))
+    {
+      DEBUG((DEBUG_INFO, "SecureErase::SetTimer Fail Status:%r!\n", Status));
+    }
   }
+  else
+  {
+    DEBUG((DEBUG_INFO, "SecureErase::CloseEvent !\n"));
+    gBS->CloseEvent(ProcessBarEvent);
+    for (i = 0; i<BarLen+1; i++)
+    {
+      Bar[i] = BLOCKELEMENT_FULL_BLOCK;
+    }
+    gST->ConOut->SetCursorPosition(gST->ConOut, BarXPos, BarYPos);
+    gST->ConOut->OutputString(gST->ConOut, Bar);
 
-  RestoreConsoleMode (&SavedConsoleMode);
-  FreePool (Bar);
+    RestoreConsoleMode(&SavedConsoleMode);
+    FreePool(Bar);
+  }
 }
 
 /**
@@ -724,16 +777,18 @@ PrintSummary (
   EFI_STATUS                           Status
   )
 {
-  UINTN                                i=4;
 
-  DEBUG ((DEBUG_INFO, "SecureErase::PrintSummary\n"));
-  ClearScreen ();
-  for (; i ; i--) {
-    if (EFI_ERROR (Status)) {
-      ProgressBarDialog (L"System has failed to erase the device. Power off in 10 seconds");
-    } else {
-      ProgressBarDialog (L"Disk erase completed. System shutdown in 10 seconds");
-    }
+  DEBUG((DEBUG_INFO, "SecureErase::PrintSummary\n"));
+  ClearScreen();
+  if (EFI_ERROR(Status))
+  {
+    ProgressBarDialog(L"System has failed to erase the device. Power off in 10 seconds", TRUE);
   }
+  else
+  {
+    ProgressBarDialog(L"Disk erase completed. System shutdown in 10 seconds", TRUE);
+  }
+  gBS->Stall(5 * 1000 * 1000);
+  ProgressBarDialog(L"Disk erase Done", FALSE);
 }
 

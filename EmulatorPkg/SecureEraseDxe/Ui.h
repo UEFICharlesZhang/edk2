@@ -70,7 +70,8 @@ ClearScreen (
 **/
 VOID
 ProgressBarDialog (
-  IN CHAR16                           *Message
+  IN CHAR16                           *Message,
+  IN BOOLEAN                          StartFlag
 );
 
 /**

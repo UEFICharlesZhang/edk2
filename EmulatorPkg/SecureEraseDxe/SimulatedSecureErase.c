@@ -40,17 +40,15 @@ EFI_STATUS
 SimulateSecureErase (
   VOID
   )
-{
-  UINTN    Index = 0;
 
-  DEBUG ((DEBUG_INFO, "SecureErase ::SimulateSecureErase\n"));
-  for (Index = 0; Index < 5; Index++) {
-    ProgressBarDialog (mEraseMsg);
-  }
+{
+  DEBUG((DEBUG_INFO, "SecureErase ::SimulateSecureErase\n"));
+  ProgressBarDialog(mEraseMsg, TRUE);
+  gBS->Stall(5 * 1000 * 1000);
+  ProgressBarDialog(mEraseMsg, FALSE);
 
   return EFI_SUCCESS;
 }
-
 
 VOID
 SimulateSecureEraseDone (

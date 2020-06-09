@@ -656,7 +656,7 @@ EraseAtaDevice (
                 return Status;
               }
               ClearScreen ();
-              ProgressBarDialog (L"Ata Secure Erase in progress...");
+              ProgressBarDialog (L"Ata Secure Erase in progress...",TRUE);
               DEBUG ((DEBUG_INFO, "AtaSecureErase using password supplied by the user\n"));
               //
               // The HDD Unlock Command might be failing here because of the security settings.
@@ -665,6 +665,7 @@ EraseAtaDevice (
               SendHddUnlockCommand (AtaDevice, Port, PortMultiplierPort, Password);
               AtaStatus = SendSecureEraseCommands (AtaDevice, Port, PortMultiplierPort, &IdentifyData, Password);
               ZeroMem (Password, sizeof (CHAR8)*(ATA_PASSWORD_MAX_LENGTH + 1));
+              ProgressBarDialog (L"Ata Secure Erase in progress...",FALSE);
 
               if (AtaStatus == EFI_SUCCESS){
                 break;
@@ -714,9 +715,11 @@ EraseAtaDevice (
           }
           CopyMem (Password, mDefaultPassStr, sizeof (mDefaultPassStr) - 1);
           DEBUG ((DEBUG_INFO, "AtaSecureErase using default password\n"));
-          ProgressBarDialog (L"Ata Secure Erase in progress...");
+          ProgressBarDialog (L"Ata Secure Erase in progress...",TRUE);
           AtaStatus = SendSecureEraseCommands (AtaDevice, Port, PortMultiplierPort, &IdentifyData, Password);
           AtaStatus = RemovePassword (AtaDevice, Port, PortMultiplierPort, Password);
+          ProgressBarDialog (L"Ata Secure Erase in progress...",FALSE);
+
         }
 
         if (EFI_ERROR (AtaStatus)) {

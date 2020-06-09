@@ -234,7 +234,7 @@ SendNvmeSecureEraseCommands (
   DEBUG ((DEBUG_INFO, "NvmeSecureErase: Performing Secure Erase operations on NamespaceId = 0x%08X\n", NamespaceId));
 
   DEBUG ((DEBUG_INFO, "NvmeSecureErase: Performing User Data Erase\n"));
-  ProgressBarDialog (L"Nvme Secure Erase in progress...");
+  ProgressBarDialog (L"Nvme Secure Erase in progress...",TRUE);
   Status = NvmeFormatNvmCommand (NvmeDevice, NamespaceId, FORMAT_NVM_USER_DATA_ERASE);
   if (EFI_ERROR (Status)) {
     return Status;
@@ -243,6 +243,7 @@ SendNvmeSecureEraseCommands (
     DEBUG ((DEBUG_INFO, "NvmeSecureErase: Performing Cryptographic Erase\n"));
     Status = NvmeFormatNvmCommand (NvmeDevice, NamespaceId, FORMAT_NVM_CRYPTOGRAPHIC_ERASE);
   }
+  ProgressBarDialog (L"Nvme Secure Erase in progress...",FALSE);
 
   return Status ;
 }
