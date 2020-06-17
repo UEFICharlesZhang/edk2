@@ -14,6 +14,7 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/BaseLib.h>
 #include <Protocol/GraphicsOutput.h>
+#include <Library/DebugLib.h>
 
 //
 // String token ID of help message text.
@@ -33,9 +34,12 @@ SetDifferentReslution()
   EFI_HANDLE *GopHandleBuffer;
   EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsOutput;
   UINTN Index;
-  UINT32 ModeNumber, MaxGopMode;
-  UINTN                                 SizeOfInfo;
-  EFI_GRAPHICS_OUTPUT_MODE_INFORMATION  *Info;
+  UINT32 OldMode, ModeNumber, MaxGopMode;
+  UINTN SizeOfInfo;
+  EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *Info;
+  EFI_GRAPHICS_OUTPUT_BLT_PIXEL FillColor;
+
+  DEBUG((DEBUG_INFO, "GOP Test Start!\n"));
 
   Status = gBS->LocateHandleBuffer(
       ByProtocol,
@@ -56,24 +60,50 @@ SetDifferentReslution()
       {
         continue;
       }
-      Print (L"Gop :%d\n",Index);
+      DEBUG((DEBUG_INFO, "Gop Index:%d\n", Index));
       MaxGopMode = GraphicsOutput->Mode->MaxMode;
+      OldMode = GraphicsOutput->Mode->Mode;
       for (ModeNumber = 0; ModeNumber < MaxGopMode; ModeNumber++)
       {
-        Status = GraphicsOutput->SetMode (GraphicsOutput, ModeNumber);
         Status = GraphicsOutput->QueryMode(
             GraphicsOutput,
             ModeNumber,
             &SizeOfInfo,
             &Info);
-        Print (L"  Mode :%d\n",ModeNumber);
-        Print (L"    Version:%x\n",Info->Version);
-        Print (L"    HorizontalResolution:%d\n",Info->HorizontalResolution);
-        Print (L"    VerticalResolution:%d\n",Info->VerticalResolution);
-        gBS->Stall(3*1000*1000);
+        DEBUG((DEBUG_INFO, "  Mode :%d\n", ModeNumber));
+        DEBUG((DEBUG_INFO, "    Version:%x\n", Info->Version));
+        DEBUG((DEBUG_INFO, "    HorizontalResolution:%d\n", Info->HorizontalResolution));
+        DEBUG((DEBUG_INFO, "    VerticalResolution:%d\n", Info->VerticalResolution));
+        Status = GraphicsOutput->SetMode(GraphicsOutput, ModeNumber);
+        if (ModeNumber % 2 == 1)
+        {
+          FillColor.Blue = 0x00;
+          FillColor.Green = 0xFF;
+          FillColor.Red = 0x00;
+        }else
+        {
+          FillColor.Blue = 0x00;
+          FillColor.Green = 0x00;
+          FillColor.Red = 0xFF;
+        }
+        Status = GraphicsOutput->Blt(
+            GraphicsOutput,
+            &FillColor,
+            EfiBltVideoFill,
+            0,
+            0,
+            0,
+            0,
+            Info->HorizontalResolution,
+            Info->VerticalResolution,
+            0);
+        gBS->Stall(3 * 1000 * 1000);
+        Status = GraphicsOutput->SetMode(GraphicsOutput, OldMode);
       }
     }
   }
+  DEBUG((DEBUG_INFO, "GOP Test End!\n"));
+
   return Status;
 }
 /**

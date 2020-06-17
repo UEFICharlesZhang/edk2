@@ -47,6 +47,7 @@
   PcdLib
   UefiBootServicesTableLib
   BaseLib
+  DebugLib
 
 [FeaturePcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdHelloWorldPrintEnable   ## CONSUMES
