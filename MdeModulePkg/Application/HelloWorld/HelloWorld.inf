@@ -45,6 +45,8 @@
   UefiApplicationEntryPoint
   UefiLib
   PcdLib
+  UefiBootServicesTableLib
+  BaseLib
 
 [FeaturePcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdHelloWorldPrintEnable   ## CONSUMES
@@ -52,6 +54,10 @@
 [Pcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdHelloWorldPrintString   ## SOMETIMES_CONSUMES
   gEfiMdeModulePkgTokenSpaceGuid.PcdHelloWorldPrintTimes    ## SOMETIMES_CONSUMES
+
+
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid                      
 
 [UserExtensions.TianoCore."ExtraFiles"]
   HelloWorldExtra.uni

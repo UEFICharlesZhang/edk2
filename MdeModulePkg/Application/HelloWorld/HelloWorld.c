@@ -11,6 +11,9 @@
 #include <Library/PcdLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiApplicationEntryPoint.h>
+#include <Library/UefiBootServicesTableLib.h>
+#include <Library/BaseLib.h>
+#include <Protocol/GraphicsOutput.h>
 
 //
 // String token ID of help message text.
@@ -21,7 +24,58 @@
 // Shell.
 //
 GLOBAL_REMOVE_IF_UNREFERENCED EFI_STRING_ID mStringHelpTokenId = STRING_TOKEN (STR_HELLO_WORLD_HELP_INFORMATION);
+EFI_STATUS
+EFIAPI
+SetDifferentReslution()
+{
+  EFI_STATUS Status;
+  UINTN GopHandleCount;
+  EFI_HANDLE *GopHandleBuffer;
+  EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsOutput;
+  UINTN Index;
+  UINT32 ModeNumber, MaxGopMode;
+  UINTN                                 SizeOfInfo;
+  EFI_GRAPHICS_OUTPUT_MODE_INFORMATION  *Info;
 
+  Status = gBS->LocateHandleBuffer(
+      ByProtocol,
+      &gEfiGraphicsOutputProtocolGuid,
+      NULL,
+      &GopHandleCount,
+      &GopHandleBuffer);
+  if (!EFI_ERROR(Status))
+  {
+    //
+    // Add all the child handles as possible Console Device
+    //
+    for (Index = 0; Index < GopHandleCount; Index++)
+    {
+      Status = gBS->HandleProtocol(GopHandleBuffer[Index],
+                                   &gEfiGraphicsOutputProtocolGuid, (VOID **)&GraphicsOutput);
+      if (EFI_ERROR(Status))
+      {
+        continue;
+      }
+      Print (L"Gop :%d\n",Index);
+      MaxGopMode = GraphicsOutput->Mode->MaxMode;
+      for (ModeNumber = 0; ModeNumber < MaxGopMode; ModeNumber++)
+      {
+        Status = GraphicsOutput->SetMode (GraphicsOutput, ModeNumber);
+        Status = GraphicsOutput->QueryMode(
+            GraphicsOutput,
+            ModeNumber,
+            &SizeOfInfo,
+            &Info);
+        Print (L"  Mode :%d\n",ModeNumber);
+        Print (L"    Version:%x\n",Info->Version);
+        Print (L"    HorizontalResolution:%d\n",Info->HorizontalResolution);
+        Print (L"    VerticalResolution:%d\n",Info->VerticalResolution);
+        gBS->Stall(3*1000*1000);
+      }
+    }
+  }
+  return Status;
+}
 /**
   The user Entry Point for Application. The user code starts with this function
   as the real entry point for the application.
@@ -55,6 +109,8 @@ UefiMain (
       Print ((CHAR16*)PcdGetPtr (PcdHelloWorldPrintString));
     }
   }
+
+  SetDifferentReslution();
 
   return EFI_SUCCESS;
 }
