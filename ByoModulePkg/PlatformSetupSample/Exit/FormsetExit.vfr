@@ -1,0 +1,68 @@
+/*++
+
+Copyright (c) 2010 - 2015, Byosoft Corporation.<BR>
+All rights reserved.This software and associated documentation (if any)
+is furnished under a license and may only be used or copied in
+accordance with the terms of the license. Except as permitted by such
+license, no part of this software or documentation may be reproduced,
+stored in a retrieval system, or transmitted in any form or by any
+means without the express written consent of Byosoft Corporation.
+
+File Name:
+
+Abstract:
+  Platform configuration setup.
+
+Revision History:
+
+
+--*/
+
+#include <SetupVariableSample.h>
+#include <Guid/ByoSetupFormsetGuid.h>
+#include "FormsetConfiguration.h"
+
+formset
+  guid     = FORMSET_GUID_EXIT,
+  title    = STRING_TOKEN(FORMSET_TITLE_EXIT),
+  help     = STRING_TOKEN(FORMSET_TITLE_EXIT_HELP),
+  class    = BYO_FORMSET_CLASS,
+  subclass = BYO_FORMSET_SUB_CLASS,
+
+  SETUP_DATA_VARSTORE
+
+  form formid = ROOT_FORM_ID,
+    title    = STRING_TOKEN(FORMSET_TITLE_EXIT);
+
+    subtitle text = STRING_TOKEN(STR_EMPTY);
+
+    //
+    // Save change and exit
+    //
+    text
+      help   = STRING_TOKEN(SAVE_CHANGE_HELP),
+      text   = STRING_TOKEN(SAVE_CHANGE),
+      flags  = INTERACTIVE,
+      key    = EXIT_KEY_SAVE;
+
+    //
+    // Discard change and exit
+    //
+    text
+      help   = STRING_TOKEN(DISCARD_CHANGE_HELP),
+      text   = STRING_TOKEN(DISCARD_CHANGE),
+      flags  = INTERACTIVE,
+      key    = EXIT_KEY_DISCARD;
+
+    //
+    // Load default and exit
+    //
+    text
+      help   = STRING_TOKEN(LOAD_DEFAULT_HELP),
+      text   = STRING_TOKEN(LOAD_DEFAULT),
+      flags  = INTERACTIVE,
+      key    = EXIT_KEY_DEFAULT;
+
+  endform;
+
+endformset;

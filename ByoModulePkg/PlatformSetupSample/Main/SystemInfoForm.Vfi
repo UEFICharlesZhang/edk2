@@ -1,0 +1,21 @@
+
+  form formid = FORM_ID_SYSTEM_INFO,
+    title  = STRING_TOKEN(FORM_TITLE_SYSTEM_INFO);
+
+    subtitle text = STRING_TOKEN(STR_EMPTY);
+
+    date
+      prompt  = STRING_TOKEN(SYSTEM_DATE),
+      help    = STRING_TOKEN(SYSTEM_DATE),
+      flags   = STORAGE_NORMAL,
+      default = 2004/1/1,
+    enddate;
+
+    time
+      prompt  = STRING_TOKEN(SYSTEM_TIME),
+      help    = STRING_TOKEN(SYSTEM_TIME),
+      flags   = STORAGE_TIME,
+    endtime;
+
+  endform;
+

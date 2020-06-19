@@ -1,0 +1,191 @@
+## @file
+# EFI/PI Reference Module Package for All Architectures
+#
+# Copyright (c) 2006 - 2015, Byosoft Corporation.<BR>
+# All rights reserved.This software and associated documentation (if any)
+# is furnished under a license and may only be used or copied in
+# accordance with the terms of the license. Except as permitted by such
+# license, no part of this software or documentation may be reproduced,
+# stored in a retrieval system, or transmitted in any form or by any
+# means without the express written consent of Byosoft Corporation.
+#
+#   File Name:
+#   ByoModulePkg.dec
+#
+#   Abstract:
+#   ByoSoft Core Module Package Configuration File
+#
+##
+
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = ByoModulePkg
+  PACKAGE_GUID                   = EFE1EC80-3C8C-4BA4-88D0-BB8974BA0506
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Include
+
+[LibraryClasses]
+  ##  @libraryclass    Provides platform specific display interface.
+  #
+  CustomizedDisplayLib|Include/Library/CustomizedDisplayLib.h
+
+[Guids]
+  ## ByoModule package token space guid
+  # Include/Guid/ByoModulePkgTokenSpace.h
+  gEfiByoModulePkgTokenSpaceGuid = { 0x66F5976C, 0xFDA1, 0x4C50, { 0x8C, 0x94, 0x9B, 0xF2, 0x51, 0x8F, 0x21, 0xFF }}
+  gPlatformSetupVariableGuid ={ 0xEC87D643, 0xEBA4, 0x4BB5, {0xA1, 0xE5, 0x3F, 0x3E, 0x36, 0xB2, 0x0D, 0xA9}}
+
+  # trigger a Event when user run byo formset manager.
+  gEfiByoSetupEnteringGuid =  { 0x71202EEE, 0x5F53, 0x40d9, {0xAB, 0x3D, 0x9E, 0x0C, 0x26, 0xD9, 0x66, 0x57}}
+
+  # Formset guid defined in platform setup.
+  gEfiFormsetGuidMain           = {0x985eee91, 0xbcac, 0x4238, { 0x87, 0x78, 0x57, 0xef, 0xdc, 0x93, 0xf2, 0x4e }}
+  gEfiFormsetGuidAdvance        = {0xe14f04fa, 0x8706, 0x4353, { 0x92, 0xf2, 0x9c, 0x24, 0x24, 0x74, 0x6f, 0x9f }}
+  gEfiFormsetGuidChipset        = {0xadfe34c8, 0x9ae1, 0x4f8f, { 0xbe, 0x13, 0xcf, 0x96, 0xa2, 0xcb, 0x2c, 0x5b }}
+  gEfiFormsetGuidBoot           = {0xff5f25d, 0x2804, 0x462a, { 0xa1, 0xd3, 0x32, 0x70, 0x5e, 0x6f, 0xb9, 0x25 }}
+  gEfiFormsetGuidSecurity       = {0x981ceaee, 0x931c, 0x4a17, { 0xb9, 0xc8, 0x66, 0xc7, 0xbc, 0xfd, 0x77, 0xe1 }}
+  gEfiFormsetGuidExit           = {0xa43b03dc, 0xc18a, 0x41b1, { 0x91, 0xc8, 0x3f, 0xf9, 0xaa, 0xa2, 0x57, 0x13 }}
+
+  ## Include/Guid/TcmSetupCfgGuid.h
+  gTcmSetupConfigGuid = {0x9849bbe5, 0x5fb9, 0x4d55, {0xa2, 0xd3, 0xe4, 0x1e, 0x1b, 0xfe, 0x3c, 0x68}}
+  gTrustedComputingSetupConfigGuid = {0xc41ad56e, 0x5218, 0x4849, { 0xa1, 0xcb, 0x82, 0xb3, 0xaf, 0x80, 0x81, 0xba }}
+  gEfiSystemPasswordVariableGuid   = { 0x7d925a5d, 0x90c2, 0x4c85, { 0x90, 0x6d, 0x1, 0x3f, 0x56, 0x5e, 0x33, 0xee }}
+
+[Protocols]
+  ## Include/Protocol/FormBrowserEx.h
+  gEfiFormBrowserExProtocolGuid = { 0x1f73b18d, 0x4630, 0x43c1, { 0xa1, 0xde, 0x6f, 0x80, 0x85, 0x5d, 0x7d, 0xa4 } }
+
+  ## Include/Protocol/DisplayProtocol.h
+  gEdkiiFormDisplayEngineProtocolGuid = { 0x9bbe29e9, 0xfda1, 0x41ec, { 0xad, 0x52, 0x45, 0x22, 0x13, 0x74, 0x2d, 0x2e } }
+
+  ## Include/Protocol/FormBrowserEx2.h
+  gEdkiiFormBrowserEx2ProtocolGuid = { 0xa770c357, 0xb693, 0x4e6d, { 0xa6, 0xcf, 0xd2, 0x1c, 0x72, 0x8e, 0x55, 0xb } }
+
+  ## Include/Protocol/ByoFormSetManager.h
+  gEfiByoFormsetManagerProtocolGuid = { 0x65e4992f, 0xd77c, 0x494d, { 0x9a, 0xd1, 0x68, 0x77, 0x5b, 0xb9, 0x1a, 0xa1 } }
+
+  ## Include/Protocol/SetupSaveNotify.h
+  gSetupSaveNotifyProtocolGuid = { 0xf49499cc, 0x867f, 0x47a8, { 0x82, 0x11, 0x87, 0xb, 0xfb, 0xbe, 0x2d, 0xcd}}
+
+  ## Include/Protocol/LogSetupVariableProtocol.h
+  gEfiLogSetupVariableProtocolGuid = { 0x9ed91861, 0xdf71, 0x47af, { 0xa1, 0x4, 0x6b, 0x7e, 0x63, 0xc7, 0x3b, 0xdc }}
+
+  ## Include/Protocol/SystemPasswordProtocol.h
+  gEfiSystemPasswordProtocolGuid            = { 0xa062211f, 0x7afd, 0x4724, { 0xba, 0xc7, 0xaf, 0x91, 0xbc, 0x7d, 0x8f, 0x6f }}
+
+  ## Include/Protocol/JpegDecoder
+  gEfiJpegDecoderProtocolGuid = {0xa9396a81, 0x6231, 0x4dd7, {0xbd, 0x9b, 0x2e, 0x6b, 0xf7, 0xec, 0x73, 0xc2}}
+
+  ## Include/Protocol/TcmHashSm3.h
+  gTcmHashSm3ProtocolGuid      = {0xfd55aff1, 0x3926, 0x4ae7, {0x9a, 0x1c, 0x88, 0x35, 0x37, 0xbf, 0xbc, 0x93}}
+
+  ## Include/Protocol/TcmService.h
+  gEfiTcmProtocolGuid          = {0xf51d6c88, 0x60d4, 0x44be, {0x84, 0xdf, 0x50, 0xbc, 0xe7, 0x9b, 0x5a, 0xa5}}
+  gTcmUpdateStatusProtocolGuid = { 0x7eebb0a, 0x21e9, 0x49c9, { 0xae, 0x29, 0xf5, 0x32, 0xe4, 0x4e, 0xcd, 0xb8 } }
+  gEfiNzGmProtocolGuid         = {0x6e0b4df9, 0xe86e, 0x4208, { 0xad, 0x14, 0xef, 0x9c, 0xe9, 0xc5, 0xd3, 0xf7}}
+  gEfiSetupMouseProtocolGuid   = {0xa53d7284, 0xc9be, 0x4f8a, { 0xb6, 0x9e, 0x9a, 0xb7, 0x2d, 0x5f, 0x64, 0x36 }}
+  gBdsAllDriversConnectedProtocolGuid = {0xdbc9fd21, 0xfad8, 0x45b0, { 0x9e, 0x78, 0x27, 0x15, 0x88, 0x67, 0xcc, 0x93 }}
+
+  ## Include/Protocol/SpiFlash.h
+  gEfiSpiFlashProtocolGuid = { 0x1156efc6, 0xea32, 0x4396, { 0xb5, 0xd5, 0x26, 0x93, 0x2e, 0x83, 0xc3, 0x13}}
+
+
+[Ppis]
+
+
+[PcdsFeatureFlag]
+
+
+[PcdsFixedAtBuild]
+  ## Specify the foreground color for Subtile text in HII Form Browser. The default value is EFI_BLUE.
+  #  Only following values defined in UEFI specification are valid:<BR><BR>
+  #  0x00 (EFI_BLACK)<BR>
+  #  0x01 (EFI_BLUE)<BR>
+  #  0x02 (EFI_GREEN)<BR>
+  #  0x03 (EFI_CYAN)<BR>
+  #  0x04 (EFI_RED)<BR>
+  #  0x05 (EFI_MAGENTA)<BR>
+  #  0x06 (EFI_BROWN)<BR>
+  #  0x07 (EFI_LIGHTGRAY)<BR>
+  #  0x08 (EFI_DARKGRAY)<BR>
+  #  0x09 (EFI_LIGHTBLUE)<BR>
+  #  0x0A (EFI_LIGHTGREEN)<BR>
+  #  0x0B (EFI_LIGHTCYAN)<BR>
+  #  0x0C (EFI_LIGHTRED)<BR>
+  #  0x0D (EFI_LIGHTMAGENTA)<BR>
+  #  0x0E (EFI_YELLOW)<BR>
+  #  0x0F (EFI_WHITE)<BR>
+  # @Prompt Foreground color for browser subtile.
+  # @ValidRange 0x80000004 | 0x00 - 0x0F
+  gEfiByoModulePkgTokenSpaceGuid.PcdBrowserSubtitleTextColor|0x00|UINT8|0x00030010
+
+  ## Specify the foreground color for prompt and Question value text in HII Form Browser. The default value is EFI_BLUE.
+  #  Only following values defined in UEFI specification are valid:<BR><BR>
+  #  0x00 (EFI_BLACK)<BR>
+  #  0x01 (EFI_BLUE)<BR>
+  #  0x02 (EFI_GREEN)<BR>
+  #  0x03 (EFI_CYAN)<BR>
+  #  0x04 (EFI_RED)<BR>
+  #  0x05 (EFI_MAGENTA)<BR>
+  #  0x06 (EFI_BROWN)<BR>
+  #  0x07 (EFI_LIGHTGRAY)<BR>
+  #  0x08 (EFI_DARKGRAY)<BR>
+  #  0x09 (EFI_LIGHTBLUE)<BR>
+  #  0x0A (EFI_LIGHTGREEN)<BR>
+  #  0x0B (EFI_LIGHTCYAN)<BR>
+  #  0x0C (EFI_LIGHTRED)<BR>
+  #  0x0D (EFI_LIGHTMAGENTA)<BR>
+  #  0x0E (EFI_YELLOW)<BR>
+  #  0x0F (EFI_WHITE)<BR>
+  # @Prompt Foreground color for browser field.
+  # @ValidRange 0x80000004 | 0x00 - 0x0F
+  gEfiByoModulePkgTokenSpaceGuid.PcdBrowserFieldTextColor|0x01|UINT8|0x00030020
+
+  ## Specify the foreground color for highlighted prompt and Question value text in HII Form Browser.
+  #  The default value is EFI_WHITE. Only following values defined in UEFI specification are valid:<BR><BR>
+  #  0x00 (EFI_BLACK)<BR>
+  #  0x01 (EFI_BLUE)<BR>
+  #  0x02 (EFI_GREEN)<BR>
+  #  0x03 (EFI_CYAN)<BR>
+  #  0x04 (EFI_RED)<BR>
+  #  0x05 (EFI_MAGENTA)<BR>
+  #  0x06 (EFI_BROWN)<BR>
+  #  0x07 (EFI_LIGHTGRAY)<BR>
+  #  0x08 (EFI_DARKGRAY)<BR>
+  #  0x09 (EFI_LIGHTBLUE)<BR>
+  #  0x0A (EFI_LIGHTGREEN)<BR>
+  #  0x0B (EFI_LIGHTCYAN)<BR>
+  #  0x0C (EFI_LIGHTRED)<BR>
+  #  0x0D (EFI_LIGHTMAGENTA)<BR>
+  #  0x0E (EFI_YELLOW)<BR>
+  #  0x0F (EFI_WHITE)<BR>
+  # @Prompt Foreground color for highlighted browser field.
+  # @ValidRange 0x80000004 | 0x00 - 0x0F
+  gEfiByoModulePkgTokenSpaceGuid.PcdBrowserFieldTextHighlightColor|0x0F|UINT8|0x00030030
+
+  ## Specify the background color for highlighted prompt and Question value text in HII Form Browser.
+  #  The default value is EFI_BACKGROUND_LIGHTGRAY. Only following values defined in UEFI specification are valid:<BR><BR>
+  #  0x00 (EFI_BACKGROUND_BLACK)<BR>
+  #  0x10 (EFI_BACKGROUND_BLUE)<BR>
+  #  0x20 (EFI_BACKGROUND_GREEN)<BR>
+  #  0x30 (EFI_BACKGROUND_CYAN)<BR>
+  #  0x40 (EFI_BACKGROUND_RED)<BR>
+  #  0x50 (EFI_BACKGROUND_MAGENTA)<BR>
+  #  0x60 (EFI_BACKGROUND_BROWN)<BR>
+  #  0x70 (EFI_BACKGROUND_LIGHTGRAY)<BR>
+  # @Prompt Background color for highlighted browser field.
+  # @ValidList  0x80000005 | 0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70
+  gEfiByoModulePkgTokenSpaceGuid.PcdBrowserFieldBackgroundHighlightColor|0x70|UINT8|0x00030040
+  gEfiByoModulePkgTokenSpaceGuid.PcdSetupMouseEnable|FALSE|BOOLEAN|0x00030060
+
+
+[PcdsDynamic]
+  gEfiByoModulePkgTokenSpaceGuid.PcdTcmEnable|0|UINT8|0x00002034
+  gEfiByoModulePkgTokenSpaceGuid.PcdBrowserHasDataChange|FALSE|BOOLEAN|0x0000202E
+  gEfiByoModulePkgTokenSpaceGuid.PcdTcmClear|0x0|UINT8|0x00003000
+  gEfiByoModulePkgTokenSpaceGuid.PcdMaxPciMmio32Base|0|UINT32|0x00002035
+  
+[PcdsPatchableInModule]
+

@@ -1,0 +1,50 @@
+/*++
+
+Copyright (c) 2010 - 2015, Byosoft Corporation.<BR>
+All rights reserved.This software and associated documentation (if any)
+is furnished under a license and may only be used or copied in
+accordance with the terms of the license. Except as permitted by such
+license, no part of this software or documentation may be reproduced,
+stored in a retrieval system, or transmitted in any form or by any
+means without the express written consent of Byosoft Corporation.
+
+File Name:
+
+Abstract:
+  Platform configuration setup.
+
+Revision History:
+
+
+--*/
+
+#include <SetupVariableSample.h>
+#include <Guid/ByoSetupFormsetGuid.h>
+#include "FormsetConfiguration.h"
+
+formset
+  guid     = FORMSET_GUID_ADVANCE,
+  title    = STRING_TOKEN(FORMSET_TITLE_ADVANCED),
+  help     = STRING_TOKEN(FORMSET_TITLE_ADVANCED_HELP),
+  class    = BYO_FORMSET_CLASS,
+  subclass = BYO_FORMSET_SUB_CLASS,
+
+  SETUP_DATA_VARSTORE
+
+  form formid = ROOT_FORM_ID,
+    title    = STRING_TOKEN(FORMSET_TITLE_MAIN);
+
+    subtitle text = STRING_TOKEN(STR_EMPTY);
+/*
+    numeric varid   = SETUP_DATA.Numlock,
+            prompt  = STRING_TOKEN(FORMSET_TITLE_MAIN),
+            help    = STRING_TOKEN(FORMSET_TITLE_MAIN),
+            minimum = 2,
+            maximum = 0xf0,
+            step    = 1,
+            default = 21,
+    endnumeric;
+*/
+  endform;
+
+endformset;
