@@ -203,6 +203,8 @@ INF  ShellPkg/Application/Shell/Shell.inf
 
 INF  ByoModulePkg/Setup/DisplayEngineDxe/DisplayEngineDxe.inf 
 INF  ByoModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
+INF  ByoModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
+
 [Rule.Common.SEC]
   FILE SEC = $(NAMED_GUID)  {
     PE32     PE32    Align=Auto     $(INF_OUTPUT)/$(MODULE_NAME).efi

@@ -40,9 +40,9 @@ ExitFormCallback (
   EDKII_FORM_DISPLAY_ENGINE_PROTOCOL    *FormDisplay = NULL;
   EDKII_FORM_BROWSER_EXTENSION2_PROTOCOL    *BrowserExtension = NULL;
   UINTN    SaveFlag;
-  LOG_SETUP_VARIABLE_PROTOCOL    *LogVariable = NULL;
-  VARIABLE_LOG_INFO    LogInfo;
-  VARIABLE_OPERATION_INFO    OperationInfo;
+  // LOG_SETUP_VARIABLE_PROTOCOL    *LogVariable = NULL;
+  // VARIABLE_LOG_INFO    LogInfo;
+  // VARIABLE_OPERATION_INFO    OperationInfo;
   CHAR16    *Title;
   
   if (Action != EFI_BROWSER_ACTION_CHANGED) {
@@ -80,29 +80,29 @@ ExitFormCallback (
         Status = BrowserExtension->ExecuteAction(BROWSER_ACTION_SUBMIT, 0);   
 		FreePool(Title);
 
-  if(0){
-    Status = gBS->LocateProtocol (
-                  &gEfiLogSetupVariableProtocolGuid,
-                  NULL,
-                  &LogVariable
-                  );
-    if (!EFI_ERROR(Status)) {
+  // if(0){
+  //   Status = gBS->LocateProtocol (
+  //                 &gEfiLogSetupVariableProtocolGuid,
+  //                 NULL,
+  //                 &LogVariable
+  //                 );
+  //   if (!EFI_ERROR(Status)) {
 
-		OperationInfo.VarType= LOG_VAR_NUM;
-		OperationInfo.Prompt = L"MemoryMode";		
-		OperationInfo.VarInfo.VarStoreName = L"Setup";
-		OperationInfo.VarInfo.VarName = "MemoryMode";		
-		//OperationInfo.VarInfo.VarOffset= SETUP_OFFSET(MemoryMode);
+	// 	OperationInfo.VarType= LOG_VAR_NUM;
+	// 	OperationInfo.Prompt = L"MemoryMode";		
+	// 	OperationInfo.VarInfo.VarStoreName = L"Setup";
+	// 	OperationInfo.VarInfo.VarName = "MemoryMode";		
+	// 	//OperationInfo.VarInfo.VarOffset= SETUP_OFFSET(MemoryMode);
 		
-		LogVariable->AppendOpInfo(LogVariable, &OperationInfo);
+	// 	LogVariable->AppendOpInfo(LogVariable, &OperationInfo);
 
-	do {
+	// do {
 			
-          Status = LogVariable->ExportLogInfo(LogVariable, &LogInfo);
-	} while (!EFI_ERROR(Status));
-	LogVariable->CleanLogInfo(LogVariable);
-    }
-   }
+  //         Status = LogVariable->ExportLogInfo(LogVariable, &LogInfo);
+	// } while (!EFI_ERROR(Status));
+	// LogVariable->CleanLogInfo(LogVariable);
+  //   }
+  //  }
 
         break;
 

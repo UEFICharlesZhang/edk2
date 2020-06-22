@@ -427,7 +427,7 @@
       CustomizedDisplayLib|ByoModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
   }
   ByoModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
-  #ByoModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
+  ByoModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
 [BuildOptions]
   #
   # Disable deprecated APIs.
