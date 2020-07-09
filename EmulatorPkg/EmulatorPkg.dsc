@@ -111,6 +111,7 @@
   SortLib|MdeModulePkg/Library/BaseSortLib/BaseSortLib.inf
   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
+  ShellCEntryLib|ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.inf
 
 [LibraryClasses.common.SEC]
   PeiServicesLib|EmulatorPkg/Library/SecPeiServicesLib/SecPeiServicesLib.inf
@@ -415,6 +416,8 @@
 !endif
 
 !include NetworkPkg/Network.dsc.inc
+
+ EmulatorPkg/Applications/uPD720201WorkShop/uPD720201WorkShop.inf
 
 [BuildOptions]
   #
