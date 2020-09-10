@@ -6,7 +6,7 @@
   to enter BDS phase.
 
 Copyright (c) 2004 - 2019, Intel Corporation. All rights reserved.<BR>
-(C) Copyright 2016 Hewlett Packard Enterprise Development LP<BR>
+(C) Copyright 2016-2019 Hewlett Packard Enterprise Development LP<BR>
 (C) Copyright 2015 Hewlett-Packard Development Company, L.P.<BR>
 SPDX-License-Identifier: BSD-2-Clause-Patent
 
@@ -785,7 +785,7 @@ BdsEntry (
 
   FilePath = FileDevicePath (NULL, EFI_REMOVABLE_MEDIA_FILE_NAME);
   if (FilePath == NULL) {
-    DEBUG ((DEBUG_ERROR, "Fail to allocate memory for defualt boot file path. Unable to boot.\n"));
+    DEBUG ((DEBUG_ERROR, "Fail to allocate memory for default boot file path. Unable to boot.\n"));
     CpuDeadLoop ();
   }
   Status = EfiBootManagerInitializeLoadOption (
@@ -1069,7 +1069,7 @@ BdsEntry (
   }
 
   if (!BootSuccess) {
-    if (PlatformRecovery) {
+    if (PcdGetBool (PcdPlatformRecoverySupport)) {
       LoadOptions = EfiBootManagerGetLoadOptions (&LoadOptionCount, LoadOptionTypePlatformRecovery);
       ProcessLoadOptions (LoadOptions, LoadOptionCount);
       EfiBootManagerFreeLoadOptions (LoadOptions, LoadOptionCount);

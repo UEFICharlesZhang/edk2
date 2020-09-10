@@ -431,7 +431,7 @@ MmLoadImage (
     //
     // Copy the PDB file name to our temporary string, and replace .pdb with .efi
     // The PDB file name is limited in the range of 0~255.
-    // If the length is bigger than 255, trim the redudant characters to avoid overflow in array boundary.
+    // If the length is bigger than 255, trim the redundant characters to avoid overflow in array boundary.
     //
     for (Index = 0; Index < sizeof (EfiFileName) - 4; Index++) {
       EfiFileName[Index] = ImageContext.PdbPointer[Index + StartIndex];
@@ -816,7 +816,7 @@ FvIsBeingProcessed (
 {
   KNOWN_FWVOL   *KnownFwVol;
 
-  DEBUG ((DEBUG_INFO, "FvIsBeingProcessed - 0x%08x\n", KnownFwVol));
+  DEBUG ((DEBUG_INFO, "FvIsBeingProcessed - 0x%08x\n", FwVolHeader));
 
   KnownFwVol = AllocatePool (sizeof (KNOWN_FWVOL));
   ASSERT (KnownFwVol != NULL);

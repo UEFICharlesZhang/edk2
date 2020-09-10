@@ -221,7 +221,7 @@ InternalEditorMiscLineRetreat (
                        >0 : advance
                        <0 : retreat
 
-  @retval NULL An error occured.
+  @retval NULL An error occurred.
   @return The line after advance/retreat.
 **/
 EFI_EDITOR_LINE *
@@ -1602,7 +1602,7 @@ FileBufferSave (
   //
   // set status string
   //
-  Str = CatSPrint (NULL, L"%d Lines Wrote", NumLines);
+  Str = CatSPrint (NULL, L"%d Lines Written", NumLines);
   if (Str == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
@@ -2609,7 +2609,7 @@ RightCurrentScreen (
                      >0 : advance
                      <0: retreat
 
-  @retval NULL An error occured.
+  @retval NULL An error occurred.
   @return The line after advance/retreat.
 **/
 EFI_EDITOR_LINE *

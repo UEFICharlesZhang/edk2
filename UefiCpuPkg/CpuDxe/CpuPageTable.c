@@ -717,7 +717,7 @@ ConvertMemoryPageAttributes (
     return RETURN_INVALID_PARAMETER;
   }
 
-  if ((Attributes & ~(EFI_MEMORY_RP | EFI_MEMORY_RO | EFI_MEMORY_XP)) != 0) {
+  if ((Attributes & ~EFI_MEMORY_ATTRIBUTE_MASK) != 0) {
     DEBUG ((DEBUG_ERROR, "Attributes(0x%lx) has unsupported bit\n", Attributes));
     return EFI_UNSUPPORTED;
   }
@@ -776,7 +776,7 @@ ConvertMemoryPageAttributes (
   }
 
   //
-  // Below logic is to check 2M/4K page to make sure we donot waist memory.
+  // Below logic is to check 2M/4K page to make sure we do not waste memory.
   //
   Status = EFI_SUCCESS;
   while (Length != 0) {
@@ -838,7 +838,7 @@ Done:
 
   Caller should make sure BaseAddress and Length is at page boundary.
 
-  Caller need guarentee the TPL <= TPL_NOTIFY, if there is split page request.
+  Caller need guarantee the TPL <= TPL_NOTIFY, if there is split page request.
 
   @param[in]  PagingContext     The paging context. NULL means get page table from current CPU context.
   @param[in]  BaseAddress       The physical address that is the start address of a memory region.
@@ -969,7 +969,7 @@ RefreshGcdMemoryAttributesFromPaging (
                     );
     if (EFI_ERROR (Status)) {
       //
-      // If we cannot udpate the capabilities, we cannot update its
+      // If we cannot update the capabilities, we cannot update its
       // attributes either. So just simply skip current block of memory.
       //
       DEBUG ((
@@ -1018,9 +1018,9 @@ RefreshGcdMemoryAttributesFromPaging (
 
       Length = MIN (PageLength, MemorySpaceLength);
       if (Attributes != (MemorySpaceMap[Index].Attributes &
-                         EFI_MEMORY_PAGETYPE_MASK)) {
+                         EFI_MEMORY_ATTRIBUTE_MASK)) {
         NewAttributes = (MemorySpaceMap[Index].Attributes &
-                         ~EFI_MEMORY_PAGETYPE_MASK) | Attributes;
+                         ~EFI_MEMORY_ATTRIBUTE_MASK) | Attributes;
         Status = gDS->SetMemorySpaceAttributes (
                         BaseAddress,
                         Length,

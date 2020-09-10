@@ -493,7 +493,7 @@ FmpSetImage (
   // the current variable driver may not manage the new NVRAM region.
   //
   if (mNvRamUpdated) {
-    DEBUG ((DEBUG_INFO, "NvRamUpdated, Update Variable Serivces\n"));
+    DEBUG ((DEBUG_INFO, "NvRamUpdated, Update Variable Services\n"));
     gRT->GetVariable         = GetVariableHook;
     gRT->GetNextVariableName = GetNextVariableNameHook;
     gRT->SetVariable         = SetVariableHook;
@@ -514,7 +514,7 @@ FmpSetImage (
                      sizeof(SystemFmpPrivate->LastAttempt),
                      &SystemFmpPrivate->LastAttempt
                      );
-  DEBUG((DEBUG_INFO, "SetLastAttemp - %r\n", VarStatus));
+  DEBUG((DEBUG_INFO, "SetLastAttempt - %r\n", VarStatus));
 
   return Status;
 }
@@ -681,32 +681,35 @@ FindMatchingFmpHandles (
     //
     // Loop through the set of EFI_FIRMWARE_IMAGE_DESCRIPTORs.
     //
-    FmpImageInfoBuf = OriginalFmpImageInfoBuf;
     MatchFound = FALSE;
-    for (Index2 = 0; Index2 < FmpImageInfoCount; Index2++) {
-      for (Index3 = 0; Index3 < mSystemFmpPrivate->DescriptorCount; Index3++) {
-        MatchFound = CompareGuid (
-                       &FmpImageInfoBuf->ImageTypeId,
-                       &mSystemFmpPrivate->ImageDescriptor[Index3].ImageTypeId
-                       );
+    if (OriginalFmpImageInfoBuf != NULL) {
+      FmpImageInfoBuf = OriginalFmpImageInfoBuf;
+
+      for (Index2 = 0; Index2 < FmpImageInfoCount; Index2++) {
+        for (Index3 = 0; Index3 < mSystemFmpPrivate->DescriptorCount; Index3++) {
+          MatchFound = CompareGuid (
+                        &FmpImageInfoBuf->ImageTypeId,
+                        &mSystemFmpPrivate->ImageDescriptor[Index3].ImageTypeId
+                        );
+          if (MatchFound) {
+            break;
+          }
+        }
         if (MatchFound) {
           break;
         }
+        //
+        // Increment the buffer pointer ahead by the size of the descriptor
+        //
+        FmpImageInfoBuf = (EFI_FIRMWARE_IMAGE_DESCRIPTOR *)(((UINT8 *)FmpImageInfoBuf) + DescriptorSize);
       }
       if (MatchFound) {
-        break;
+        HandleBuffer[*HandleCount] = HandleBuffer[Index];
+        (*HandleCount)++;
       }
-      //
-      // Increment the buffer pointer ahead by the size of the descriptor
-      //
-      FmpImageInfoBuf = (EFI_FIRMWARE_IMAGE_DESCRIPTOR *)(((UINT8 *)FmpImageInfoBuf) + DescriptorSize);
-    }
-    if (MatchFound) {
-      HandleBuffer[*HandleCount] = HandleBuffer[Index];
-      (*HandleCount)++;
-    }
 
-    FreePool (OriginalFmpImageInfoBuf);
+      FreePool (OriginalFmpImageInfoBuf);
+    }
   }
 
   if ((*HandleCount) == 0) {
