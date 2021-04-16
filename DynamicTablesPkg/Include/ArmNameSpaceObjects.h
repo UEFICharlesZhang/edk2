@@ -1,6 +1,6 @@
 /** @file
 
-  Copyright (c) 2017 - 2020, Arm Limited. All rights reserved.<BR>
+  Copyright (c) 2017 - 2021, Arm Limited. All rights reserved.<BR>
 
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
@@ -57,6 +57,7 @@ typedef enum ArmObjectID {
   EArmObjDeviceHandlePci,              ///< 33 - Device Handle Pci
   EArmObjGenericInitiatorAffinityInfo, ///< 34 - Generic Initiator Affinity
   EArmObjSerialPortInfo,               ///< 35 - Generic Serial Port Info
+  EArmObjCmn600Info,                   ///< 36 - CMN-600 Info
   EArmObjMax
 } EARM_OBJECT_ID;
 
@@ -465,16 +466,6 @@ typedef struct CmArmItsGroupNode {
 } CM_ARM_ITS_GROUP_NODE;
 
 /** A structure that describes the
-    GIC ITS Identifiers for an ITS Group node.
-
-    ID: EArmObjGicItsIdentifierArray
-*/
-typedef struct CmArmGicItsIdentifier {
-  /// The ITS Identifier
-  UINT32  ItsId;
-} CM_ARM_ITS_IDENTIFIER;
-
-/** A structure that describes the
     Named component node for the Platform.
 
     ID: EArmObjNamedComponent
@@ -636,6 +627,16 @@ typedef struct CmArmPmcgNode {
 } CM_ARM_PMCG_NODE;
 
 /** A structure that describes the
+    GIC ITS Identifiers for an ITS Group node.
+
+    ID: EArmObjGicItsIdentifierArray
+*/
+typedef struct CmArmGicItsIdentifier {
+  /// The ITS Identifier
+  UINT32  ItsId;
+} CM_ARM_ITS_IDENTIFIER;
+
+/** A structure that describes the
     ID Mappings for the Platform.
 
     ID: EArmObjIdMappingArray
@@ -653,18 +654,35 @@ typedef struct CmArmIdMapping {
   UINT32    Flags;
 } CM_ARM_ID_MAPPING;
 
-/** A structure that describes the
-    SMMU interrupts for the Platform.
-
-    ID: EArmObjSmmuInterruptArray
+/** A structure that describes the Arm
+    Generic Interrupts.
 */
-typedef struct CmArmSmmuInterrupt {
+typedef struct CmArmGenericInterrupt {
   /// Interrupt number
   UINT32    Interrupt;
 
   /// Flags
   UINT32    Flags;
-} CM_ARM_SMMU_INTERRUPT;
+} CM_ARM_GENERIC_INTERRUPT;
+
+/** A structure that describes the SMMU interrupts for the Platform.
+
+    Interrupt   Interrupt number.
+    Flags       Interrupt flags as defined for SMMU node.
+
+    ID: EArmObjSmmuInterruptArray
+*/
+typedef CM_ARM_GENERIC_INTERRUPT CM_ARM_SMMU_INTERRUPT;
+
+/** A structure that describes the AML Extended Interrupts.
+
+    Interrupt   Interrupt number.
+    Flags       Interrupt flags as defined by the Interrupt
+                Vector Flags (Byte 3) of the Extended Interrupt
+                resource descriptor.
+                See EFI_ACPI_EXTENDED_INTERRUPT_FLAG_xxx in Acpi10.h
+*/
+typedef CM_ARM_GENERIC_INTERRUPT CM_ARM_EXTENDED_INTERRUPT;
 
 /** A structure that describes the Processor Hierarchy Node (Type 0) in PPTT
 
@@ -824,6 +842,38 @@ typedef struct CmArmGenericInitiatorAffinityInfo {
   /// Reference Token for the Device Handle
   CM_OBJECT_TOKEN   DeviceHandleToken;
 } CM_ARM_GENERIC_INITIATOR_AFFINITY_INFO;
+
+/** A structure that describes the CMN-600 hardware.
+
+    ID: EArmObjCmn600Info
+*/
+typedef struct CmArmCmn600Info {
+  /// The PERIPHBASE address.
+  /// Corresponds to the Configuration Node Region (CFGR) base address.
+  UINT64                     PeriphBaseAddress;
+
+  /// The PERIPHBASE address length.
+  /// Corresponds to the CFGR base address length.
+  UINT64                     PeriphBaseAddressLength;
+
+  /// The ROOTNODEBASE address.
+  /// Corresponds to the Root node (ROOT) base address.
+  UINT64                     RootNodeBaseAddress;
+
+  /// The Debug and Trace Logic Controller (DTC) count.
+  /// CMN-600 can have maximum 4 DTCs.
+  UINT8                      DtcCount;
+
+  /// DTC Interrupt list.
+  /// The first interrupt resource descriptor pertains to
+  /// DTC[0], the second to DTC[1] and so on.
+  /// DtcCount determines the number of DTC Interrupts that
+  /// are populated. If DTC count is 2 then DtcInterrupt[2]
+  /// and DtcInterrupt[3] are ignored.
+  /// Note: The size of CM_ARM_CMN_600_INFO structure remains
+  /// constant and does not vary with the DTC count.
+  CM_ARM_EXTENDED_INTERRUPT  DtcInterrupt[4];
+} CM_ARM_CMN_600_INFO;
 
 #pragma pack()
 
