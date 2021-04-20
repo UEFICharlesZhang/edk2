@@ -28,6 +28,6 @@
   MdePkg/MdePkg.dec
 
 [BuildOptions]
-   GCC:*_*_X64_DLINK_FLAGS == -o $(BIN_DIR)/$(BASE_NAME) 
-   GCC:*_*_X64_CC_FLAGS == -g  -idirafter/usr/include 
+   GCC:*_*_*_DLINK_FLAGS == -o $(BIN_DIR)/$(BASE_NAME) 
+   GCC:*_*_*_CC_FLAGS == -g  -idirafter/usr/include 
    GCC:*_*_*_DLINK2_FLAGS == -lpthread -ldl
