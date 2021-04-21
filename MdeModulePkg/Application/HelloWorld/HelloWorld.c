@@ -11,6 +11,7 @@
 #include <Library/PcdLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiApplicationEntryPoint.h>
+#include "BaseLibrary.h"
 
 //
 // String token ID of help message text.
@@ -41,7 +42,11 @@ UefiMain (
   )
 {
   UINT32 Index;
+  UINT8 Buffer[7]={0xE4,0xB8,0xAD,0x31,0x32,0x33,0x00};
+  CHAR16 *UniStr;
 
+  UniStr = Utf8StrToUnicodeStr((CHAR8 *)Buffer);
+  Print ((CHAR16*)UniStr);
   Index = 0;
 
   //

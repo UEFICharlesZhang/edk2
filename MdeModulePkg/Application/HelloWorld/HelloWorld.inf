@@ -35,6 +35,7 @@
 
 [Sources]
   HelloWorld.c
+  BaseLibrary.c
   HelloWorldStr.uni
 
 [Packages]
@@ -45,6 +46,7 @@
   UefiApplicationEntryPoint
   UefiLib
   PcdLib
+  MemoryAllocationLib
 
 [FeaturePcd]
   gEfiMdeModulePkgTokenSpaceGuid.PcdHelloWorldPrintEnable   ## CONSUMES
