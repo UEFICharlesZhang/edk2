@@ -205,6 +205,7 @@
 [Components]
   MdeModulePkg/Application/Charles/HelloWorld/HelloWorld.inf
   MdeModulePkg/Application/Charles/HostApp/HostApp.inf
+  MdeModulePkg/Application/Charles/SnpSend/SnpSend.inf
   MdeModulePkg/Application/HelloWorld/HelloWorld.inf
   MdeModulePkg/Application/DumpDynPcd/DumpDynPcd.inf
   MdeModulePkg/Application/MemoryProfileInfo/MemoryProfileInfo.inf
