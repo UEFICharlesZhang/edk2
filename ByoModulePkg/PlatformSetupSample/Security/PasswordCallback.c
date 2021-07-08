@@ -52,7 +52,7 @@ PasswordFormCallback (
   Status = gBS->LocateProtocol (
                   &gEfiSystemPasswordProtocolGuid,
                   NULL,
-                  &SystemPassword
+                  (void *)&SystemPassword
                   );
   if (EFI_ERROR(Status)) {    
     return Status;

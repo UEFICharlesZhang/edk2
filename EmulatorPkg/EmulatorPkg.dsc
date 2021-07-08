@@ -271,7 +271,10 @@
   ##
   #  PEI Phase modules
   ##
-  MdeModulePkg/Core/Pei/PeiMain.inf
+  MdeModulePkg/Core/Pei/PeiMain.inf  {
+   <BuildOptions>
+      *_*_*_CC_FLAGS = -O0
+  }
   MdeModulePkg/Universal/PCD/Pei/Pcd.inf  {
    <LibraryClasses>
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf

@@ -24,7 +24,7 @@ Revision History:
 //
 // module global data.
 //
-EFI_HII_CONFIG_ROUTING_PROTOCOL    *gHiiConfigRouting;
+EFI_HII_CONFIG_ROUTING_PROTOCOL    *mHiiConfigRouting;
 
 HII_VENDOR_DEVICE_PATH  gHiiVendorDevicePath = {
   {
@@ -70,7 +70,7 @@ FORM_CALLBACK_ITEM	gFormCallback[] = {
 };
 
 FORM_INIT_ITEM gFormInit[] = {
-  {FORMSET_MAIN, MainFormInit},
+  {FORMSET_MAIN, (EFI_FORM_INIT )MainFormInit},
 };
 
 STATIC SETUP_SAVE_NOTIFY_PROTOCOL  gSetupSaveNotify;
@@ -136,8 +136,8 @@ HiiExtractConfig (
   //
   // Convert buffer data to <ConfigResp> by helper function BlockToConfig()
   //
-  Status = gHiiConfigRouting->BlockToConfig (
-                                gHiiConfigRouting,
+  Status = mHiiConfigRouting->BlockToConfig (
+                                mHiiConfigRouting,
                                 ConfigRequest,
                                 (UINT8 *) &Private->FakeNvData,
                                 sizeof (SYSTEM_CONFIGURATION),
@@ -387,7 +387,7 @@ InstallPlatformHiiResource (
   Status = gBS->LocateProtocol (
                   &gEfiHiiConfigRoutingProtocolGuid,
                   NULL,
-                  (VOID **) &gHiiConfigRouting
+                  (VOID **) &mHiiConfigRouting
                   );
   if (EFI_ERROR (Status)) {
     return Status;
@@ -410,7 +410,7 @@ InstallPlatformHiiResource (
     gSetupFormSets[Index].CallInfo->Class = gSetupFormSets[Index].Class;
     gSetupFormSets[Index].CallInfo->ConfigAccess.ExtractConfig = HiiExtractConfig;
     gSetupFormSets[Index].CallInfo->ConfigAccess.RouteConfig = HiiRouteConfig;
-    gSetupFormSets[Index].CallInfo->ConfigAccess.Callback = FormCallback;
+    gSetupFormSets[Index].CallInfo->ConfigAccess.Callback = (EFI_HII_ACCESS_FORM_CALLBACK)FormCallback;
 
     //
     // Device Path.
@@ -482,6 +482,7 @@ Finish:
 
 
 VOID
+EFIAPI
 SetupLoadEventCallback (
   IN EFI_EVENT Event,
   IN VOID     *Context
@@ -544,7 +545,7 @@ PlatformSetupDxeInit (
   //
   DriverHandle = NULL;
   ZeroMem(&gSetupSaveNotify, sizeof(SETUP_SAVE_NOTIFY_PROTOCOL));
-  gSetupSaveNotify.LoadDefault = PlatformLoadDefault;
+  gSetupSaveNotify.LoadDefault = (EFI_SETUP_SAVE_LOAD_DEFAULT)PlatformLoadDefault;
   Status = gBS->InstallProtocolInterface (
                   &DriverHandle,
                   &gSetupSaveNotifyProtocolGuid,
