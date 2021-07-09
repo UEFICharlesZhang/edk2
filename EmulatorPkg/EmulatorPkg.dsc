@@ -112,10 +112,10 @@
   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
   FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
 
-  CustomizedDisplayLib|ByoModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
-  PlatformLanguageLib|ByoModulePkg/Library/PlatformLanguageLib/PlatformLanguageLib.inf
+  CustomizedDisplayLib|GwModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
+  PlatformLanguageLib|GwModulePkg/Library/PlatformLanguageLib/PlatformLanguageLib.inf
   BaseCryptLib|CryptoPkg/Library/BaseCryptLib/BaseCryptLib.inf
-  SystemPasswordLib|ByoModulePkg/Library/SystemPasswordLib/SystemPasswordLib.inf 
+  SystemPasswordLib|GwModulePkg/Library/SystemPasswordLib/SystemPasswordLib.inf 
 
   IntrinsicLib|CryptoPkg/Library/IntrinsicLib/IntrinsicLib.inf
   OpensslLib|CryptoPkg/Library/OpensslLib/OpensslLib.inf
@@ -425,12 +425,12 @@
 !endif
 
 !include NetworkPkg/Network.dsc.inc
-  ByoModulePkg/Setup/DisplayEngineDxe/DisplayEngineDxe.inf {
+  GwModulePkg/Setup/DisplayEngineDxe/DisplayEngineDxe.inf {
     <LibraryClasses>
-      CustomizedDisplayLib|ByoModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
+      CustomizedDisplayLib|GwModulePkg/Library/CustomizedDisplayLib/CustomizedDisplayLib.inf
   }
-  ByoModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
-  ByoModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
+  GwModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
+  GwModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
 [BuildOptions]
   #
   # Disable deprecated APIs.

@@ -201,9 +201,9 @@ INF  ShellPkg/DynamicCommand/TftpDynamicCommand/TftpDynamicCommand.inf
 !endif
 INF  ShellPkg/Application/Shell/Shell.inf
 
-INF  ByoModulePkg/Setup/DisplayEngineDxe/DisplayEngineDxe.inf 
-INF  ByoModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
-INF  ByoModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
+INF  GwModulePkg/Setup/DisplayEngineDxe/DisplayEngineDxe.inf 
+INF  GwModulePkg/Setup/SetupBrowserDxe/SetupBrowserDxe.inf
+INF  GwModulePkg/PlatformSetupSample/PlatformSetupDxe.inf
 
 [Rule.Common.SEC]
   FILE SEC = $(NAMED_GUID)  {
