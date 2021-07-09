@@ -75,7 +75,7 @@ MainFormInit (
   SetHiiString (
       Handle,
       STRING_TOKEN(STR_BIOS_VENDOR_VALUE), 
-      L"%s", 
+      // L"%s", 
       L"Byosoft"
     );
  

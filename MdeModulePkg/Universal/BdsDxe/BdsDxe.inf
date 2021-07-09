@@ -37,6 +37,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
+  ByoModulePkg/ByoModulePkg.dec
 
 [LibraryClasses]
   DevicePathLib
@@ -73,12 +74,20 @@
   gConnectConInEventGuid                        ## SOMETIMES_CONSUMES ## Event
   gEdkiiStatusCodeDataTypeVariableGuid          ## SOMETIMES_CONSUMES ## GUID
   gEfiEventReadyToBootGuid                      ## CONSUMES           ## Event
-
+  gEfiFormsetGuidMain
+  gEfiFormsetGuidAdvance
+  gEfiFormsetGuidChipset
+  gEfiFormsetGuidBoot
+  gEfiFormsetGuidSecurity
+  gEfiFormsetGuidExit
+  gEfiEventExitBootServicesGuid
+  
 [Protocols]
   gEfiBdsArchProtocolGuid                       ## PRODUCES
   gEfiSimpleTextInputExProtocolGuid             ## CONSUMES
   gEdkiiVariableLockProtocolGuid                ## SOMETIMES_CONSUMES
   gEfiDeferredImageLoadProtocolGuid             ## CONSUMES
+  gEfiByoFormsetManagerProtocolGuid
 
 [FeaturePcd]
   gEfiMdePkgTokenSpaceGuid.PcdUefiVariableDefaultLangDeprecate    ## CONSUMES

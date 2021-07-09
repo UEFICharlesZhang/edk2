@@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include "Bds.h"
 #include "Language.h"
 #include "HwErrRecSupport.h"
+#include <Guid/ByoSetupFormsetGuid.h>
+#include <Protocol/ByoFormSetManager.h>
 
 #define SET_BOOT_OPTION_SUPPORT_KEY_COUNT(a, c) {  \
       (a) = ((a) & ~EFI_BOOT_OPTION_SUPPORT_COUNT) | (((c) << LowBitSet32 (EFI_BOOT_OPTION_SUPPORT_COUNT)) & EFI_BOOT_OPTION_SUPPORT_COUNT); \
@@ -635,7 +637,38 @@ BdsFormalizeEfiGlobalVariable (
   //
   BdsFormalizeOSIndicationVariable ();
 }
+EFI_STATUS
+EnterSetup (
+  IN LIST_ENTRY *BootOptionsList
+  )
+{
+  EFI_STATUS    Status;
+  EFI_BYO_FORMSET_MANAGER_PROTOCOL    *FormsetManager = NULL;
+  
 
+  Status = gBS->LocateProtocol (
+                  &gEfiByoFormsetManagerProtocolGuid,
+                  NULL,
+                  (VOID**)&FormsetManager
+                  );
+  if (EFI_ERROR(Status)) {
+    DEBUG((EFI_D_ERROR, "RunByoFormset(), Locate Error :gEfiByoFormsetManagerProtocolGuid.\n"));
+    return Status;
+  }
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidMain);
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidAdvance);
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidChipset);
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidBoot);
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidSecurity);
+  FormsetManager->Insert(FormsetManager, &gEfiFormsetGuidExit);
+
+  FormsetManager->Run(FormsetManager, &gEfiFormsetGuidMain);
+
+  // reset system after exit setup
+  gRT->ResetSystem (EfiResetCold, EFI_SUCCESS, 0, NULL);
+
+  return Status;
+}
 /**
 
   Service routine for BdsInstance->Entry(). Devices are connected, the
@@ -904,6 +937,9 @@ BdsEntry (
     DEBUG ((DEBUG_ERROR, "**********************************\n"));
     Print (L"**  WARNING: Test Key is used.  **\n");
   }
+    DEBUG ((DEBUG_ERROR, "Before enter setup\n"));
+    EnterSetup (NULL);
+    DEBUG ((DEBUG_ERROR, "After enter setup\n"));
 
   //
   // Boot to Boot Manager Menu when EFI_OS_INDICATIONS_BOOT_TO_FW_UI is set. Skip HotkeyBoot
