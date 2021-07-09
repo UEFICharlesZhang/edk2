@@ -32,7 +32,6 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Protocol/SetupSaveNotify.h>
 
 #include <Guid/MdeModuleHii.h>
-#include <Guid/TcSetupCfgGuid.h>
 
 //
 // This is the generated header file which includes whatever needs to be exported (strings + IFR)
