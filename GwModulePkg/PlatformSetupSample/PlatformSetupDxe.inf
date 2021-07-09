@@ -51,8 +51,6 @@
   GwModulePkg/GwModulePkg.dec
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
-  IntelFrameworkPkg/IntelFrameworkPkg.dec
-  IntelFrameworkModulePkg/IntelFrameworkModulePkg.dec
 
 [LibraryClasses]
   DevicePathLib
@@ -78,11 +76,6 @@
 
 [Guids]
   gPlatformSetupVariableGuid
-  gFrontPageFormSetGuid                         ## SOMETIMES_CONSUMES ## HII # FrontPage HII Package
-  gBootMaintFormSetGuid                         ## SOMETIMES_CONSUMES ## HII # BootMaint HII Package
-  gFileExploreFormSetGuid                       ## SOMETIMES_CONSUMES ## HII # FileExplore HII Package
-  gBootManagerFormSetGuid                       ## SOMETIMES_CONSUMES ## HII # BootManager HII Package
-  gDeviceManagerFormSetGuid                     ## SOMETIMES_CONSUMES ## HII # DeviceManager HII Package
   gEfiByoSetupEnteringGuid
   gEfiSystemPasswordVariableGuid
   

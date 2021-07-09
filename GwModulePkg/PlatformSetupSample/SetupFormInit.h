@@ -25,7 +25,7 @@ Revision History:
 EFI_STRING_ID 
 SetHiiString (
   EFI_HII_HANDLE HiiHandle, 
-  STRING_REF     StrRef, 
+  UINT16     StrRef, 
   CHAR16         *sFormat, ...
   );
 

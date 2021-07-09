@@ -21,7 +21,6 @@ Revision History:
 #ifndef _PLAT_OVER_MNGR_H_
 #define _PLAT_OVER_MNGR_H_
 
-#include <FrameworkDxe.h>
 #include <Protocol/HiiConfigAccess.h>
 #include <Protocol/HiiConfigRouting.h>
 #include <Protocol/HiiDatabase.h>
@@ -38,12 +37,9 @@ Revision History:
 #include <Protocol/DevicePathToText.h>
 #include <Protocol/DevicePath.h>
 #include <Protocol/PlatformDriverOverride.h>
-#include <Protocol/DataHub.h>
 #include <Guid/MdeModuleHii.h>
 #include <Guid/VariableFormat.h>
-#include <Guid/DataHubRecords.h>
 #include <Protocol/SimpleTextIn.h>
-#include <Protocol/FrameworkFormBrowser.h>
 #include <Protocol/SetupSaveNotify.h>
 
 #include <Library/BaseLib.h>
