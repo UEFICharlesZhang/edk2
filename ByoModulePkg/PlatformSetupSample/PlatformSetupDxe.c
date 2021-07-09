@@ -70,7 +70,7 @@ FORM_CALLBACK_ITEM	gFormCallback[] = {
 };
 
 FORM_INIT_ITEM gFormInit[] = {
-  {FORMSET_MAIN, (EFI_FORM_INIT )MainFormInit},
+  {FORMSET_MAIN, MainFormInit},
 };
 
 STATIC SETUP_SAVE_NOTIFY_PROTOCOL  gSetupSaveNotify;

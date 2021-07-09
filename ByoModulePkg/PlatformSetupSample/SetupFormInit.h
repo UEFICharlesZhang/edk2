@@ -40,6 +40,7 @@ GetToken (
 
 **/
 EFI_STATUS
+EFIAPI
 MainFormInit (
   IN EFI_HII_HANDLE    Handle
   );
