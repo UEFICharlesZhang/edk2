@@ -63,7 +63,7 @@
   gEfiIfrFrameworkGuid                          ## SOMETIMES_CONSUMES  ## GUID
   gEfiHiiPlatformSetupFormsetGuid               ## SOMETIMES_CONSUMES  ## GUID
   gEfiHiiStandardFormGuid                       ## SOMETIMES_CONSUMES  ## GUID
-  gEfiByoSetupEnteringGuid
+  gEfiGwSetupEnteringGuid
   
 [Protocols]
   gEfiHiiConfigAccessProtocolGuid               ## SOMETIMES_CONSUMES
@@ -79,7 +79,7 @@
   gEdkiiFormDisplayEngineProtocolGuid
   gEfiFormBrowserExProtocolGuid                 ## PRODUCES
   #gEfiRegularExpressionProtocolGuid             ## CONSUMES
-  gEfiByoFormsetManagerProtocolGuid             ## PRODUCES
+  gEfiGwFormsetManagerProtocolGuid             ## PRODUCES
   gSetupSaveNotifyProtocolGuid
 
 #[FeaturePcd]

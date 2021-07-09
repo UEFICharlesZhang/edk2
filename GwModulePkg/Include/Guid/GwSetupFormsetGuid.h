@@ -18,8 +18,8 @@ Revision History:
 
 --*/
 
-#ifndef __BYO_SETUP_FORMSET_GUID_H__
-#define __BYO_SETUP_FORMSET_GUID_H__
+#ifndef __GW_SETUP_FORMSET_GUID_H__
+#define __GW_SETUP_FORMSET_GUID_H__
 
   #define FORMSET_GUID_MAIN \
     { \

@@ -18,11 +18,11 @@
 ##
 
 [Defines]
-  PLATFORM_NAME                  = ByoModule
+  PLATFORM_NAME                  = GwModule
   PLATFORM_GUID                  = D9FBEF68-0995-47A4-9EA8-73FAD163715E
   PLATFORM_VERSION               = 0.01
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/ByoModule
+  OUTPUT_DIRECTORY               = Build/GwModule
   SUPPORTED_ARCHITECTURES        = IA32|X64
   BUILD_TARGETS                  = DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT

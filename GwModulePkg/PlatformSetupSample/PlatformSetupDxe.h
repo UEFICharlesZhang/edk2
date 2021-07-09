@@ -58,9 +58,9 @@ Revision History:
 #include <IndustryStandard/Pci22.h>
 
 #include <SetupVariableSample.h>
-#include <Guid/ByoSetupFormsetGuid.h>
+#include <Guid/GwSetupFormsetGuid.h>
 //#include <Protocol/LogSetupVariableProtocol.h>
-#include <Protocol/ByoFormSetManager.h>
+#include <Protocol/GwFormSetManager.h>
 #include "FormsetConfiguration.h"
 #include "SetupFormInit.h"
 

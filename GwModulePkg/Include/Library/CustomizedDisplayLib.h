@@ -396,11 +396,11 @@ GetSubTitleTextColor (
   );
   
 /**
-  Check whether formset is in ByoFormSetList.
+  Check whether formset is in GwFormSetList.
 
 **/
 BOOLEAN
-IsByoFormset (
+IsGwFormset (
   IN  FORM_DISPLAY_ENGINE_FORM  *FormData
   );
 

@@ -745,7 +745,7 @@ UpdateDisplayFormData (
   )
 {
   LIST_ENTRY    *Link;
-  BYO_BROWSER_FORMSET    *ByoFormSet;
+  GW_BROWSER_FORMSET    *GwFormSet;
 
   gDisplayFormData.FormTitle        = gCurrentSelection->Form->FormTitle;
   gDisplayFormData.FormId           = gCurrentSelection->FormId;
@@ -758,21 +758,21 @@ UpdateDisplayFormData (
 
   gDisplayFormData.FormRefreshEvent     = NULL;
   gDisplayFormData.HighLightedStatement = NULL;
-  gDisplayFormData.ByoFormSetList = &gByoFormsetManager->ByoFormSetList;
+  gDisplayFormData.GwFormSetList = &gGwFormsetManager->GwFormSetList;
 
   //
-  // Get gCurrentFormSetLink From ByoFormSetList.
+  // Get gCurrentFormSetLink From GwFormSetList.
   //
-  if (NULL != gDisplayFormData.ByoFormSetList) {
-    Link = GetFirstNode (gDisplayFormData.ByoFormSetList);
-    while (!IsNull (gDisplayFormData.ByoFormSetList, Link)) {
-      ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-      if (CompareGuid(&ByoFormSet->Guid, &gDisplayFormData.FormSetGuid)) {
-        gDisplayFormData.ByoCurrentFormSetLink = Link;
-        ByoFormSet->FirstFormId = GetFirstFormId (ByoFormSet->HiiHandle, &ByoFormSet->Guid);
+  if (NULL != gDisplayFormData.GwFormSetList) {
+    Link = GetFirstNode (gDisplayFormData.GwFormSetList);
+    while (!IsNull (gDisplayFormData.GwFormSetList, Link)) {
+      GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+      if (CompareGuid(&GwFormSet->Guid, &gDisplayFormData.FormSetGuid)) {
+        gDisplayFormData.GwCurrentFormSetLink = Link;
+        GwFormSet->FirstFormId = GetFirstFormId (GwFormSet->HiiHandle, &GwFormSet->Guid);
         break;
       }
-      Link = GetNextNode (gDisplayFormData.ByoFormSetList, Link);
+      Link = GetNextNode (gDisplayFormData.GwFormSetList, Link);
     }
   }
 
@@ -992,7 +992,7 @@ ProcessAction (
   IN UINT16        DefaultId
   )
 {
-  BYO_BROWSER_FORMSET    *ByoFormSet;
+  GW_BROWSER_FORMSET    *GwFormSet;
   
   //
   // This is caused by use press ESC, and it should not combine with other action type.
@@ -1039,12 +1039,12 @@ ProcessAction (
       gCurrentSelection->Action = UI_ACTION_EXIT;
     }
   }
-  if ((Action & BROWSER_ACTION_GOTO_BYO) == BROWSER_ACTION_GOTO_BYO) {
+  if ((Action & BROWSER_ACTION_GOTO_GW) == BROWSER_ACTION_GOTO_GW) {
     mHiiPackageListUpdated = TRUE;
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (gDisplayFormData.ByoCurrentFormSetLink);
-    gCurrentSelection->Handle = ByoFormSet->HiiHandle;
-    gCurrentSelection->FormId = ByoFormSet->FirstFormId;
-    CopyMem (&gCurrentSelection->FormSetGuid, &ByoFormSet->Guid, sizeof (EFI_GUID));
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (gDisplayFormData.GwCurrentFormSetLink);
+    gCurrentSelection->Handle = GwFormSet->HiiHandle;
+    gCurrentSelection->FormId = GwFormSet->FirstFormId;
+    CopyMem (&gCurrentSelection->FormSetGuid, &GwFormSet->Guid, sizeof (EFI_GUID));
   }
 
   
@@ -2080,7 +2080,7 @@ ProcessCallBackFunction (
   EFI_IFR_TYPE_VALUE              BackUpValue;
   UINT8                           *BackUpBuffer;
   CHAR16                          *NewString;
-  BYO_BROWSER_FORMSET    *ByoFormSet;
+  GW_BROWSER_FORMSET    *GwFormSet;
   
   ConfigAccess = FormSet->ConfigAccess;
   SubmitFormIsRequired  = FALSE;
@@ -2310,9 +2310,9 @@ ProcessCallBackFunction (
   }
 
   if (NeedExit) {
-    if (NULL != gDisplayFormData.ByoCurrentFormSetLink) {
-      ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (gDisplayFormData.ByoCurrentFormSetLink);        
-      if ((ByoFormSet->FirstFormId == gDisplayFormData.FormId ) && IsByoFormset(&gDisplayFormData)) {
+    if (NULL != gDisplayFormData.GwCurrentFormSetLink) {
+      GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (gDisplayFormData.GwCurrentFormSetLink);        
+      if ((GwFormSet->FirstFormId == gDisplayFormData.FormId ) && IsGwFormset(&gDisplayFormData)) {
         gExitRequired = TRUE;
       } else {
         FindNextMenu (Selection, SettingLevel);

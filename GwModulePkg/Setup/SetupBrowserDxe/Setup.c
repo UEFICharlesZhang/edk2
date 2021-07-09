@@ -73,7 +73,7 @@ extern EFI_HII_HANDLE  mCurrentHiiHandle;
 extern UINT16          mCurrentFormId;
 extern FORM_DISPLAY_ENGINE_FORM gDisplayFormData;
 
-EFI_BYO_FORMSET_MANAGER_PROTOCOL    *gByoFormsetManager = NULL;
+EFI_GW_FORMSET_MANAGER_PROTOCOL    *gGwFormsetManager = NULL;
 
 /**
   Create a menu with specified formset GUID and form ID, and add it as a child
@@ -503,7 +503,7 @@ SendForm (
   Status         = EFI_SUCCESS;
   gEmptyString   = L"";
   gDisplayFormData.ScreenDimensions = (EFI_SCREEN_DESCRIPTOR *) ScreenDimensions;
-  gDisplayFormData.ByoCurrentFormSetLink = NULL;
+  gDisplayFormData.GwCurrentFormSetLink = NULL;
 
   for (Index = 0; Index < HandleCount; Index++) {
     Selection = AllocateZeroPool (sizeof (UI_MENU_SELECTION));
@@ -713,7 +713,7 @@ SignalEnterSetupEvent (
     bSignal = TRUE;  	
     Status = gBS->InstallProtocolInterface (
                   &Handle,
-                  &gEfiByoSetupEnteringGuid,
+                  &gEfiGwSetupEnteringGuid,
                   EFI_NATIVE_INTERFACE,
                   NULL
                   );
@@ -725,17 +725,17 @@ SignalEnterSetupEvent (
 }
 
 /**
-  Inset  Byo Formset to ByoFormSetList.
+  Inset  Gw Formset to GwFormSetList.
 
 **/
 EFI_STATUS
-InsertByoFormset (
-  IN EFI_BYO_FORMSET_MANAGER_PROTOCOL    *This,
+InsertGwFormset (
+  IN EFI_GW_FORMSET_MANAGER_PROTOCOL    *This,
   IN EFI_GUID    *FormsetGuid
   )
 {
   EFI_STATUS    Status = EFI_SUCCESS;
-  BYO_BROWSER_FORMSET    * ByoFormSet = NULL;
+  GW_BROWSER_FORMSET    * GwFormSet = NULL;
   LIST_ENTRY    *Link;
   EFI_HII_HANDLE  FormSetHandle;
 
@@ -752,51 +752,51 @@ InsertByoFormset (
   //
   //  Look for the same node.
   //
-  Link = GetFirstNode (&This->ByoFormSetList);
-  while (!IsNull (&This->ByoFormSetList, Link)) {
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-    Link = GetNextNode (&This->ByoFormSetList, Link);
-    if (CompareGuid(&ByoFormSet->Guid, FormsetGuid)) {
-      DEBUG((EFI_D_ERROR, "InsertByoFormset(), GUID have be registered.\n"));
+  Link = GetFirstNode (&This->GwFormSetList);
+  while (!IsNull (&This->GwFormSetList, Link)) {
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+    Link = GetNextNode (&This->GwFormSetList, Link);
+    if (CompareGuid(&GwFormSet->Guid, FormsetGuid)) {
+      DEBUG((EFI_D_ERROR, "InsertGwFormset(), GUID have be registered.\n"));
       return EFI_INVALID_PARAMETER;
     }
   }
   //
   // Insert new node.
   //
-  ByoFormSet = AllocateZeroPool (sizeof (BYO_BROWSER_FORMSET));
-  ASSERT (ByoFormSet != NULL);
-  ByoFormSet->Signature = BYO_FORM_BROWSER_FORMSET_SIGNATURE;
-  CopyMem (&ByoFormSet->Guid, FormsetGuid, sizeof (EFI_GUID));
-  ByoFormSet->HiiHandle = FormSetHandle;
+  GwFormSet = AllocateZeroPool (sizeof (GW_BROWSER_FORMSET));
+  ASSERT (GwFormSet != NULL);
+  GwFormSet->Signature = GW_FORM_BROWSER_FORMSET_SIGNATURE;
+  CopyMem (&GwFormSet->Guid, FormsetGuid, sizeof (EFI_GUID));
+  GwFormSet->HiiHandle = FormSetHandle;
 
-  InsertTailList (&This->ByoFormSetList, &ByoFormSet->Link);
+  InsertTailList (&This->GwFormSetList, &GwFormSet->Link);
 
   return Status;
 }
 
 /**
-  Remove  Formset from ByoFormSetList.
+  Remove  Formset from GwFormSetList.
 
 **/
 EFI_STATUS
-RemoveByoFormset (
-  IN EFI_BYO_FORMSET_MANAGER_PROTOCOL    *This,
+RemoveGwFormset (
+  IN EFI_GW_FORMSET_MANAGER_PROTOCOL    *This,
   IN EFI_GUID    *FormsetGuid
   )
 {
   EFI_STATUS    Status = EFI_SUCCESS;
   LIST_ENTRY    *Link;
-  BYO_BROWSER_FORMSET   *ByoFormSet = NULL;
+  GW_BROWSER_FORMSET   *GwFormSet = NULL;
 
-  Link = GetFirstNode (&This->ByoFormSetList);
-  while (!IsNull (&This->ByoFormSetList, Link)) {
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-    Link = GetNextNode (&This->ByoFormSetList, Link);
+  Link = GetFirstNode (&This->GwFormSetList);
+  while (!IsNull (&This->GwFormSetList, Link)) {
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+    Link = GetNextNode (&This->GwFormSetList, Link);
 
-    if (CompareGuid(&ByoFormSet->Guid, FormsetGuid)) {
-      RemoveEntryList(&ByoFormSet->Link);
-      FreePool(ByoFormSet);
+    if (CompareGuid(&GwFormSet->Guid, FormsetGuid)) {
+      RemoveEntryList(&GwFormSet->Link);
+      FreePool(GwFormSet);
     }
   }
 
@@ -809,38 +809,38 @@ RemoveByoFormset (
 
 **/
 EFI_STATUS
-RunByoFormset (
-  IN EFI_BYO_FORMSET_MANAGER_PROTOCOL    *This,
+RunGwFormset (
+  IN EFI_GW_FORMSET_MANAGER_PROTOCOL    *This,
   IN EFI_GUID    *FormsetGuid
   )
 {
   EFI_STATUS                    Status = EFI_SUCCESS;
   LIST_ENTRY                    *Link;
   EFI_BROWSER_ACTION_REQUEST    ActionRequest;
-  BYO_BROWSER_FORMSET           *ByoFormSet = NULL;
+  GW_BROWSER_FORMSET           *GwFormSet = NULL;
   BOOLEAN                       bFound;
 
   gST->ConOut->EnableCursor(gST->ConOut, FALSE);
 
   //
-  // Check ByoFormSetList.
+  // Check GwFormSetList.
   //
-  if (IsListEmpty(&This->ByoFormSetList)) {
+  if (IsListEmpty(&This->GwFormSetList)) {
     return EFI_NOT_FOUND;
   }
 
   //
   // Initialize all HiiHandle.
   //
-  Link = GetFirstNode (&This->ByoFormSetList);
-  while (!IsNull (&This->ByoFormSetList, Link)) {
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-    Link = GetNextNode (&This->ByoFormSetList, Link);
+  Link = GetFirstNode (&This->GwFormSetList);
+  while (!IsNull (&This->GwFormSetList, Link)) {
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+    Link = GetNextNode (&This->GwFormSetList, Link);
 
     GetFormsetInfoFromGuid (
-      &ByoFormSet->Guid,
-      &ByoFormSet->HiiHandle,
-      &ByoFormSet->FormSetTitle
+      &GwFormSet->Guid,
+      &GwFormSet->HiiHandle,
+      &GwFormSet->FormSetTitle
       );
   }
   //
@@ -848,32 +848,32 @@ RunByoFormset (
   //
   bFound = FALSE;
   if (NULL == FormsetGuid) {
-    Link = GetFirstNode (&This->ByoFormSetList);
-    if (!IsNull (&This->ByoFormSetList, Link)) {
+    Link = GetFirstNode (&This->GwFormSetList);
+    if (!IsNull (&This->GwFormSetList, Link)) {
       bFound = TRUE;
-      ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+      GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
     }
   } else {
     //
     //Look for Runed Guid.
     //
-    Link = GetFirstNode (&This->ByoFormSetList);
-    while (!IsNull (&This->ByoFormSetList, Link)) {
-      ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-      if (CompareGuid(&ByoFormSet->Guid, FormsetGuid)) {
+    Link = GetFirstNode (&This->GwFormSetList);
+    while (!IsNull (&This->GwFormSetList, Link)) {
+      GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+      if (CompareGuid(&GwFormSet->Guid, FormsetGuid)) {
         bFound = TRUE;
         break;
       }
-      Link = GetNextNode (&This->ByoFormSetList, Link);
+      Link = GetNextNode (&This->GwFormSetList, Link);
     }
     //
     // if not find Runed Guid, then run the first.
     //
     if (FALSE == bFound) {
-      Link = GetFirstNode (&This->ByoFormSetList);
-      if (!IsNull (&This->ByoFormSetList, Link)) {
+      Link = GetFirstNode (&This->GwFormSetList);
+      if (!IsNull (&This->GwFormSetList, Link)) {
         bFound = TRUE;
-        ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+        GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
       }
     }
   }
@@ -890,9 +890,9 @@ RunByoFormset (
   //
   Status = SendForm (
                  &mPrivateData.FormBrowser2,
-                 &ByoFormSet->HiiHandle,
+                 &GwFormSet->HiiHandle,
                  1,
-                 &ByoFormSet->Guid,
+                 &GwFormSet->Guid,
                  0,
                  NULL,
                  &ActionRequest
@@ -901,13 +901,13 @@ RunByoFormset (
   //
   // After SendForm, Remove all Formset info.
   //
-  Link = GetFirstNode (&This->ByoFormSetList);
-  while (!IsNull (&This->ByoFormSetList, Link)) {
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
-    Link = GetNextNode (&This->ByoFormSetList, Link);
+  Link = GetFirstNode (&This->GwFormSetList);
+  while (!IsNull (&This->GwFormSetList, Link)) {
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+    Link = GetNextNode (&This->GwFormSetList, Link);
 
-    RemoveEntryList(&ByoFormSet->Link);
-    FreePool(ByoFormSet);
+    RemoveEntryList(&GwFormSet->Link);
+    FreePool(GwFormSet);
   }
 
   if (EFI_BROWSER_ACTION_REQUEST_RESET == ActionRequest) {
@@ -938,50 +938,50 @@ SetupCheckFormsetWithGuid (
 }
 
 /**
-  Install Byo Formset Manager Protocol.
+  Install Gw Formset Manager Protocol.
 
 **/
 EFI_STATUS
-InstallByoFormsetManagerProtocol (
+InstallGwFormsetManagerProtocol (
   VOID
   )
 {
   EFI_STATUS    Status = EFI_SUCCESS;
   EFI_HANDLE    Handle = NULL;
-  EFI_BYO_FORMSET_MANAGER_PROTOCOL    *FormsetManager = NULL;
+  EFI_GW_FORMSET_MANAGER_PROTOCOL    *FormsetManager = NULL;
 
-  DEBUG((EFI_D_INFO, "InstallByoFormsetManagerProtocol(),\n"));
+  DEBUG((EFI_D_INFO, "InstallGwFormsetManagerProtocol(),\n"));
   Status = gBS->LocateProtocol (
-                  &gEfiByoFormsetManagerProtocolGuid,
+                  &gEfiGwFormsetManagerProtocolGuid,
                   NULL,
                   (VOID**)&FormsetManager
                   );
   if ( ! EFI_ERROR(Status) ) {
-    DEBUG((EFI_D_ERROR, "InstallByoFormsetManagerProtocol(), Protocol Already Started.\n"));
-    gByoFormsetManager = FormsetManager;
+    DEBUG((EFI_D_ERROR, "InstallGwFormsetManagerProtocol(), Protocol Already Started.\n"));
+    gGwFormsetManager = FormsetManager;
     return EFI_ALREADY_STARTED;
   }
 
-  FormsetManager = AllocateZeroPool (sizeof(EFI_BYO_FORMSET_MANAGER_PROTOCOL));
+  FormsetManager = AllocateZeroPool (sizeof(EFI_GW_FORMSET_MANAGER_PROTOCOL));
   if (FormsetManager == NULL) {
     return EFI_OUT_OF_RESOURCES;
   }
 
-  InitializeListHead (&FormsetManager->ByoFormSetList);
-  FormsetManager->Insert = InsertByoFormset;
-  FormsetManager->Remove = RemoveByoFormset;
-  FormsetManager->Run = RunByoFormset;
+  InitializeListHead (&FormsetManager->GwFormSetList);
+  FormsetManager->Insert = InsertGwFormset;
+  FormsetManager->Remove = RemoveGwFormset;
+  FormsetManager->Run = RunGwFormset;
   //FormsetManager->CheckPassword = SetupCheckPassword;
   FormsetManager->CheckFormset =  SetupCheckFormsetWithGuid;
 
   Status = gBS->InstallProtocolInterface (
                  &Handle,
-                 &gEfiByoFormsetManagerProtocolGuid,
+                 &gEfiGwFormsetManagerProtocolGuid,
                  EFI_NATIVE_INTERFACE,
                  FormsetManager
                  );
 
-  gByoFormsetManager = FormsetManager;
+  gGwFormsetManager = FormsetManager;
 
   return Status;
 }
@@ -1345,9 +1345,9 @@ InitializeSetup (
   }
 
   //
-  // Install Byo Formset Manager Protocol.
+  // Install Gw Formset Manager Protocol.
   //
-  InstallByoFormsetManagerProtocol();
+  InstallGwFormsetManagerProtocol();
 
   return EFI_SUCCESS;
 }

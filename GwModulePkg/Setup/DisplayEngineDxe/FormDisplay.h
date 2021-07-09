@@ -28,7 +28,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Protocol/FormBrowserEx2.h>
 #include <Protocol/SimpleTextIn.h>
 #include <Protocol/DisplayProtocol.h>
-#include <Protocol/ByoFormSetManager.h>
+#include <Protocol/GwFormSetManager.h>
 #include <Protocol/SetupSaveNotify.h>
 
 #include <Guid/MdeModuleHii.h>

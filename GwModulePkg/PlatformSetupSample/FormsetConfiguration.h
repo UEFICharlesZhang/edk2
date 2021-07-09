@@ -21,8 +21,8 @@ Revision History:
 #ifndef _FORMSET_CONFIGURATION_H
 #define _FORMSET_CONFIGURATION_H
 
-#define BYO_FORMSET_CLASS                       0
-#define BYO_FORMSET_SUB_CLASS                   0
+#define GW_FORMSET_CLASS                       0
+#define GW_FORMSET_SUB_CLASS                   0
 #define ROOT_FORM_ID                        1
 #define KEY_UNASSIGN_GROUP            0xFFFF
 

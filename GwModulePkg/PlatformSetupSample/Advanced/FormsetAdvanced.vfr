@@ -19,15 +19,15 @@ Revision History:
 --*/
 
 #include <SetupVariableSample.h>
-#include <Guid/ByoSetupFormsetGuid.h>
+#include <Guid/GwSetupFormsetGuid.h>
 #include "FormsetConfiguration.h"
 
 formset
   guid     = FORMSET_GUID_ADVANCE,
   title    = STRING_TOKEN(FORMSET_TITLE_ADVANCED),
   help     = STRING_TOKEN(FORMSET_TITLE_ADVANCED_HELP),
-  class    = BYO_FORMSET_CLASS,
-  subclass = BYO_FORMSET_SUB_CLASS,
+  class    = GW_FORMSET_CLASS,
+  subclass = GW_FORMSET_SUB_CLASS,
 
   SETUP_DATA_VARSTORE
 

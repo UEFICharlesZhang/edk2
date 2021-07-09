@@ -33,7 +33,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Protocol/UserManager.h>
 #include <Protocol/DevicePathFromText.h>
 //#include <Protocol/RegularExpressionProtocol.h>
-#include <Protocol/ByoFormSetManager.h>
+#include <Protocol/GwFormSetManager.h>
 #include <Protocol/SetupSaveNotify.h>
 
 #include <Guid/MdeModuleHii.h>
@@ -585,7 +585,7 @@ extern EFI_GUID          gZeroGuid;
 
 extern UI_MENU_SELECTION  *gCurrentSelection;
 
-extern EFI_BYO_FORMSET_MANAGER_PROTOCOL    *gByoFormsetManager;
+extern EFI_GW_FORMSET_MANAGER_PROTOCOL    *gGwFormsetManager;
 
 //
 // Global Procedure Defines

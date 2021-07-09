@@ -63,7 +63,7 @@ DisplayPageFrame (
 {
   EFI_STATUS             Status;
   UINTN    LayoutStyle;
-  BYO_BROWSER_FORMSET    *ByoFormSet;
+  GW_BROWSER_FORMSET    *GwFormSet;
 
   ASSERT (FormData != NULL && ScreenForStatement != NULL);
   if (FormData == NULL || ScreenForStatement == NULL) {
@@ -74,16 +74,16 @@ DisplayPageFrame (
   //Get layout style. 0, for main menu; 1, for sub menu.
   //
   LayoutStyle = 1;
-  if (NULL != FormData->ByoCurrentFormSetLink) {
-    ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (FormData->ByoCurrentFormSetLink);
-    if (ByoFormSet->HiiHandle == FormData->HiiHandle) {
-      if (ByoFormSet->FirstFormId == FormData->FormId) {
+  if (NULL != FormData->GwCurrentFormSetLink) {
+    GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (FormData->GwCurrentFormSetLink);
+    if (GwFormSet->HiiHandle == FormData->HiiHandle) {
+      if (GwFormSet->FirstFormId == FormData->FormId) {
         LayoutStyle = 0;
         gLastFormId = 0xFFFF;
       } 
     } 
   }
-  FormData->ByoLayoutStyle = LayoutStyle;    
+  FormData->GwLayoutStyle = LayoutStyle;    
   
   Status = ScreenDiemensionInfoValidate (FormData);
   if (EFI_ERROR (Status)) {
@@ -1083,7 +1083,7 @@ CreateHelpDialog (
   PrintCharAt (StartColum + 45, StartRow +1, Character);
   
   gST->ConOut->SetAttribute (gST->ConOut, EFI_LIGHTGRAY | EFI_BACKGROUND_BLUE);
-  PrintStringAt(StartColum + (45 - StrLen (gByoGeneralHelp)) / 2, StartRow + 1, gByoGeneralHelp);
+  PrintStringAt(StartColum + (45 - StrLen (gGwGeneralHelp)) / 2, StartRow + 1, gGwGeneralHelp);
 
   //
   //Line 3.
@@ -1118,14 +1118,14 @@ CreateHelpDialog (
   // Help Info.
   //
   gST->ConOut->SetAttribute (gST->ConOut, EFI_LIGHTGRAY | EFI_BACKGROUND_BLUE);
-  PrintStringAt(StartColum + 2, StartRow + 4, gByoGeneralHelp1);
-  PrintStringAt(StartColum + 2, StartRow + 5, gByoGeneralHelp2);
+  PrintStringAt(StartColum + 2, StartRow + 4, gGwGeneralHelp1);
+  PrintStringAt(StartColum + 2, StartRow + 5, gGwGeneralHelp2);
   PrintAt(HelpWidth / 2, StartColum + 2, StartRow +6, L"%c%c%c%c%s",ARROW_UP,ARROW_DOWN,0x20,0x20,gKeyUpDownHelp);
-  PrintAt(HelpWidth / 2, StartColum + 23, StartRow +6 , L"%c%c%c%c%c%c%s",ARROW_LEFT,ARROW_RIGHT,0x20,0x20,0x20,0x20,gByoKeyLeftRightHelp);
-  PrintStringAt(StartColum + 2, StartRow + 7, gByoGeneralHelp3);
+  PrintAt(HelpWidth / 2, StartColum + 23, StartRow +6 , L"%c%c%c%c%c%c%s",ARROW_LEFT,ARROW_RIGHT,0x20,0x20,0x20,0x20,gGwKeyLeftRightHelp);
+  PrintStringAt(StartColum + 2, StartRow + 7, gGwGeneralHelp3);
 
   gST->ConOut->SetAttribute (gST->ConOut, EFI_WHITE | EFI_BACKGROUND_CYAN);
-  PrintStringAt((StartColum + (45 - StrLen (gByoContinue)) / 2), StartRow + 9, gByoContinue);
+  PrintStringAt((StartColum + (45 - StrLen (gGwContinue)) / 2), StartRow + 9, gGwContinue);
   gST->ConOut->SetCursorPosition (gST->ConOut, StartColum +17, StartRow + 9);
   gBS->FreePool (Buffer);
 

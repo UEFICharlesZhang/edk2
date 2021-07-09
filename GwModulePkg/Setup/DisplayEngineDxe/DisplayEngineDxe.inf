@@ -55,7 +55,7 @@
 [Protocols]
   gEdkiiFormDisplayEngineProtocolGuid   ## PRODUCES
   gEdkiiFormBrowserEx2ProtocolGuid      ## CONSUMES
-  gEfiByoFormsetManagerProtocolGuid     ## CONSUMES
+  gEfiGwFormsetManagerProtocolGuid     ## CONSUMES
   gSetupSaveNotifyProtocolGuid
 
 [Guids]

@@ -1786,7 +1786,7 @@ FindTopMenu (
   LIST_ENTRY    *Link;
   LIST_ENTRY    *TopPos;
   LIST_ENTRY    *HighlightPos;
-  if (0 == FormData->ByoLayoutStyle) {
+  if (0 == FormData->GwLayoutStyle) {
     TopRow    = gStatementDimensions.TopRow    + SCROLL_ARROW_HEIGHT - 2;
   } else {
     TopRow    = gStatementDimensions.TopRow    + SCROLL_ARROW_HEIGHT;
@@ -2771,7 +2771,7 @@ UiDisplayMenu (
   UI_EVENT_TYPE                   EventType;
   BOOLEAN                         SkipHighLight;
 
-  BYO_BROWSER_FORMSET    *ByoFormSet;
+  GW_BROWSER_FORMSET    *GwFormSet;
   EFI_FORM_ID    FirstFormId;
   UINTN    HelpTopRow;
 
@@ -2816,7 +2816,7 @@ UiDisplayMenu (
 
   ZeroMem (&Key, sizeof (EFI_INPUT_KEY));
 
-  if (0 == FormData->ByoLayoutStyle) {
+  if (0 == FormData->GwLayoutStyle) {
     TopRow    = gStatementDimensions.TopRow + SCROLL_ARROW_HEIGHT - 2;
   } else {
     TopRow    = gStatementDimensions.TopRow + SCROLL_ARROW_HEIGHT;
@@ -3543,11 +3543,11 @@ UiDisplayMenu (
       // Exit when someone press ESC in main form
       //
       FirstFormId = 0;
-      if (NULL != FormData->ByoCurrentFormSetLink) {
-        ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (FormData->ByoCurrentFormSetLink);
-        FirstFormId = ByoFormSet->FirstFormId;
+      if (NULL != FormData->GwCurrentFormSetLink) {
+        GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (FormData->GwCurrentFormSetLink);
+        FirstFormId = GwFormSet->FirstFormId;
       }
-      if ((FirstFormId == FormData->FormId && NULL != FormData->ByoCurrentFormSetLink) && IsByoFormset(FormData)) {
+      if ((FirstFormId == FormData->FormId && NULL != FormData->GwCurrentFormSetLink) && IsGwFormset(FormData)) {
         Status = gBS->LocateProtocol (
                   &gEdkiiFormBrowserEx2ProtocolGuid,
                   NULL,
@@ -3652,36 +3652,36 @@ UiDisplayMenu (
       // Move to Next Formset.
       //      
       FirstFormId = 0;
-      if (NULL != FormData->ByoCurrentFormSetLink) {
-        ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (FormData->ByoCurrentFormSetLink);
-        FirstFormId = ByoFormSet->FirstFormId;
+      if (NULL != FormData->GwCurrentFormSetLink) {
+        GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (FormData->GwCurrentFormSetLink);
+        FirstFormId = GwFormSet->FirstFormId;
       }
-      if ((FirstFormId == FormData->FormId && NULL != FormData->ByoCurrentFormSetLink) && IsByoFormset(FormData)) {
-        if (FormData->ByoCurrentFormSetLink == GetFirstNode (FormData->ByoFormSetList)){
-          if (IsNull(FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink)) {
+      if ((FirstFormId == FormData->FormId && NULL != FormData->GwCurrentFormSetLink) && IsGwFormset(FormData)) {
+        if (FormData->GwCurrentFormSetLink == GetFirstNode (FormData->GwFormSetList)){
+          if (IsNull(FormData->GwFormSetList, FormData->GwCurrentFormSetLink)) {
             break;
           }
-          Link = GetFirstNode (FormData->ByoFormSetList);
-          while (!IsNodeAtEnd (FormData->ByoFormSetList, Link)) {
-            Link = GetNextNode (FormData->ByoFormSetList, Link);
+          Link = GetFirstNode (FormData->GwFormSetList);
+          while (!IsNodeAtEnd (FormData->GwFormSetList, Link)) {
+            Link = GetNextNode (FormData->GwFormSetList, Link);
           }
           CurrentLink = Link;
         } else {
-          CurrentLink = GetPreviousNode (FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink);
+          CurrentLink = GetPreviousNode (FormData->GwFormSetList, FormData->GwCurrentFormSetLink);
         }
-        Link = GetFirstNode (FormData->ByoFormSetList);
-        while (!IsNull (FormData->ByoFormSetList, Link)) {
+        Link = GetFirstNode (FormData->GwFormSetList);
+        while (!IsNull (FormData->GwFormSetList, Link)) {
           if (Link == CurrentLink) {
-            FormData->ByoCurrentFormSetLink = CurrentLink;
+            FormData->GwCurrentFormSetLink = CurrentLink;
             break;
           }
-          Link = GetNextNode (FormData->ByoFormSetList, Link);
+          Link = GetNextNode (FormData->GwFormSetList, Link);
         }
-        if (IsNull(FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink)) {
+        if (IsNull(FormData->GwFormSetList, FormData->GwCurrentFormSetLink)) {
           break;
         }
         
-        gUserInput->Action = BROWSER_ACTION_GOTO_BYO;
+        gUserInput->Action = BROWSER_ACTION_GOTO_GW;
 	 gUserInput->SelectedStatement = NULL;
 	 ControlFlag = CfExit;		
       } else {
@@ -3704,30 +3704,30 @@ UiDisplayMenu (
       // Move to Next Formset.
       //
       FirstFormId = 0;
-      if (NULL != FormData->ByoCurrentFormSetLink) {
-        ByoFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (FormData->ByoCurrentFormSetLink);
-        FirstFormId = ByoFormSet->FirstFormId;
+      if (NULL != FormData->GwCurrentFormSetLink) {
+        GwFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (FormData->GwCurrentFormSetLink);
+        FirstFormId = GwFormSet->FirstFormId;
       }
-      if ((FirstFormId == FormData->FormId && NULL != FormData->ByoCurrentFormSetLink) && IsByoFormset(FormData)) {
-        if (!IsNodeAtEnd(FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink)) {
-          CurrentLink = GetNextNode (FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink);
+      if ((FirstFormId == FormData->FormId && NULL != FormData->GwCurrentFormSetLink) && IsGwFormset(FormData)) {
+        if (!IsNodeAtEnd(FormData->GwFormSetList, FormData->GwCurrentFormSetLink)) {
+          CurrentLink = GetNextNode (FormData->GwFormSetList, FormData->GwCurrentFormSetLink);
         } else {
-          CurrentLink = GetFirstNode (FormData->ByoFormSetList);
+          CurrentLink = GetFirstNode (FormData->GwFormSetList);
         }
 
-        Link = GetFirstNode (FormData->ByoFormSetList);
-        while (!IsNull (FormData->ByoFormSetList, Link)) {
+        Link = GetFirstNode (FormData->GwFormSetList);
+        while (!IsNull (FormData->GwFormSetList, Link)) {
           if (Link == CurrentLink) {
-            FormData->ByoCurrentFormSetLink = CurrentLink;
+            FormData->GwCurrentFormSetLink = CurrentLink;
             break;
           }
-          Link = GetNextNode (FormData->ByoFormSetList, Link);
+          Link = GetNextNode (FormData->GwFormSetList, Link);
         }
-        if (IsNull(FormData->ByoFormSetList, FormData->ByoCurrentFormSetLink)) {
+        if (IsNull(FormData->GwFormSetList, FormData->GwCurrentFormSetLink)) {
           break;
         }
 		
-        gUserInput->Action = BROWSER_ACTION_GOTO_BYO;
+        gUserInput->Action = BROWSER_ACTION_GOTO_GW;
 	 gUserInput->SelectedStatement = NULL;
 	 ControlFlag = CfExit;		
       } else {

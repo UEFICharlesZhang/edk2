@@ -87,7 +87,7 @@
   gEfiSimpleTextInputExProtocolGuid             ## CONSUMES
   gEdkiiVariableLockProtocolGuid                ## SOMETIMES_CONSUMES
   gEfiDeferredImageLoadProtocolGuid             ## CONSUMES
-  gEfiByoFormsetManagerProtocolGuid
+  gEfiGwFormsetManagerProtocolGuid
 
 [FeaturePcd]
   gEfiMdePkgTokenSpaceGuid.PcdUefiVariableDefaultLangDeprecate    ## CONSUMES

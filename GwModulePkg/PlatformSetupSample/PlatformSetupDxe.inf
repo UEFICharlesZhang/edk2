@@ -76,14 +76,14 @@
 
 [Guids]
   gPlatformSetupVariableGuid
-  gEfiByoSetupEnteringGuid
+  gEfiGwSetupEnteringGuid
   gEfiSystemPasswordVariableGuid
   
 [Protocols]
   gEfiHiiConfigAccessProtocolGuid               ## SOMETIMES_PRODUCES
   gEfiFormBrowser2ProtocolGuid                  ## CONSUMES
   gEfiDevicePathProtocolGuid                    ## CONSUMES
-  gEfiByoFormsetManagerProtocolGuid
+  gEfiGwFormsetManagerProtocolGuid
   gEdkiiFormBrowserEx2ProtocolGuid
   gEdkiiFormDisplayEngineProtocolGuid
   gSetupSaveNotifyProtocolGuid

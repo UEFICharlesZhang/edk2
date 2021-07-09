@@ -296,14 +296,14 @@ struct _FORM_DISPLAY_ENGINE_FORM {
   //
   EFI_STRING           ErrorString;
   //
-  // Formset manager list for Byo Formset Manager Protocol.
+  // Formset manager list for Gw Formset Manager Protocol.
   //
-  LIST_ENTRY      *ByoFormSetList;
-  LIST_ENTRY      *ByoCurrentFormSetLink;
+  LIST_ENTRY      *GwFormSetList;
+  LIST_ENTRY      *GwCurrentFormSetLink;
   //
-  //Byo Formset layout style. 0, for main menu; 1, for sub menu.
+  //Gw Formset layout style. 0, for main menu; 1, for sub menu.
   //
-  UINTN    ByoLayoutStyle;
+  UINTN    GwLayoutStyle;
 };
 
 #define FORM_DISPLAY_ENGINE_FORM_FROM_LINK(a)  CR (a, FORM_DISPLAY_ENGINE_FORM, Link, FORM_DISPLAY_ENGINE_FORM_SIGNATURE)

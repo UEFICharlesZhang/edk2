@@ -19,7 +19,7 @@ Revision History:
 --*/
 
 #include <SetupVariableSample.h>
-#include <Guid/ByoSetupFormsetGuid.h>
+#include <Guid/GwSetupFormsetGuid.h>
 #include "FormsetConfiguration.h"
 #include <SystemPasswordVariable.h>
 
@@ -27,8 +27,8 @@ formset
   guid     = FORMSET_GUID_SECURITY,
   title    = STRING_TOKEN(FORMSET_TITLE_SECURITY),
   help     = STRING_TOKEN(FORMSET_TITLE_SECURITY_HELP),
-  class    = BYO_FORMSET_CLASS,
-  subclass = BYO_FORMSET_SUB_CLASS,
+  class    = GW_FORMSET_CLASS,
+  subclass = GW_FORMSET_SUB_CLASS,
 
   SETUP_DATA_VARSTORE
   SYSTEM_PASSWORD_VARSTORE

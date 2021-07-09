@@ -33,7 +33,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Protocol/HiiString.h>
 #include <Protocol/UserManager.h>
 #include <Protocol/DevicePathFromText.h>
-#include <Protocol/ByoFormSetManager.h>
+#include <Protocol/GwFormSetManager.h>
 
 #include <Guid/MdeModuleHii.h>
 #include <Guid/HiiPlatformSetupFormset.h>
@@ -121,27 +121,27 @@ extern CHAR16            *gSaveChanges;
 extern CHAR16            *gNvUpdateMessage;
 extern CHAR16            *gInputErrorMessage;
 
-extern CHAR16            *gByoCopyRight;
-extern CHAR16            *gByoFunctionKeyOne;
-extern CHAR16            *gByoKeyPlusAndMinus;
-extern CHAR16            *gByoKeyPlusAndMinusHelp;
-extern CHAR16            *gByoFunctionKeyNine;
-extern CHAR16            *gByoFunctionKeyNineHelp;
-extern CHAR16            *gByoFunctionKeyEsc;
-extern CHAR16            *gByoFunctionKeyEscHelp;
-extern CHAR16            *gByoFunctionKeyEnter;
-extern CHAR16            *gByoFunctionKeyEnterHelp;
-extern CHAR16            *gByoFunctionKeyEnterTen;
-extern CHAR16            *gByoFunctionKeyEnterTenHelp;
-extern CHAR16            *gByoFunctionKeyOneHelp;
+extern CHAR16            *gGwCopyRight;
+extern CHAR16            *gGwFunctionKeyOne;
+extern CHAR16            *gGwKeyPlusAndMinus;
+extern CHAR16            *gGwKeyPlusAndMinusHelp;
+extern CHAR16            *gGwFunctionKeyNine;
+extern CHAR16            *gGwFunctionKeyNineHelp;
+extern CHAR16            *gGwFunctionKeyEsc;
+extern CHAR16            *gGwFunctionKeyEscHelp;
+extern CHAR16            *gGwFunctionKeyEnter;
+extern CHAR16            *gGwFunctionKeyEnterHelp;
+extern CHAR16            *gGwFunctionKeyEnterTen;
+extern CHAR16            *gGwFunctionKeyEnterTenHelp;
+extern CHAR16            *gGwFunctionKeyOneHelp;
 extern CHAR16            *gKeyUpDownHelp;
-extern CHAR16            *gByoKeyLeftRightHelp;
-extern CHAR16            *gByoHelpMessage;
-extern CHAR16            *gByoGeneralHelp;
-extern CHAR16            *gByoGeneralHelp1;
-extern CHAR16            *gByoGeneralHelp2;
-extern CHAR16            *gByoGeneralHelp3;
-extern CHAR16            *gByoContinue;
+extern CHAR16            *gGwKeyLeftRightHelp;
+extern CHAR16            *gGwHelpMessage;
+extern CHAR16            *gGwGeneralHelp;
+extern CHAR16            *gGwGeneralHelp1;
+extern CHAR16            *gGwGeneralHelp2;
+extern CHAR16            *gGwGeneralHelp3;
+extern CHAR16            *gGwContinue;
 
 extern BOOLEAN           gLibIsFirstForm;
 extern UINT16 gLastFormId;

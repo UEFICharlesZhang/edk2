@@ -42,27 +42,27 @@ CHAR16            *gSaveChanges;
 CHAR16            *gNvUpdateMessage;
 CHAR16            *gInputErrorMessage;
 
-CHAR16            *gByoCopyRight;
-CHAR16            *gByoFunctionKeyOne;
-CHAR16            *gByoKeyPlusAndMinus;
-CHAR16            *gByoKeyPlusAndMinusHelp;
-CHAR16            *gByoFunctionKeyNine;
-CHAR16            *gByoFunctionKeyNineHelp;
-CHAR16            *gByoFunctionKeyEsc;
-CHAR16            *gByoFunctionKeyEscHelp;
-CHAR16            *gByoFunctionKeyEnter;
-CHAR16            *gByoFunctionKeyEnterHelp;
-CHAR16            *gByoFunctionKeyEnterTen;
-CHAR16            *gByoFunctionKeyEnterTenHelp;
-CHAR16            *gByoFunctionKeyOneHelp;
+CHAR16            *gGwCopyRight;
+CHAR16            *gGwFunctionKeyOne;
+CHAR16            *gGwKeyPlusAndMinus;
+CHAR16            *gGwKeyPlusAndMinusHelp;
+CHAR16            *gGwFunctionKeyNine;
+CHAR16            *gGwFunctionKeyNineHelp;
+CHAR16            *gGwFunctionKeyEsc;
+CHAR16            *gGwFunctionKeyEscHelp;
+CHAR16            *gGwFunctionKeyEnter;
+CHAR16            *gGwFunctionKeyEnterHelp;
+CHAR16            *gGwFunctionKeyEnterTen;
+CHAR16            *gGwFunctionKeyEnterTenHelp;
+CHAR16            *gGwFunctionKeyOneHelp;
 CHAR16            *gKeyUpDownHelp;
-CHAR16            *gByoKeyLeftRightHelp;
-CHAR16            *gByoHelpMessage;
-CHAR16            *gByoGeneralHelp;
-CHAR16            *gByoGeneralHelp1;
-CHAR16            *gByoGeneralHelp2;
-CHAR16            *gByoGeneralHelp3;
-CHAR16            *gByoContinue;
+CHAR16            *gGwKeyLeftRightHelp;
+CHAR16            *gGwHelpMessage;
+CHAR16            *gGwGeneralHelp;
+CHAR16            *gGwGeneralHelp1;
+CHAR16            *gGwGeneralHelp2;
+CHAR16            *gGwGeneralHelp3;
+CHAR16            *gGwContinue;
 
 UINT16 gLastFormId = 0xFFFF;
 
@@ -222,19 +222,19 @@ DrawBottomHelpInfo (
   // Print HotKey, Line at LocalScreen.BottomRow - 2.
   //
   gST->ConOut->SetAttribute (gST->ConOut, EFI_GREEN|EFI_BACKGROUND_BLUE);
-  PrintStringAt(StartColum, StartRow, gByoFunctionKeyOne);
+  PrintStringAt(StartColum, StartRow, gGwFunctionKeyOne);
   PrintAt (PrintWidth, StartColum + Width - 6, StartRow, L"%c%c", ARROW_UP, ARROW_DOWN);  
-  PrintStringAt (StartColum + Width * 2 - 6, StartRow, gByoKeyPlusAndMinus);
-  PrintStringAt (StartColum + Width * 3, StartRow, gByoFunctionKeyNine);
+  PrintStringAt (StartColum + Width * 2 - 6, StartRow, gGwKeyPlusAndMinus);
+  PrintStringAt (StartColum + Width * 3, StartRow, gGwFunctionKeyNine);
 
   //
   // Print HotKey, Line at LocalScreen.BottomRow - 1.
   //
   StartRow +=1;
-  PrintStringAt(StartColum , StartRow, gByoFunctionKeyEsc);
+  PrintStringAt(StartColum , StartRow, gGwFunctionKeyEsc);
   PrintAt (PrintWidth, StartColum + Width - 6, StartRow, L"%c%c", ARROW_LEFT, ARROW_RIGHT);  
-  PrintStringAt (StartColum + Width * 2 - 6, StartRow, gByoFunctionKeyEnter);
-  PrintStringAt (StartColum + Width * 3, StartRow, gByoFunctionKeyEnterTen);
+  PrintStringAt (StartColum + Width * 2 - 6, StartRow, gGwFunctionKeyEnter);
+  PrintStringAt (StartColum + Width * 3, StartRow, gGwFunctionKeyEnterTen);
 
   //
   // Print Help String, Line at LocalScreen.BottomRow - 2.
@@ -242,10 +242,10 @@ DrawBottomHelpInfo (
   StartColum += 4;
   StartRow -=1;
   gST->ConOut->SetAttribute (gST->ConOut, EFI_LIGHTGRAY |EFI_BACKGROUND_BLUE);
-  if (CutMaxString(&Buf, gByoFunctionKeyOneHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwFunctionKeyOneHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum, StartRow, gByoFunctionKeyOneHelp);
+    PrintStringAt (StartColum, StartRow, gGwFunctionKeyOneHelp);
   }
 
   if (CutMaxString(&Buf, gKeyUpDownHelp, MaxLength)) {
@@ -254,44 +254,44 @@ DrawBottomHelpInfo (
     PrintStringAt (StartColum + Width - 6, StartRow, gKeyUpDownHelp);
   }
 
-  if (CutMaxString(&Buf, gByoKeyPlusAndMinusHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwKeyPlusAndMinusHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum + Width * 2 - 4, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum + Width * 2 - 4, StartRow, gByoKeyPlusAndMinusHelp);
+    PrintStringAt (StartColum + Width * 2 - 4, StartRow, gGwKeyPlusAndMinusHelp);
   }
   
-  if (CutMaxString(&Buf, gByoFunctionKeyNineHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwFunctionKeyNineHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum + Width * 3, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum + Width * 3, StartRow, gByoFunctionKeyNineHelp);
+    PrintStringAt (StartColum + Width * 3, StartRow, gGwFunctionKeyNineHelp);
   }
 
   //
   // Print Help String, Line at LocalScreen.BottomRow - 1.
   //
   StartRow +=1;
-  if (CutMaxString(&Buf, gByoFunctionKeyEscHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwFunctionKeyEscHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum, StartRow, gByoFunctionKeyEscHelp);
+    PrintStringAt (StartColum, StartRow, gGwFunctionKeyEscHelp);
   }
 
-  if (CutMaxString(&Buf, gByoKeyLeftRightHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwKeyLeftRightHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum + Width - 6, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum + Width - 6, StartRow, gByoKeyLeftRightHelp);
+    PrintStringAt (StartColum + Width - 6, StartRow, gGwKeyLeftRightHelp);
   }
 
-  if (CutMaxString(&Buf,  gByoFunctionKeyEnterHelp, MaxLength)) {
+  if (CutMaxString(&Buf,  gGwFunctionKeyEnterHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum + Width * 2 - 4, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum + Width * 2 - 4, StartRow, gByoFunctionKeyEnterHelp);  
+    PrintStringAt (StartColum + Width * 2 - 4, StartRow, gGwFunctionKeyEnterHelp);  
   }
 
-  if (CutMaxString(&Buf, gByoFunctionKeyEnterTenHelp, MaxLength)) {
+  if (CutMaxString(&Buf, gGwFunctionKeyEnterTenHelp, MaxLength)) {
     PrintAt (PrintWidth, StartColum + Width * 3, StartRow, Buf);    
   } else {
-    PrintStringAt (StartColum + Width * 3, StartRow, gByoFunctionKeyEnterTenHelp);
+    PrintStringAt (StartColum + Width * 3, StartRow, gGwFunctionKeyEnterTenHelp);
   }
   
   return;
@@ -309,8 +309,8 @@ DrawFormSetMenuBar (
   )
 {
   EFI_SCREEN_DESCRIPTOR  LocalScreen;
-  BYO_BROWSER_FORMSET   *FormSet;
-  BYO_BROWSER_FORMSET   *CurrentFormSet;
+  GW_BROWSER_FORMSET   *FormSet;
+  GW_BROWSER_FORMSET   *CurrentFormSet;
   LIST_ENTRY          *Link;
   UINTN                  CursorPos;
   UINTN                  Index;
@@ -328,11 +328,11 @@ DrawFormSetMenuBar (
   EFI_FORM_ID       FirstFormId = 1;
 
   CurrentFormSet = NULL;
-  if (NULL != FormData->ByoCurrentFormSetLink) {
-    CurrentFormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (FormData->ByoCurrentFormSetLink);
+  if (NULL != FormData->GwCurrentFormSetLink) {
+    CurrentFormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (FormData->GwCurrentFormSetLink);
     FirstFormId = CurrentFormSet->FirstFormId;
   }  	
-  if (FirstFormId != FormData->FormId || !IsByoFormset(FormData)) {
+  if (FirstFormId != FormData->FormId || !IsGwFormset(FormData)) {
     bMainFormTitle = FALSE;
   }
 
@@ -349,20 +349,20 @@ DrawFormSetMenuBar (
   CopyMem (&LocalScreen, &gScreenDimensions, sizeof (EFI_SCREEN_DESCRIPTOR));
 
   //
-  // Get info of ByoFormSetList.
+  // Get info of GwFormSetList.
   //
   TotalItems = 0;
   CurrentItem = 0;  
-  Link = GetFirstNode (FormData->ByoFormSetList);
-  while (!IsNull (FormData->ByoFormSetList, Link)) {
-    FormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+  Link = GetFirstNode (FormData->GwFormSetList);
+  while (!IsNull (FormData->GwFormSetList, Link)) {
+    FormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
     if (NULL != CurrentFormSet) {
       if (CompareGuid(&FormSet->Guid, &CurrentFormSet->Guid)) {
         CurrentItem = TotalItems;
       }
     }
     TotalItems++;
-    Link = GetNextNode (FormData->ByoFormSetList, Link);
+    Link = GetNextNode (FormData->GwFormSetList, Link);
   }
   //
   // Calculate start item.
@@ -388,16 +388,16 @@ DrawFormSetMenuBar (
     //
     // Get current Formset.
     //
-    Link = GetFirstNode (FormData->ByoFormSetList);
+    Link = GetFirstNode (FormData->GwFormSetList);
     Count = 0;
     FormSet = NULL;
-    while (!IsNull (FormData->ByoFormSetList, Link)) {
-      FormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+    while (!IsNull (FormData->GwFormSetList, Link)) {
+      FormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
       if (Index == Count) {
         break;
       }
       Count++;
-      Link = GetNextNode (FormData->ByoFormSetList, Link);
+      Link = GetNextNode (FormData->GwFormSetList, Link);
     }
   
     FormsetTitle = NULL;
@@ -473,28 +473,28 @@ DrawFormSetMenuBar (
 }
 
 /**
-  Check whether formset is in ByoFormSetList.
+  Check whether formset is in GwFormSetList.
 
 **/
 BOOLEAN
-IsByoFormset (
+IsGwFormset (
   IN  FORM_DISPLAY_ENGINE_FORM  *FormData
   )
 {
   LIST_ENTRY           *Link;
-  BYO_BROWSER_FORMSET   *FormSet;
+  GW_BROWSER_FORMSET   *FormSet;
 
-  if (IsListEmpty(FormData->ByoFormSetList)) {
+  if (IsListEmpty(FormData->GwFormSetList)) {
     return FALSE;
   }
 
-  Link = GetFirstNode (FormData->ByoFormSetList);
-  while (!IsNull (FormData->ByoFormSetList, Link)) {
-    FormSet = BYO_FORM_BROWSER_FORMSET_FROM_LINK (Link);
+  Link = GetFirstNode (FormData->GwFormSetList);
+  while (!IsNull (FormData->GwFormSetList, Link)) {
+    FormSet = GW_FORM_BROWSER_FORMSET_FROM_LINK (Link);
     if (FormSet->HiiHandle == FormData->HiiHandle) {
       return TRUE;
     }
-    Link = GetNextNode (FormData->ByoFormSetList, Link);
+    Link = GetNextNode (FormData->GwFormSetList, Link);
   }
   return FALSE;
 }
@@ -587,7 +587,7 @@ PrintFramework (
     return;
   }
 
-  if (((LastHiiHandle != FormData->HiiHandle) && (!IsByoFormset(FormData))) || gLibIsFirstForm) {
+  if (((LastHiiHandle != FormData->HiiHandle) && (!IsGwFormset(FormData))) || gLibIsFirstForm) {
     LastHiiHandle = FormData->HiiHandle;
     bFirstIn = TRUE;
     gLastFormId = 0xFFFF;
@@ -616,9 +616,9 @@ PrintFramework (
     //
     gST->ConOut->SetAttribute (gST->ConOut, EFI_WHITE | EFI_BACKGROUND_BLUE);
     PrintStringAt (
-      (gScreenDimensions.RightColumn + gScreenDimensions.LeftColumn - LibGetStringWidth (gByoCopyRight) / 2) / 2,
+      (gScreenDimensions.RightColumn + gScreenDimensions.LeftColumn - LibGetStringWidth (gGwCopyRight) / 2) / 2,
       gScreenDimensions.TopRow,
-      gByoCopyRight
+      gGwCopyRight
     );
   }
   
@@ -687,7 +687,7 @@ PrintFormLayout (
   Buffer = AllocateZeroPool (0x10000);
   ASSERT (Buffer != NULL);
 
-  if (0 == FormData->ByoLayoutStyle) {
+  if (0 == FormData->GwLayoutStyle) {
     //
     // Main Form style.
     //  	
@@ -722,11 +722,11 @@ PrintFormLayout (
     Character = BOXDRAW_UP_HORIZONTAL;
     PrintCharAt (MiddleVerticalLineColumn, gScreenDimensions.BottomRow - 3, Character);
 
-   TitleColumn = MiddleVerticalLineColumn+ (gScreenDimensions.RightColumn -MiddleVerticalLineColumn - LibGetStringWidth (gByoHelpMessage) / 2) / 2;
+   TitleColumn = MiddleVerticalLineColumn+ (gScreenDimensions.RightColumn -MiddleVerticalLineColumn - LibGetStringWidth (gGwHelpMessage) / 2) / 2;
     PrintStringAtWithWidth (MiddleVerticalLineColumn + 1, gScreenDimensions.TopRow + 3, gLibEmptyString, gScreenDimensions.RightColumn - MiddleVerticalLineColumn - 2);
     gST->ConOut->SetAttribute (gST->ConOut, EFI_BLACK | EFI_BACKGROUND_LIGHTGRAY);
-    PrintStringAtWithWidth (TitleColumn, gScreenDimensions.TopRow + 3, gByoHelpMessage, (gScreenDimensions.RightColumn - TitleColumn - 4));
-  }else if (1 == FormData->ByoLayoutStyle) {
+    PrintStringAtWithWidth (TitleColumn, gScreenDimensions.TopRow + 3, gGwHelpMessage, (gScreenDimensions.RightColumn - TitleColumn - 4));
+  }else if (1 == FormData->GwLayoutStyle) {
     //
     // Sub Form style.
     //
@@ -795,14 +795,14 @@ PrintFormLayout (
     Character = BOXDRAW_UP_HORIZONTAL;
     PrintCharAt (MiddleVerticalLineColumn, gScreenDimensions.BottomRow - 3, Character);
 
-   TitleColumn = MiddleVerticalLineColumn+ (gScreenDimensions.RightColumn -MiddleVerticalLineColumn - LibGetStringWidth (gByoHelpMessage) / 2) / 2;
+   TitleColumn = MiddleVerticalLineColumn+ (gScreenDimensions.RightColumn -MiddleVerticalLineColumn - LibGetStringWidth (gGwHelpMessage) / 2) / 2;
    if (gLastFormId != FormData->FormId) {
      PrintStringAtWithWidth (MiddleVerticalLineColumn + 1, gScreenDimensions.TopRow + 3, gLibEmptyString, gScreenDimensions.RightColumn - MiddleVerticalLineColumn - 2);
      gLastFormId = FormData->FormId;
    }
 
     gST->ConOut->SetAttribute (gST->ConOut, EFI_BLACK | EFI_BACKGROUND_LIGHTGRAY);
-    PrintStringAtWithWidth (TitleColumn, gScreenDimensions.TopRow + 3, gByoHelpMessage, (gScreenDimensions.RightColumn - TitleColumn - 2));	  
+    PrintStringAtWithWidth (TitleColumn, gScreenDimensions.TopRow + 3, gGwHelpMessage, (gScreenDimensions.RightColumn - TitleColumn - 2));	  
   }
 
   FreePool (Buffer);
@@ -1290,27 +1290,27 @@ InitializeLibStrings (
   gNvUpdateMessage      = LibGetToken (STRING_TOKEN (NV_UPDATE_MESSAGE), mCDLStringPackHandle);
   gInputErrorMessage    = LibGetToken (STRING_TOKEN (INPUT_ERROR_MESSAGE), mCDLStringPackHandle);
 
-  gByoCopyRight = LibGetToken (STRING_TOKEN (BYO_COPY_RIGHT), mCDLStringPackHandle);
-  gByoFunctionKeyOne = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ONE), mCDLStringPackHandle);
-  gByoKeyPlusAndMinus = LibGetToken (STRING_TOKEN (BYO_KEY_PLUS_AND_MINUS), mCDLStringPackHandle);
-  gByoKeyPlusAndMinusHelp = LibGetToken (STRING_TOKEN (BYO_KEY_PLUS_AND_MINUS_HELP), mCDLStringPackHandle);
-  gByoFunctionKeyNine = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_NINE), mCDLStringPackHandle);
-  gByoFunctionKeyNineHelp = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_NINE_HELP), mCDLStringPackHandle);  	
-  gByoFunctionKeyEsc = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ESC), mCDLStringPackHandle);
-  gByoFunctionKeyEscHelp = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ESC_HELP), mCDLStringPackHandle);
-  gByoFunctionKeyEnter = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ENTER), mCDLStringPackHandle);
-  gByoFunctionKeyEnterHelp = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ENTER_HELP), mCDLStringPackHandle);
-  gByoFunctionKeyEnterTen = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_TEN), mCDLStringPackHandle);
-  gByoFunctionKeyEnterTenHelp = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_TEN_HELP), mCDLStringPackHandle);
-  gByoFunctionKeyOneHelp = LibGetToken (STRING_TOKEN (BYO_FUNCTION_KEY_ONE_HELP), mCDLStringPackHandle);
-  gKeyUpDownHelp = LibGetToken (STRING_TOKEN (BYO_KEY_UP_DOWN_HELP), mCDLStringPackHandle);
-  gByoKeyLeftRightHelp = LibGetToken (STRING_TOKEN (BYO_SELECT_MENU_HELP), mCDLStringPackHandle);
-  gByoHelpMessage = LibGetToken (STRING_TOKEN (BYO_HELP_MESSAGE), mCDLStringPackHandle);
-  gByoGeneralHelp = LibGetToken (STRING_TOKEN (BYO_GENERAL_HELP), mCDLStringPackHandle);
-  gByoGeneralHelp1 = LibGetToken (STRING_TOKEN (BYO_GENERAL_HELP_1), mCDLStringPackHandle);
-  gByoGeneralHelp2 = LibGetToken (STRING_TOKEN (BYO_GENERAL_HELP_2), mCDLStringPackHandle);  
-  gByoGeneralHelp3 = LibGetToken (STRING_TOKEN (BYO_GENERAL_HELP_3), mCDLStringPackHandle);
-  gByoContinue = LibGetToken (STRING_TOKEN (BYO_CONTINUE), mCDLStringPackHandle);
+  gGwCopyRight = LibGetToken (STRING_TOKEN (GW_COPY_RIGHT), mCDLStringPackHandle);
+  gGwFunctionKeyOne = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ONE), mCDLStringPackHandle);
+  gGwKeyPlusAndMinus = LibGetToken (STRING_TOKEN (GW_KEY_PLUS_AND_MINUS), mCDLStringPackHandle);
+  gGwKeyPlusAndMinusHelp = LibGetToken (STRING_TOKEN (GW_KEY_PLUS_AND_MINUS_HELP), mCDLStringPackHandle);
+  gGwFunctionKeyNine = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_NINE), mCDLStringPackHandle);
+  gGwFunctionKeyNineHelp = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_NINE_HELP), mCDLStringPackHandle);  	
+  gGwFunctionKeyEsc = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ESC), mCDLStringPackHandle);
+  gGwFunctionKeyEscHelp = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ESC_HELP), mCDLStringPackHandle);
+  gGwFunctionKeyEnter = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ENTER), mCDLStringPackHandle);
+  gGwFunctionKeyEnterHelp = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ENTER_HELP), mCDLStringPackHandle);
+  gGwFunctionKeyEnterTen = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_TEN), mCDLStringPackHandle);
+  gGwFunctionKeyEnterTenHelp = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_TEN_HELP), mCDLStringPackHandle);
+  gGwFunctionKeyOneHelp = LibGetToken (STRING_TOKEN (GW_FUNCTION_KEY_ONE_HELP), mCDLStringPackHandle);
+  gKeyUpDownHelp = LibGetToken (STRING_TOKEN (GW_KEY_UP_DOWN_HELP), mCDLStringPackHandle);
+  gGwKeyLeftRightHelp = LibGetToken (STRING_TOKEN (GW_SELECT_MENU_HELP), mCDLStringPackHandle);
+  gGwHelpMessage = LibGetToken (STRING_TOKEN (GW_HELP_MESSAGE), mCDLStringPackHandle);
+  gGwGeneralHelp = LibGetToken (STRING_TOKEN (GW_GENERAL_HELP), mCDLStringPackHandle);
+  gGwGeneralHelp1 = LibGetToken (STRING_TOKEN (GW_GENERAL_HELP_1), mCDLStringPackHandle);
+  gGwGeneralHelp2 = LibGetToken (STRING_TOKEN (GW_GENERAL_HELP_2), mCDLStringPackHandle);  
+  gGwGeneralHelp3 = LibGetToken (STRING_TOKEN (GW_GENERAL_HELP_3), mCDLStringPackHandle);
+  gGwContinue = LibGetToken (STRING_TOKEN (GW_CONTINUE), mCDLStringPackHandle);
   
   //
   // SpaceBuffer;
@@ -1369,27 +1369,27 @@ FreeLibStrings (
   FreePool (gNvUpdateMessage);
   FreePool (gInputErrorMessage);
 
-  SafeFree (&gByoCopyRight);
-  SafeFree (&gByoFunctionKeyOne);
-  SafeFree (&gByoKeyPlusAndMinus);
-  SafeFree (&gByoKeyPlusAndMinusHelp);  
-  SafeFree (&gByoFunctionKeyNine);
-  SafeFree (&gByoFunctionKeyNineHelp);  
-  SafeFree (&gByoFunctionKeyEsc);
-  SafeFree (&gByoFunctionKeyEscHelp);  
-  SafeFree (&gByoFunctionKeyEnter);
-  SafeFree (&gByoFunctionKeyEnterHelp);  
-  SafeFree (&gByoFunctionKeyEnterTen);
-  SafeFree (&gByoFunctionKeyEnterTenHelp);  
-  SafeFree (&gByoFunctionKeyOneHelp);
+  SafeFree (&gGwCopyRight);
+  SafeFree (&gGwFunctionKeyOne);
+  SafeFree (&gGwKeyPlusAndMinus);
+  SafeFree (&gGwKeyPlusAndMinusHelp);  
+  SafeFree (&gGwFunctionKeyNine);
+  SafeFree (&gGwFunctionKeyNineHelp);  
+  SafeFree (&gGwFunctionKeyEsc);
+  SafeFree (&gGwFunctionKeyEscHelp);  
+  SafeFree (&gGwFunctionKeyEnter);
+  SafeFree (&gGwFunctionKeyEnterHelp);  
+  SafeFree (&gGwFunctionKeyEnterTen);
+  SafeFree (&gGwFunctionKeyEnterTenHelp);  
+  SafeFree (&gGwFunctionKeyOneHelp);
   SafeFree (&gKeyUpDownHelp);
-  SafeFree (&gByoKeyLeftRightHelp);  
-  SafeFree (&gByoHelpMessage);  
-  SafeFree (&gByoGeneralHelp);
-  SafeFree (&gByoGeneralHelp1);
-  SafeFree (&gByoGeneralHelp2);  
-  SafeFree (&gByoGeneralHelp3);   
-  SafeFree (&gByoContinue);
+  SafeFree (&gGwKeyLeftRightHelp);  
+  SafeFree (&gGwHelpMessage);  
+  SafeFree (&gGwGeneralHelp);
+  SafeFree (&gGwGeneralHelp1);
+  SafeFree (&gGwGeneralHelp2);  
+  SafeFree (&gGwGeneralHelp3);   
+  SafeFree (&gGwContinue);
   FreePool (mSpaceBuffer);
 }
 

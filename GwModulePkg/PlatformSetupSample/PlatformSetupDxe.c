@@ -356,7 +356,7 @@ SignalEnterSetupEvent (
   Handle = NULL;
   Status = gBS->InstallProtocolInterface (
                   &Handle,
-                  &gEfiByoSetupEnteringGuid,
+                  &gEfiGwSetupEnteringGuid,
                   EFI_NATIVE_INTERFACE,
                   NULL
                   );
@@ -536,7 +536,7 @@ PlatformSetupDxeInit (
   //
   pSetupRegistration = NULL;
   Status = gBS->RegisterProtocolNotify (
-                  &gEfiByoSetupEnteringGuid,
+                  &gEfiGwSetupEnteringGuid,
                   Event,
                   &pSetupRegistration
                   );
