@@ -206,6 +206,7 @@ HiiRouteConfig (
 
 
 EFI_STATUS
+EFIAPI
 FormCallback (
   IN CONST EFI_HII_CONFIG_ACCESS_PROTOCOL    *This,
   IN EFI_BROWSER_ACTION    Action,
@@ -397,6 +398,8 @@ InstallPlatformHiiResource (
   //Install HII resource.
   //
   for (Index = 0; Index < (sizeof(gSetupFormSets) / sizeof(SETUP_FORMSET_INFO)); Index++) {
+  DEBUG((DEBUG_INFO,"%a:line:%d\n",__FUNCTION__,__LINE__));
+
     //
     // Callback Info.
     //
@@ -410,7 +413,7 @@ InstallPlatformHiiResource (
     gSetupFormSets[Index].CallInfo->Class = gSetupFormSets[Index].Class;
     gSetupFormSets[Index].CallInfo->ConfigAccess.ExtractConfig = HiiExtractConfig;
     gSetupFormSets[Index].CallInfo->ConfigAccess.RouteConfig = HiiRouteConfig;
-    gSetupFormSets[Index].CallInfo->ConfigAccess.Callback = (EFI_HII_ACCESS_FORM_CALLBACK)FormCallback;
+    gSetupFormSets[Index].CallInfo->ConfigAccess.Callback = FormCallback;
 
     //
     // Device Path.
